@@ -20,8 +20,8 @@ some notes about pin setup:
    -triangle A1
    -saw A2
    -pulse A3
-freq control pot (log taper) is connected to analog in 4
-pulse width modulation pot (linear taper) connected to anolog in 5
+freq control pot (log taper) is connected to analog in A6
+pulse width modulation pot (linear taper) connected to anolog in A7
 PORT D (digital pins 0-7) are 8 bit function out
 
 *********************************************************/
@@ -92,11 +92,11 @@ void setup() {
   PORTB = 1<<type;
   
   //initialize variables
-  frequency = analogRead(A5);//initialize frequency
+  frequency = analogRead(A7);//initialize frequency
   freqscaled = 48*frequency+1;//from 1 to ~50,000\
   period = samplerate/freqscaled;
    
-  pulseWidth = analogRead(A4);//initalize pulse width
+  pulseWidth = analogRead(A6);//initalize pulse width
   pulseWidthScaled = int(pulseWidth/1023*period);
   
   triInc = 511/period;
@@ -107,7 +107,7 @@ void setup() {
 }
 
 void checkFreq() {
-  freqCurrent = analogRead(A5);
+  freqCurrent = analogRead(A7);
   if (abs(freqCurrent-frequency)>freqTolerance){//if reading from pot exceeds tolerance
     frequency = freqCurrent;//new frequency- number between 0 and 1024
     freqscaled = 48*frequency+1;//from 1 to ~50,000
@@ -126,7 +126,7 @@ void checkFreq() {
 }
 
 void checkPW() {
-  PWCurrent = analogRead(A4);
+  PWCurrent = analogRead(A6);
   if (abs(PWCurrent-pulseWidth)>PWTolerance){//if reading from pot exceeds tolerance
     pulseWidth = PWCurrent;//new pulse width, val between 0 and 1023
     pulseWidthScaled = int(pulseWidth/1023*period);
