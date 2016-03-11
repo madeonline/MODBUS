@@ -83,8 +83,12 @@ extern "C" void __cxa_pure_virtual() {;}
 #define portInputRegister(P)
 #define portModeRegister(P)
 
+void draw_Glav_Menu();
+void swichMenu();
+void print_up();
 void setup_resistor();
 void setup_mcp();
+void setup_port();
 //
 //
 

@@ -93,10 +93,12 @@ void setup() {
   
   //initialize variables
   frequency = analogRead(A7);//initialize frequency
+  frequency = 512;
   freqscaled = 48*frequency+1;//from 1 to ~50,000\
   period = samplerate/freqscaled;
    
   pulseWidth = analogRead(A6);//initalize pulse width
+  pulseWidth = 512;
   pulseWidthScaled = int(pulseWidth/1023*period);
   
   triInc = 511/period;
