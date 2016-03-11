@@ -16,15 +16,14 @@
 // These calibration settings works with my ITDB02-3.2S.
 // They MIGHT work on your display module, but you should run the
 // calibration sketch anyway.
-//#define CAL_X 0x00378F66UL
-//#define CAL_Y 0x03C34155UL
-//#define CAL_S 0x000EF13FUL
 
-// Параметры для второго дисплея
-//#define CAL_X 0x005B4E7FUL
-//#define CAL_Y 0x03C98189UL
-//#define CAL_S 0x000EF13FUL
-
-#define CAL_X 0x00378F00UL //66
-#define CAL_Y 0x03C98189UL
+// 3,2"
+#define CAL_X 0x00378F66UL
+#define CAL_Y 0x03C34155UL
 #define CAL_S 0x000EF13FUL
+
+// 7"
+
+//#define CAL_X 0x001BCFA9UL
+//#define CAL_Y 0x0032CF83UL
+//#define CAL_S 0x8031F1DFUL

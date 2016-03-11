@@ -20,11 +20,11 @@
 
 UTouch::UTouch(byte tclk, byte tcs, byte din, byte dout, byte irq)
 {
-	T_CLK        = tclk;
-	T_CS         = tcs;
-	T_DIN        = din;
-	T_DOUT       = dout;
-	T_IRQ        = irq;
+    T_CLK        = tclk;
+    T_CS         = tcs;
+    T_DIN        = din;
+    T_DOUT       = dout;
+    T_IRQ        = irq;
 }
 
 void UTouch::InitTouch(byte orientation)
@@ -40,10 +40,10 @@ void UTouch::InitTouch(byte orientation)
 	prec					= 10;
 
 	pinMode(T_CLK,  OUTPUT);
-	pinMode(T_CS,   OUTPUT);
-	pinMode(T_DIN,  OUTPUT);
-	pinMode(T_DOUT, INPUT);
-	pinMode(T_IRQ,  OUTPUT);
+    pinMode(T_CS,   OUTPUT);
+    pinMode(T_DIN,  OUTPUT);
+    pinMode(T_DOUT, INPUT);
+    pinMode(T_IRQ,  OUTPUT);
 
 	digitalWrite(T_CS,  HIGH);
 	digitalWrite(T_CLK, HIGH);

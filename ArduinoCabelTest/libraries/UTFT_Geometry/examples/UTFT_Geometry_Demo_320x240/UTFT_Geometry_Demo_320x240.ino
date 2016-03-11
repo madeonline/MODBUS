@@ -1,5 +1,6 @@
-// UTFT_Geometry_Demo_320x240 (C)2013 Henning Karlsen
-// web: http://www.henningkarlsen.com/electronics
+// UTFT_Geometry_Demo_320x240 
+// Copyright (C)2015 Rinky-Dink Electronics, Henning Karlsen. All right reserved
+// web: http://www.RinkyDinkElectronics.com/
 //
 // A small demo to demonstrate the use of some of the
 // functions of the UTFT_Geometry add-on library.
@@ -60,7 +61,7 @@ void loop()
   myGLCD.print("*** UTFT Geometry Add-on Library ***", CENTER, 1);
   myGLCD.setBackColor(VGA_GRAY);
   myGLCD.setColor(VGA_YELLOW);
-  myGLCD.print("<http://electronics.henningkarlsen.com>", CENTER, 227);
+  myGLCD.print("<http://www.RinkyDinkElectronics.com/>", CENTER, 227);
 
   myGLCD.setColor(VGA_BLUE);
   myGLCD.drawRect(0, 14, 319, 225);

@@ -1,5 +1,6 @@
-// UTFT_Geometry_Demo_All_Sizes (C)2013 Henning Karlsen
-// web: http://www.henningkarlsen.com/electronics
+// UTFT_Geometry_Demo_All_Sizes 
+// Copyright (C)2015 Rinky-Dink Electronics, Henning Karlsen. All right reserved
+// web: http://www.RinkyDinkElectronics.com/
 //
 // A small demo to demonstrate the use of some of the
 // functions of the UTFT_Geometry add-on library.
