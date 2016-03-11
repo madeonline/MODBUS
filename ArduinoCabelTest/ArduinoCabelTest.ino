@@ -63,7 +63,7 @@ extern uint8_t SmallSymbolFont[];
 //------------------------------------------------------------------------------
 
 //Назначение переменных для хранения № опций меню (клавиш)
-int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, but_m1, but_m2, but_m3, but_m4, but_m5, pressed_button;
+int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, butA, butB, butC, butD, but_m1, but_m2, but_m3, but_m4, but_m5, pressed_button;
  //int kbut1, kbut2, kbut3, kbut4, kbut5, kbut6, kbut7, kbut8, kbut9, kbut0, kbut_save,kbut_clear, kbut_exit;
  //int kbutA, kbutB, kbutC, kbutD, kbutE, kbutF;
  int m2 = 1; // Переменная номера меню
@@ -84,10 +84,10 @@ int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, but
  char  txt_menu3_2[] = "\x8A""c\xA4.N ""\xA4""e\xA0""e\xA5o\xA2""a";// Уст. № телефона
  char  txt_menu3_3[] = "\x8A""c\xA4.Level Gaz";//
  char  txt_menu3_4[] = "\x8A""c\xA4.Level Temp";//
- char  txt_menu4_1[] = "C\x96poc \x99""a""\xA2\xA2\xABx";// Сброс данных
- char  txt_menu4_2[] = "\x8A""c\xA4.N \xA3o\xA0\xAC\x9C.";// Уст. № польз
- char  txt_menu4_3[] = "\x89""apo\xA0\xAC \xA3o\xA0\xAC\x9C.";// Пароль польз.
- char  txt_menu4_4[] = "\x89""apo\xA0\xAC a\x99\xA1\x9D\xA2.";// Пароль админ.
+ char  txt_menu4_1[] = "C\x9D\xA2yco\x9D\x99""a";                          // Синусоида
+ char  txt_menu4_2[] = "Tpey\x98o\xA0\xAC\xA2\xAB\x9E";                    // Треугольный
+ char  txt_menu4_3[] = "\x89\x9D\xA0oo\x96pa\x9C\xA2\xAB\x9E";             // Пилообразный
+ char  txt_menu4_4[] = "\x89p\xAF\xA1oy\x98o\xA0\xAC\xA2\xAB\x9E";         // Прямоугольный
  char  txt_menu5_1[] = "";// Инфо ZigBee
  char  txt_menu5_2[] = "Set Adr Coord H";//
  char  txt_menu5_3[] = "Set Adr Coord L";// 
@@ -97,11 +97,11 @@ int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, but
  char  txt_pass_no[] = "Tec\xA4 NO!"; // Тест NO!
 
  
- char  txt_info1[] = "Tec\xA4 ""\x9F""a\x96""e\xA0""e\x9E";//"Ввод данных"
- char  txt_info2[] = "\x86\xA2\xA5op\xA1""a""\xA6\x9D\xAF";// Информация
- char  txt_info4[] = "\x8A""c\xA4""a\xA2o\x97\x9F\x9D c\x9D""c\xA4""e\xA1\xAB";// 
- char  txt_info3[] = "Hac\xA4po\x9E\x9F""a c\x9D""c\xA4""e\xA1\xAB";// Настройка системы
- char  txt_info5[] = "\x86\xA2\xA5op\xA1""a""\xA6\x9D\xAF ZigBee";// Информация ZigBee
+ char  txt_info1[] = "Tec\xA4 ""\x9F""a\x96""e\xA0""e\x9E";                // Тест кабелей
+ char  txt_info2[] = "Tec\xA4 \x96\xA0o\x9F""a \x98""ap\xA2\x9D\xA4yp";    // Тест блока гарнитур
+ char  txt_info3[] = "Hac\xA4po\x9E\x9F""a c\x9D""c\xA4""e\xA1\xAB";       // Настройка системы
+ char  txt_info4[] = "\x81""e\xA2""epa\xA4op c\x9D\x98\xA2""a\xA0o\x97";   // Генератор сигналов
+ char  txt_info5[] = "Oc\xA6\x9D\xA0\xA0o\x98pa\xA5";                      // Осциллограф
 
 
 
@@ -110,21 +110,23 @@ int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, but
 void draw_Glav_Menu()
 {
 
-  but1 = myButtons.addButton( 10,  20, 250,  35, txt_menu1_1);
-  but2 = myButtons.addButton( 10,  65, 250,  35, txt_menu1_2);
-  but3 = myButtons.addButton( 10, 110, 250,  35, txt_menu1_3);
-  but4 = myButtons.addButton( 10, 155, 250,  35, txt_menu1_4);
-  butX = myButtons.addButton(279, 199,  40,  40, "W", BUTTON_SYMBOL); // кнопка Часы 
+  but1   = myButtons.addButton( 10,  20, 250,  35, txt_menu1_1);
+  but2   = myButtons.addButton( 10,  65, 250,  35, txt_menu1_2);
+  but3   = myButtons.addButton( 10, 110, 250,  35, txt_menu1_3);
+  but4   = myButtons.addButton( 10, 155, 250,  35, txt_menu1_4);
+  butX   = myButtons.addButton( 279, 199,  40,  40, "W", BUTTON_SYMBOL); // кнопка Часы 
   but_m1 = myButtons.addButton(  10, 199, 45,  40, "1");
   but_m2 = myButtons.addButton(  61, 199, 45,  40, "2");
   but_m3 = myButtons.addButton(  112, 199, 45,  40, "3");
   but_m4 = myButtons.addButton(  163, 199, 45,  40, "4");
   but_m5 = myButtons.addButton(  214, 199, 45,  40, "5");
+  myButtons.drawButtons(); // Восстановить кнопки
   myGLCD.setColor(VGA_BLACK);
   myGLCD.setBackColor(VGA_WHITE);
   myGLCD.setColor(0, 255, 0);
   myGLCD.setBackColor(0, 0, 0);
   myGLCD.print("                      ", CENTER, 0); 
+
   switch (m2) 
 				   {
 					case 1:
@@ -256,7 +258,6 @@ void swichMenu() // Тексты меню в строках "txt....."
 								delay (500);
 		    				//	elektro_save_start(); // если верно - выполнить пункт меню
 					
-							 bailout11: // Восстановить пункты меню
 			   				 myGLCD.clrScr();
 							 myButtons.drawButtons();
 							 print_up();
@@ -389,17 +390,19 @@ void swichMenu() // Тексты меню в строках "txt....."
 
                    //*****************  Меню №4  **************
 
-                   if (pressed_button==but1 && m2 == 4) // Сброс данных
+                   if (pressed_button==but1 && m2 == 4) // 
 					  {
 			
 							myGLCD.clrScr();   // Очистить экран
 							myGLCD.print(txt_pass_ok, RIGHT, 208); 
 							delay (500);
-			    			//	system_clear_start(); // если верно - выполнить пункт меню
-				
-			   				myGLCD.clrScr();
+							//butA = myButtons.addButton(279, 20,  40,  35, "W", BUTTON_SYMBOL); // Синусоида
+							//if (myButtons.buttonEnabled(butB)) myButtons.deleteButton(butB);
+							//if (myButtons.buttonEnabled(butC)) myButtons.deleteButton(butC);
+							//if (myButtons.buttonEnabled(butD)) myButtons.deleteButton(butD);
 							myButtons.drawButtons();
 							print_up();
+							//
 				   
 					  }
 
@@ -409,31 +412,36 @@ void swichMenu() // Тексты меню в строках "txt....."
 							myGLCD.clrScr();
 							myGLCD.print(txt_pass_ok, RIGHT, 208);
 							delay (500);
-		    		//
-							myGLCD.clrScr();
+		    	//			butB = myButtons.addButton(279, 65, 40,  35, "W", BUTTON_SYMBOL); // Треугольный
+							//if (myButtons.buttonEnabled(butA)) myButtons.deleteButton(butA);
+							//if (myButtons.buttonEnabled(butC)) myButtons.deleteButton(butC);
+							//if (myButtons.buttonEnabled(butD)) myButtons.deleteButton(butD);
 							myButtons.drawButtons();
 							print_up();
 					  }
 
-		           if (pressed_button==but3 && m2 == 4) // Ввод пароля пользователя
+		           if (pressed_button==but3 && m2 == 4) // 
 					  {
 				
 							myGLCD.clrScr();
 							myGLCD.print(txt_pass_ok, RIGHT, 208);
 							delay (500);
-		    				//set_pass_user_start();
-							myGLCD.clrScr();
+							//butC = myButtons.addButton(279, 110,  40,  35, "W", BUTTON_SYMBOL); // Пилообразный
+							//if (myButtons.buttonEnabled(butA)) myButtons.deleteButton(butA);
+							//if (myButtons.buttonEnabled(butB)) myButtons.deleteButton(butB);
+							//if (myButtons.buttonEnabled(butD)) myButtons.deleteButton(butD);
 							myButtons.drawButtons();
 							print_up();
 					  }
-				   if (pressed_button==but4 && m2 == 4) // Смена пароля администратора
+				   if (pressed_button==but4 && m2 == 4) //
 					  {
 							myGLCD.clrScr();
 							myGLCD.print(txt_pass_ok, RIGHT, 208);
 							delay (500);
-		    				//set_pass_admin_start();
-					
-							myGLCD.clrScr();
+							//butD = myButtons.addButton(279, 155,  40,  35, "W", BUTTON_SYMBOL); // Прямоугольный сигнал
+							//if (myButtons.buttonEnabled(butB)) myButtons.deleteButton(butB);
+							//if (myButtons.buttonEnabled(butC)) myButtons.deleteButton(butC);
+							//if (myButtons.buttonEnabled(butA)) myButtons.deleteButton(butA);
 							myButtons.drawButtons();
 							print_up();
 					  }
