@@ -944,7 +944,6 @@ void mem_byte_trans_save()                                      //  Получить таб
 	unsigned int _adr_mem = regBank.get(40006);                 //  Адрес блока памяти для передачи в ПК таблиц.
 	unsigned int _size_block = regBank.get(40007);              //  Адрес длины блока таблиц
 
-
 	for (unsigned int x_mem = 0;x_mem < _size_block;x_mem++)
 	{
 		i2c_eeprom_write_byte(deviceaddress, _adr_mem + x_mem, regBank.get(_adr_reg+x_mem));
@@ -1045,67 +1044,46 @@ void test_panel_N1()
 
 void setup_regModbus()
 {
+    regBank.setId(1);    // Slave ID 1
 
-/*
-Присвоить объект Modbus устройства обработчик протокола
-Это то, где обработчик протокола будет смотреть, чтобы читать и писать
-зарегистрированные данные. В настоящее время протокол Modbus Slave проводник может
-имеется только одно устройство возложенные на него.
-*/
+  	regBank.add(1);      //  
+	regBank.add(2);      //  
+	regBank.add(3);      //  
+	regBank.add(4);      //  
+	regBank.add(5);      //  
+	regBank.add(6);      //  
+	regBank.add(7);      //  
+	regBank.add(8);      //  
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  //Assign the modbus device ID.  
-  regBank.setId(1);               // Slave ID 1
+	regBank.add(10001);  //  
+	regBank.add(10002);  //  
+	regBank.add(10003);  //  
+	regBank.add(10004);  //  
+	regBank.add(10005);  //  
+	regBank.add(10006);  //  
+	regBank.add(10007);  //  
+	regBank.add(10008);  //  
 
-/*
-modbus registers follow the following format
-00001-09999  Digital Outputs, A master device can read and write to these registers
-10001-19999  Digital Inputs,  A master device can only read the values from these registers
-30001-39999  Analog Inputs,   A master device can only read the values from these registers
-40001-49999  Analog Outputs,  A master device can read and write to these registers 
-Лучше всего, чтобы настроить регистры как типа в смежных блоках. это
-обеспечивает более эффективный поиск и регистра и уменьшает количество сообщений
-требуются мастера для извлечения данных.
-*/
+	regBank.add(30001);  //  
+	regBank.add(30002);  //  
+	regBank.add(30003);  //  
+	regBank.add(30004);  //  
+	regBank.add(30005);  //  
+	regBank.add(30006);  //  
+	regBank.add(30007);  //  
+	regBank.add(30008);  //  
 
-  	regBank.add(1);                               //  
-	regBank.add(2);                               //  
-	regBank.add(3);                               //  
-	regBank.add(4);                               //  
-	regBank.add(5);                               //  
-	regBank.add(6);                               //  
-	regBank.add(7);                               //  
-	regBank.add(8);                               //  
+	regBank.add(40001);  //  Адрес передачи комманд на выполнение 
+	regBank.add(40002);  //  Адрес счетчика всех ошибок
+	regBank.add(40003);  //  Адрес хранения величины сигнала резистором № 1
+	regBank.add(40004);  //  Адрес хранения величины сигнала резистором № 2
+	regBank.add(40005);  //  Адрес блока регистров для передачи в ПК таблиц.
+	regBank.add(40006);  //  Адрес блока памяти для передачи в ПК таблиц.
+	regBank.add(40007);  //  Адрес длины блока таблиц
+	regBank.add(40008);  //  
+	regBank.add(40009);  //  
 
-	regBank.add(10001);                           //  
-	regBank.add(10002);                           //  
-	regBank.add(10003);                           //  
-	regBank.add(10004);                           //  
-	regBank.add(10005);                           //  
-	regBank.add(10006);                           //  
-	regBank.add(10007);                           //  
-	regBank.add(10008);                           //  
-
-	regBank.add(30001);                           //  
-	regBank.add(30002);                           //  
-	regBank.add(30003);                           //  
-	regBank.add(30004);                           //  
-	regBank.add(30005);                           //  
-	regBank.add(30006);                           //  
-	regBank.add(30007);                           //  
-	regBank.add(30008);                           //  
-
-	regBank.add(40001);                           //  Адрес передачи комманд на выполнение 
-	regBank.add(40002);                           //  Адрес счетчика всех ошибок
-	regBank.add(40003);                           //  Адрес хранения величины сигнала резистором № 1
-	regBank.add(40004);                           //  Адрес хранения величины сигнала резистором № 2
-	regBank.add(40005);                           //  Адрес блока регистров для передачи в ПК таблиц.
-	regBank.add(40006);                           //  Адрес блока памяти для передачи в ПК таблиц.
-	regBank.add(40007);                           //  Адрес длины блока таблиц
-	regBank.add(40008);                           //  
-	regBank.add(40009);                           //  
-
-	regBank.add(40010);                           //  Регистры временного хранения для передачи таблицы
+	regBank.add(40010);  //  Регистры временного хранения для передачи таблицы
 	regBank.add(40011);   
 	regBank.add(40012);   
 	regBank.add(40013);   
@@ -1149,6 +1127,24 @@ modbus registers follow the following format
 	regBank.add(40048);     
 	regBank.add(40049); 
 
+
+						 // Текущее время 
+	regBank.add(40050);  // адрес день модуля часов контроллера
+	regBank.add(40051);  // адрес месяц модуля часов контроллера
+	regBank.add(40052);  // адрес год модуля часов контроллера
+	regBank.add(40053);  // адрес час модуля часов контроллера
+	regBank.add(40054);  // адрес минута модуля часов контроллера
+	regBank.add(40055);  // адрес секунда модуля часов контроллера
+ 
+						 // Установка времени в контроллере
+	regBank.add(40056);  // адрес день
+	regBank.add(40057);  // адрес месяц
+	regBank.add(40058);  // адрес год
+	regBank.add(40059);  // адрес час
+	regBank.add(40060);  // адрес минута
+	regBank.add(40061);  // 
+	regBank.add(40062);  // 
+	regBank.add(40063);  // 
 
 }
 
