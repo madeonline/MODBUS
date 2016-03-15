@@ -98,11 +98,11 @@ void set_rezistor1();
 void set_rezistor2();
 void setup_mcp();
 void setup_port();
-viod test_cabel_N1();
-viod test_cabel_N2();
-viod test_cabel_N3();
-viod test_cabel_N4();
-viod test_panel_N1();
+void test_cabel_N1();
+void test_cabel_N2();
+void test_cabel_N3();
+void test_cabel_N4();
+void test_panel_N1();
 void setup_regModbus();
 //
 //
