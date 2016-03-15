@@ -59,9 +59,41 @@ extern uint8_t Dingbats1_XL[];
 extern uint8_t SmallSymbolFont[];
 
 
+//+++++++++++++++++++++++++++ Настройка часов +++++++++++++++++++++++++++++++
+uint8_t second = 0;                      //Initialization time
+uint8_t minute = 10;
+uint8_t hour   = 10;
+uint8_t dow    = 2;
+uint8_t day    = 15;
+uint8_t month  = 3;
+uint16_t year  = 16;
+RTC_DS1307 RTC;                         // define the Real Time Clock object
 
+int clockCenterX     = 119;
+int clockCenterY     = 119;
+int oldsec=0;
+const char* str[]          = {"MON","TUE","WED","THU","FRI","SAT","SUN"};
+const char* str_mon[]      = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 //------------------------------------------------------------------------------
 
+
+
+
+const unsigned int adr_control_command    PROGMEM       = 40001; // Адрес передачи комманд на выполнение 
+const unsigned int adr_reg_count_err      PROGMEM       = 40002; // Адрес счетчика всех ошибок
+//-------------------------------------------------------------------------------------------------------
+//+++++++++++++++++++++++++++ Порты управления платой Arduino Nano +++++++++++++++++++++++++++++++
+
+#define  kn1Nano   A0                                            // Назначение кнопок управления Nano  A0
+#define  kn2Nano   A1                                            // Назначение кнопок управления Nano  A1
+#define  kn3Nano   A2                                            // Назначение кнопок управления Nano  A2
+#define  kn4Nano   A3                                            // Назначение кнопок управления Nano  A3
+
+#define  kn5Nano   A4                                            // Назначение кнопок управления Nano  A4
+#define  kn6Nano   A5                                            // Назначение кнопок управления Nano  A5
+
+
+//-------------------------------------------------------------------------------------------------------
 //Назначение переменных для хранения № опций меню (клавиш)
 int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, butA, butB, butC, butD, but_m1, but_m2, but_m3, but_m4, but_m5, pressed_button;
  //int kbut1, kbut2, kbut3, kbut4, kbut5, kbut6, kbut7, kbut8, kbut9, kbut0, kbut_save,kbut_clear, kbut_exit;
@@ -71,39 +103,243 @@ int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, but
  //------------------------------------------------------------------------------------------------------------------
  // Назначение переменных для хранения текстов
 
- char  txt_menu1_1[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N 1";// Тест кабель N 1
- char  txt_menu1_2[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N 2";// Тест кабель N 2
- char  txt_menu1_3[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N 3";// Тест кабель N 3
- char  txt_menu1_4[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N 4";// Тест кабель N 4
+ char  txt_menu1_1[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N 1";                   // Тест кабель N 1
+ char  txt_menu1_2[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N 2";                   // Тест кабель N 2
+ char  txt_menu1_3[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N 3";                   // Тест кабель N 3
+ char  txt_menu1_4[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N 4";                   // Тест кабель N 4
 
- char  txt_menu2_1[] = "menu2_1"; // //ИНФО СЧЕТЧИКОВ
- char  txt_menu2_2[] = "menu2_2"; //
- char  txt_menu2_3[] = "menu2_3"; //
- char  txt_menu2_4[] = "menu2_4";//
- char  txt_menu3_1[] = "CTEPET\x92 \x8B""A\x87\x89\x91";//
- char  txt_menu3_2[] = "\x8A""c\xA4.N ""\xA4""e\xA0""e\xA5o\xA2""a";// Уст. № телефона
- char  txt_menu3_3[] = "\x8A""c\xA4.Level Gaz";//
- char  txt_menu3_4[] = "\x8A""c\xA4.Level Temp";//
- char  txt_menu4_1[] = "C\x9D\xA2yco\x9D\x99""a";                          // Синусоида
- char  txt_menu4_2[] = "Tpey\x98o\xA0\xAC\xA2\xAB\x9E";                    // Треугольный
- char  txt_menu4_3[] = "\x89\x9D\xA0oo\x96pa\x9C\xA2\xAB\x9E";             // Пилообразный
- char  txt_menu4_4[] = "\x89p\xAF\xA1oy\x98o\xA0\xAC\xA2\xAB\x9E";         // Прямоугольный
- char  txt_menu5_1[] = "";// Инфо ZigBee
- char  txt_menu5_2[] = "Set Adr Coord H";//
- char  txt_menu5_3[] = "Set Adr Coord L";// 
- char  txt_menu5_4[] = "Set Adr Network";// 
+ char  txt_menu2_1[] = "menu2_1";                                                // 
+ char  txt_menu2_2[] = "menu2_2";                                                //
+ char  txt_menu2_3[] = "menu2_3";                                                //
+ char  txt_menu2_4[] = "menu2_4";                                                //
 
- char  txt_pass_ok[] = "Tec\xA4 OK!"; // Тест ОК!
+ char  txt_menu3_1[] = "Ta""\x96\xA0\x9D\xA6""a coe""\x99"".";                   // Таблица соед.
+ char  txt_menu3_2[] = "Pe""\x99""a""\x9F\xA4"". ""\xA4""a""\x96\xA0\x9D\xA6";   // Редакт. таблиц
+ char  txt_menu3_3[] = "\x85""a""\x98""py""\x9C"". y""\xA1""o""\xA0\xA7"".";     // Загруз. умолч.
+ char  txt_menu3_4[] = "Me""\xA2\xAE"" 3.4";                                     //
+
+ char  txt_menu4_1[] = "C\x9D\xA2yco\x9D\x99""a";                                // Синусоида
+ char  txt_menu4_2[] = "Tpey\x98o\xA0\xAC\xA2\xAB\x9E";                          // Треугольный
+ char  txt_menu4_3[] = "\x89\x9D\xA0oo\x96pa\x9C\xA2\xAB\x9E";                   // Пилообразный
+ char  txt_menu4_4[] = "\x89p\xAF\xA1oy\x98o\xA0\xAC\xA2\xAB\x9E";               // Прямоугольный
+
+ char  txt_menu5_1[] = " ";// 
+ char  txt_menu5_2[] = " ";//
+ char  txt_menu5_3[] = " ";// 
+ char  txt_menu5_4[] = " ";// 
+
+ char  txt_pass_ok[] = "Tec\xA4 Pass!"; // Тест Pass!
  char  txt_pass_no[] = "Tec\xA4 NO!"; // Тест NO!
 
  
- char  txt_info1[] = "Tec\xA4 ""\x9F""a\x96""e\xA0""e\x9E";                // Тест кабелей
- char  txt_info2[] = "Tec\xA4 \x96\xA0o\x9F""a \x98""ap\xA2\x9D\xA4yp";    // Тест блока гарнитур
- char  txt_info3[] = "Hac\xA4po\x9E\x9F""a c\x9D""c\xA4""e\xA1\xAB";       // Настройка системы
- char  txt_info4[] = "\x81""e\xA2""epa\xA4op c\x9D\x98\xA2""a\xA0o\x97";   // Генератор сигналов
- char  txt_info5[] = "Oc\xA6\x9D\xA0\xA0o\x98pa\xA5";                      // Осциллограф
+ char  txt_info1[] = "Tec\xA4 ""\x9F""a\x96""e\xA0""e\x9E";                     // Тест кабелей
+ char  txt_info2[] = "Tec\xA4 \x96\xA0o\x9F""a \x98""ap\xA2\x9D\xA4yp";         // Тест блока гарнитур
+ char  txt_info3[] = "Hac\xA4po\x9E\x9F""a c\x9D""c\xA4""e\xA1\xAB";            // Настройка системы
+ char  txt_info4[] = "\x81""e\xA2""epa\xA4op c\x9D\x98\xA2""a\xA0o\x97";        // Генератор сигналов
+ char  txt_info5[] = "Oc\xA6\x9D\xA0\xA0o\x98pa\xA5";                           // Осциллограф
 
 
+ void dateTime(uint16_t* date, uint16_t* time)                  // Программа записи времени и даты файла
+{
+  DateTime now = RTC.now();
+
+  // return date using FAT_DATE macro to format fields
+  *date = FAT_DATE(now.year(), now.month(), now.day());
+
+  // return time using FAT_TIME macro to format fields
+  *time = FAT_TIME(now.hour(), now.minute(), now.second());
+}
+
+void serial_print_date()                           // Печать даты и времени    
+{
+	  DateTime now = RTC.now();
+	  Serial.print(now.day(), DEC);
+	  Serial.print('/');
+	  Serial.print(now.month(), DEC);
+	  Serial.print('/');
+	  Serial.print(now.year(), DEC);//Serial display time
+	  Serial.print(' ');
+	  Serial.print(now.hour(), DEC);
+	  Serial.print(':');
+	  Serial.print(now.minute(), DEC);
+	  Serial.print(':');
+	  Serial.print(now.second(), DEC);
+}
+void set_time()
+{
+	RTC.adjust(DateTime(__DATE__, __TIME__));
+	DateTime now = RTC.now();
+	second = now.second();       //Initialization time
+	minute = now.minute();
+	hour   = now.hour();
+	day    = now.day();
+	day++;
+	if(day > 31)day = 1;
+	month  = now.month();
+	year   = now.year();
+	DateTime set_time = DateTime(year, month, day, hour, minute, second); // Занести данные о времени в строку "set_time"
+	RTC.adjust(set_time);             
+}
+
+void flash_time()                                              // Программа обработчик прерывания 
+{ 
+	// PORTB = B00000000; // пин 12 переводим в состояние LOW
+	slave.run();
+	// PORTB = B01000000; // пин 12 переводим в состояние HIGH
+}
+void serialEvent3()
+{
+	control_command();
+}
+
+void control_command()
+{
+	/*
+	Для вызова подпрограммы проверки необходимо записать номер проверки по адресу adr_control_command (40120) 
+	Код проверки
+	0 -  Выполнение команды окончено
+	1 -   
+	2 -   
+	3 -   
+	4 -   
+	5 -   
+	6 -   
+	7 -   
+	8 -   
+	9 -   
+	10 -  
+	11 -  
+	12 -  
+	13 -  
+	14 -  
+	15 -  
+	16 -                   
+	17 -  
+	18 -  
+	19 -  
+	20 -  
+	21 -  
+	22 -  
+	23 -  
+	24 - 
+	25 - 
+	26 - 
+	27 - 
+	28 - 
+	29 - 
+	30 - 
+
+	*/
+
+
+	int test_n = regBank.get(adr_control_command);                                  //адрес  40120
+	if (test_n != 0)
+	{
+		if(test_n != 0) Serial.println(test_n);	
+		switch (test_n)
+		{
+			case 1:
+				 //
+				 break;
+			case 2:	
+				 //
+				 break;
+			case 3:
+				 //
+				 break;
+			case 4:	
+				 //
+				 break;
+			case 5:
+				 //
+				 break;
+			case 6:	
+				 //
+				 break;
+			case 7:
+				 //
+				 break;
+			case 8:	
+				 //
+				 break;
+			case 9:
+				 //
+				 break;
+			case 10:
+				 //
+				 break;
+			case 11:
+				 //
+				 break;
+			case 12:
+				 //
+				 break;
+			case 13:
+				 //
+				 break;
+			case 14:
+				 //
+				 break;
+			case 15:
+				 //
+				 break;
+			case 16:
+				 //                  
+				 break;
+			case 17:
+				 //
+				 break;
+			case 18:
+				 //
+				 break;
+			case 19:
+				 //
+				 break;
+			case 20:                                         //  
+				 //
+				 break;
+			case 21:                      		 		     //  
+				//
+				 break;
+			case 22:                                         //  
+				 //
+				 break;
+			case 23: 
+				 //      
+				 break;
+			case 24: 
+				 //    
+				 break;
+			case 25: 
+				 //         
+				 break;
+			case 26: 
+				 //    
+				 break;
+			case 27: 
+				 //
+				 break;
+			case 28:
+				 //
+				 break;
+			case 29:
+				 //
+				 break;
+			case 30:  
+				 //
+				 break;
+
+			default:
+				 regBank.set(adr_control_command,0);        // Установить резистором №1,№2  уровень сигнала
+				 break;
+		 }
+
+	}
+	else
+	{
+	   regBank.set(adr_control_command,0);
+	}
+}
 
 
 
@@ -148,7 +384,6 @@ void draw_Glav_Menu()
   myButtons.drawButtons();
 
 }
-
 // Выбор Меню Тексты меню в строках "txt....."
 void swichMenu() // Тексты меню в строках "txt....."
 	
@@ -532,7 +767,28 @@ void setup_resistor()
 	Wire.write(0);                                 // sends potentiometer value byte  
 	Wire.endTransmission();                        // stop transmitting
 }
-
+void resistor(int resist, int valresist)
+{
+	resistance = valresist;
+	switch (resist)
+	{
+	case 1:
+			Wire.beginTransmission(address_AD5252);     // transmit to device
+			Wire.write(byte(control_word1));            // sends instruction byte  
+			Wire.write(resistance);                     // sends potentiometer value byte  
+			Wire.endTransmission();                     // stop transmitting
+			break;
+	case 2:				
+			Wire.beginTransmission(address_AD5252);     // transmit to device
+			Wire.write(byte(control_word2));            // sends instruction byte  
+			Wire.write(resistance);                     // sends potentiometer value byte  
+			Wire.endTransmission();                     // stop transmitting
+			break;
+	}
+			//Wire.requestFrom(address_AD5252, 1, true);  // Считать состояние движка резистора 
+			//level_resist = Wire.read();                 // sends potentiometer value byte  
+	// regBank.set(adr_control_command,0);
+}
 void setup_mcp()
 {
 	// Настройка расширителя портов
@@ -581,56 +837,141 @@ void setup_mcp()
 	  mcp_Out2.digitalWrite(i, LOW); 
   }
 }
-
 void setup_port()
 {
 	pinMode(ledPin13, OUTPUT);   
 	pinMode(ledPin12, OUTPUT);  
 	digitalWrite(ledPin12, LOW);                   // 
 	digitalWrite(ledPin13, LOW);                   // 
-	pinMode(A0, OUTPUT);  
-	pinMode(A1, OUTPUT);  
-	pinMode(A2, OUTPUT);  
-	pinMode(A3, OUTPUT);  
-	digitalWrite(A0, HIGH);                        // 
-	digitalWrite(A1, HIGH);                        //
-	digitalWrite(A2, HIGH);                        //
-	digitalWrite(A3, LOW);                         // 
+	pinMode(kn1Nano, OUTPUT);  
+	pinMode(kn2Nano, OUTPUT);  
+	pinMode(kn3Nano, OUTPUT);  
+	pinMode(kn4Nano, OUTPUT);  
+	pinMode(kn5Nano, OUTPUT);  
+	pinMode(kn6Nano, OUTPUT);  
+
+	digitalWrite(kn1Nano, HIGH);                        // 
+	digitalWrite(kn2Nano, HIGH);                        //
+	digitalWrite(kn3Nano, HIGH);                        //
+	digitalWrite(kn4Nano, LOW);                         // 
+	digitalWrite(kn5Nano, HIGH);                        // 
+	digitalWrite(kn6Nano, HIGH);                        //
+}
+
+
+
+void setup_regModbus()
+{
+
+/*
+Присвоить объект Modbus устройства обработчик протокола
+Это то, где обработчик протокола будет смотреть, чтобы читать и писать
+зарегистрированные данные. В настоящее время протокол Modbus Slave проводник может
+имеется только одно устройство возложенные на него.
+*/
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  //Assign the modbus device ID.  
+  regBank.setId(1);               // Slave ID 1
+
+/*
+modbus registers follow the following format
+00001-09999  Digital Outputs, A master device can read and write to these registers
+10001-19999  Digital Inputs,  A master device can only read the values from these registers
+30001-39999  Analog Inputs,   A master device can only read the values from these registers
+40001-49999  Analog Outputs,  A master device can read and write to these registers 
+Лучше всего, чтобы настроить регистры как типа в смежных блоках. это
+обеспечивает более эффективный поиск и регистра и уменьшает количество сообщений
+требуются мастера для извлечения данных.
+*/
+
+  	regBank.add(1);                               //  
+	regBank.add(2);                               //  
+	regBank.add(3);                               //  
+	regBank.add(4);                               //  
+	regBank.add(5);                               //  
+	regBank.add(6);                               //  
+	regBank.add(7);                               //  
+	regBank.add(8);                               //  
+
+	regBank.add(10001);                           //  
+	regBank.add(10002);                           //  
+	regBank.add(10003);                           //  
+	regBank.add(10004);                           //  
+	regBank.add(10005);                           //  
+	regBank.add(10006);                           //  
+	regBank.add(10007);                           //  
+	regBank.add(10008);                           //  
+
+	regBank.add(30001);                           //  
+	regBank.add(30002);                           //  
+	regBank.add(30003);                           //  
+	regBank.add(30004);                           //  
+	regBank.add(30005);                           //  
+	regBank.add(30006);                           //  
+	regBank.add(30007);                           //  
+	regBank.add(30008);                           //  
+
+	regBank.add(40001);                           //  Адрес передачи комманд на выполнение 
+	regBank.add(40002);                           //  Адрес счетчика всех ошибок
+	regBank.add(40003);                           //  
+	regBank.add(40004);                           //  
+	regBank.add(40005);                           //  
+	regBank.add(40006);                           //  
+	regBank.add(40007);                           //  
+	regBank.add(40008);                           //  
+
 
 }
 
 void setup()
 {
-	Serial.begin(9600);                            // Подключение к USB ПК
-	Serial1.begin(115200);                         // Подключение к звуковому модулю 
-	slave.setSerial(3,57600);                      // Подключение к протоколу MODBUS компьютера Serial3 
-	Serial2.begin(115200);                         // 
+	Serial.begin(9600);                                    // Подключение к USB ПК
+	Serial1.begin(115200);                                 // Подключение к 
+	slave.setSerial(3,57600);                              // Подключение к протоколу MODBUS компьютера Serial3 
+	Serial2.begin(115200);                                 // Подключение к 
+	Wire.begin();
+	if (!RTC.begin())                                      // Настройка часов 
+		{
+			Serial.println("RTC failed");
+			while(1);
+		};
+	//DateTime set_time = DateTime(16, 3, 15, 10, 19, 0);  // Занести данные о времени в строку "set_time" год, месяц, число, время...
+	//RTC.adjust(set_time);                                // Записать дату
 	Serial.println(" ");
 	Serial.println(" ***** Start system  *****");
 	Serial.println(" ");
+	//set_time();
+	serial_print_date();
+	pinMode(ledPin13, OUTPUT);   
 	Wire.begin();
 	setup_port();
-	setup_mcp();                                   // Настроить порты расширения  
-     myGLCD.InitLCD();
-	  myGLCD.clrScr();
-	  myGLCD.setFont(BigFont);
-	  myTouch.InitTouch();
-	 // myTouch.setPrecision(PREC_MEDIUM);
-	  myTouch.setPrecision(PREC_HI);
- 	  myButtons.setTextFont(BigFont);
-	  myButtons.setSymbolFont(Dingbats1_XL);
+	setup_mcp();                                          // Настроить порты расширения  
+	setup_resistor();                                     // Начальные установки резистора
+	MsTimer2::set(300, flash_time);                       // 300ms период таймера прерывани
+	resistor(1, 200);                                     // Установить уровень сигнала
+	resistor(2, 200);                                     // Установить уровень сигнала
+	setup_regModbus();
+	myGLCD.InitLCD();
+	myGLCD.clrScr();
+	myGLCD.setFont(BigFont);
+	myTouch.InitTouch();
+	// myTouch.setPrecision(PREC_MEDIUM);
+	myTouch.setPrecision(PREC_HI);
+	myButtons.setTextFont(BigFont);
+	myButtons.setSymbolFont(Dingbats1_XL);
     
 
 	draw_Glav_Menu();
 
-	digitalWrite(ledPin13, HIGH);                  // включение подтягивающего резистора
-	Serial.println(" ");                           //
-	Serial.println("System initialization OK!.");  // Информация о завершении настройки
+	digitalWrite(ledPin13, HIGH);                       // 
+	Serial.println(" ");                                //
+	Serial.println("System initialization OK!.");       // Информация о завершении настройки
 }
 
 void loop()
 {
- //draw_Glav_Menu();
-  swichMenu();
+	//draw_Glav_Menu();
+	swichMenu();
 	//delay(1000);
 }
