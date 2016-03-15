@@ -138,7 +138,7 @@ int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, but
  char  txt_info4[] = "\x81""e\xA2""epa\xA4op c\x9D\x98\xA2""a\xA0o\x97";        // Генератор сигналов
  char  txt_info5[] = "Oc\xA6\x9D\xA0\xA0o\x98pa\xA5";                           // Осциллограф
 
- 
+ int   temp_buffer[40] ;                                                        // Буфер хранения временной информации
  const unsigned int connektN1_default[]    PROGMEM  = { 
     1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,                                                     // Разъем А
 	1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20                                                      // Разъем B
@@ -208,6 +208,52 @@ void set_time()
 	DateTime set_time = DateTime(year, month, day, hour, minute, second); // Занести данные о времени в строку "set_time"
 	RTC.adjust(set_time);             
 }
+void i2c_eeprom_write_byte( int deviceaddress, unsigned int eeaddress, byte data )
+{
+	int rdata = data;
+	Wire.beginTransmission(deviceaddress);
+	Wire.write((int)(eeaddress >> 8)); // MSB
+	Wire.write((int)(eeaddress & 0xFF)); // LSB
+	Wire.write(rdata);
+	Wire.endTransmission();
+	delay(10);
+}
+byte i2c_eeprom_read_byte( int deviceaddress, unsigned int eeaddress ) {
+	byte rdata = 0xFF;
+	Wire.beginTransmission(deviceaddress);
+	Wire.write((int)(eeaddress >> 8)); // MSB
+	Wire.write((int)(eeaddress & 0xFF)); // LSB
+	Wire.endTransmission();
+	Wire.requestFrom(deviceaddress,1);
+	if (Wire.available()) rdata = Wire.read();
+	return rdata;
+}
+void i2c_eeprom_read_buffer( int deviceaddress, unsigned int eeaddress, byte *buffer, int length )
+{
+	
+	Wire.beginTransmission(deviceaddress);
+	Wire.write((int)(eeaddress >> 8)); // MSB
+	Wire.write((int)(eeaddress & 0xFF)); // LSB
+	Wire.endTransmission();
+	Wire.requestFrom(deviceaddress,length);
+	int c = 0;
+	for ( c = 0; c < length; c++ )
+	if (Wire.available()) buffer[c] = Wire.read();
+	
+}
+void i2c_eeprom_write_page( int deviceaddress, unsigned int eeaddresspage, byte* data, byte length ) 
+{
+	
+	Wire.beginTransmission(deviceaddress);
+	Wire.write((int)(eeaddresspage >> 8)); // MSB
+	Wire.write((int)(eeaddresspage & 0xFF)); // LSB
+	byte c;
+	for ( c = 0; c < length; c++)
+	Wire.write(data[c]);
+	Wire.endTransmission();
+	
+}
+
 
 void flash_time()                                              // Программа обработчик прерывания 
 { 
@@ -829,6 +875,57 @@ void set_rezistor2()
 	resistor(2, mwt2);
 	regBank.set(adr_control_command,0);
 }
+
+void save_default_N1()                                          // Запись заводских установок таблицы разъемов №1
+{
+	int _step_mem = 20*2;                                         // Длина блока с таблицы
+	byte _u_konnekt  = 0;                                       // Временное хранения содержимого регистра.
+    for (int i = 0; i < _step_mem;i++)                    
+		{
+			_u_konnekt = pgm_read_word_near(connektN1_default+i);
+			i2c_eeprom_write_byte(deviceaddress,i+adr_memN1_1, _u_konnekt); 
+		}
+	regBank.set(adr_control_command,0);                        // Завершить программу    
+	delay(100);
+}
+void save_default_N2()                                          // Запись заводских установок таблицы разъемов №1
+{
+	int _step_mem = 26*2;                                         // Длина блока с таблицы
+	byte _u_konnekt  = 0;                                       // Временное хранения содержимого регистра.
+    for (int i = 0; i < _step_mem;i++)                    
+		{
+			_u_konnekt = pgm_read_word_near(connektN2_default+i);
+			i2c_eeprom_write_byte(deviceaddress,i+adr_memN2_1, _u_konnekt); 
+		}
+	regBank.set(adr_control_command,0);                        // Завершить программу    
+	delay(100);
+}
+void save_default_N3()                                          // Запись заводских установок таблицы разъемов №1
+{
+	int _step_mem = 37*2;                                         // Длина блока с таблицы
+	byte _u_konnekt  = 0;                                       // Временное хранения содержимого регистра.
+    for (int i = 0; i < _step_mem;i++)                    
+		{
+			_u_konnekt = pgm_read_word_near(connektN3_default+i);
+			i2c_eeprom_write_byte(deviceaddress,i+adr_memN3_1, _u_konnekt); 
+		}
+	regBank.set(adr_control_command,0);                        // Завершить программу    
+	delay(100);
+}
+void save_default_N4()                                          // Запись заводских установок таблицы разъемов №1
+{
+	int _step_mem = 34*2;                                         // Длина блока с таблицы
+	byte _u_konnekt  = 0;                                       // Временное хранения содержимого регистра.
+    for (int i = 0; i < _step_mem;i++)                    
+		{
+			_u_konnekt = pgm_read_word_near(connektN4_default+i);
+			i2c_eeprom_write_byte(deviceaddress,i+adr_memN4_1, _u_konnekt); 
+		}
+	regBank.set(adr_control_command,0);                        // Завершить программу    
+	delay(100);
+}
+
+
 
 void setup_mcp()
 {
