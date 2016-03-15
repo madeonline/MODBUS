@@ -271,20 +271,20 @@ void control_command()
 	/*
 	Для вызова подпрограммы проверки необходимо записать номер проверки по адресу adr_control_command (40120) 
 	Код проверки
-	0 -  Выполнение команды окончено
-	1 -   
-	2 -   
-	3 -   
-	4 -   
-	5 -   
-	6 -   
-	7 -   
-	8 -   
-	9 -   
+	0 -   Выполнение команды окончено
+	1 -   Программа проверки кабеля №1
+	2 -   Программа проверки кабеля №2
+	3 -   Программа проверки кабеля №3
+	4 -   Программа проверки кабеля №4
+	5 -   Программа проверки панели гарнитур
+	6 -   Записать таблицу проверки №1 по умолчанию
+	7 -   Записать таблицу проверки №2 по умолчанию
+	8 -   Записать таблицу проверки №3 по умолчанию
+	9 -   Записать таблицу проверки №4 по умолчанию
 	10 -  Установить уровень сигнала резистором №1
 	11 -  Установить уровень сигнала резистором №2
-	12 -  
-	13 -  
+	12 -  Чтение таблиц из EEPROM для передачи в ПК
+	13 -  Получить таблицу из ПK и записать в EEPROM
 	14 -  
 	15 -  
 	16 -                   
@@ -313,43 +313,43 @@ void control_command()
 		switch (test_n)
 		{
 			case 1:
-				 test_cabel_N1();             // 
+				 test_cabel_N1();             // Программа проверки кабеля №1
 				 break;
 			case 2:	
-				 test_cabel_N2();             //
+				 test_cabel_N2();             // Программа проверки кабеля №2
 				 break;
 			case 3:
-				 test_cabel_N3();             //
+				 test_cabel_N3();             // Программа проверки кабеля №3
 				 break;
 			case 4:	
-				 test_cabel_N4();             //
+				 test_cabel_N4();             // Программа проверки кабеля №4
 				 break;
 			case 5:
-				 test_panel_N1();             //
+				 test_panel_N1();             // Программа проверки панели гарнитур
 				 break;
 			case 6:	
-				 //
+				 save_default_N1();           // Записать таблицу проверки №1 по умолчанию
 				 break;
 			case 7:
-				 //
+				 save_default_N1();           // Записать таблицу проверки №2 по умолчанию
 				 break;
 			case 8:	
-				 //
+				 save_default_N1();           // Записать таблицу проверки №3 по умолчанию
 				 break;
 			case 9:
-				 //
+				 save_default_N1();           // Записать таблицу проверки №4 по умолчанию
 				 break;
 			case 10:
-				 set_rezistor1();                   // Установить уровень сигнала резистором №1
+				 set_rezistor1();             // Установить уровень сигнала резистором №1
 				 break;
 			case 11:
-				 set_rezistor2();                   // Установить уровень сигнала резистором №1
+				 set_rezistor2();             // Установить уровень сигнала резистором №1
 				 break;
 			case 12:
-				 //
+				 mem_byte_trans_read();       // Чтение таблиц из EEPROM для передачи в ПК
 				 break;
 			case 13:
-				 //
+				 mem_byte_trans_save();       // Получить таблицу из ПK и записать в EEPROM
 				 break;
 			case 14:
 				 //
@@ -925,6 +925,33 @@ void save_default_N4()                                          // Запись заводс
 	delay(100);
 }
 
+void mem_byte_trans_read()                                      //  Чтение таблиц из EEPROM для передачи в ПК
+{
+	unsigned int _adr_reg = regBank.get(40005)+40000;           //  Адрес блока регистров для передачи в ПК таблиц.
+	unsigned int _adr_mem = regBank.get(40006);                 //  Адрес блока памяти для передачи в ПК таблиц.
+	unsigned int _size_block = regBank.get(40007);              //  Адрес длины блока таблиц
+
+	for (unsigned int x_mem = 0;x_mem < _size_block;x_mem++)
+	{
+		regBank.set(_adr_reg+x_mem,i2c_eeprom_read_byte(deviceaddress,_adr_mem + x_mem));
+	}
+	regBank.set(adr_control_command,0);                         // Завершить программу    
+	delay(200);
+}
+void mem_byte_trans_save()                                      //  Получить таблицу из ПK и записать в EEPROM
+{
+	unsigned int _adr_reg = regBank.get(40005);                 //  Адрес блока регистров для передачи в ПК таблиц.
+	unsigned int _adr_mem = regBank.get(40006);                 //  Адрес блока памяти для передачи в ПК таблиц.
+	unsigned int _size_block = regBank.get(40007);              //  Адрес длины блока таблиц
+
+
+	for (unsigned int x_mem = 0;x_mem < _size_block;x_mem++)
+	{
+		i2c_eeprom_write_byte(deviceaddress, _adr_mem + x_mem, regBank.get(_adr_reg+x_mem));
+	}
+	regBank.set(adr_control_command,0);                         // Завершить программу    
+	delay(200);
+}
 
 
 void setup_mcp()
@@ -1072,10 +1099,56 @@ modbus registers follow the following format
 	regBank.add(40002);                           //  Адрес счетчика всех ошибок
 	regBank.add(40003);                           //  Адрес хранения величины сигнала резистором № 1
 	regBank.add(40004);                           //  Адрес хранения величины сигнала резистором № 2
-	regBank.add(40005);                           //  
-	regBank.add(40006);                           //  
-	regBank.add(40007);                           //  
+	regBank.add(40005);                           //  Адрес блока регистров для передачи в ПК таблиц.
+	regBank.add(40006);                           //  Адрес блока памяти для передачи в ПК таблиц.
+	regBank.add(40007);                           //  Адрес длины блока таблиц
 	regBank.add(40008);                           //  
+	regBank.add(40009);                           //  
+
+	regBank.add(40010);                           //  Регистры временного хранения для передачи таблицы
+	regBank.add(40011);   
+	regBank.add(40012);   
+	regBank.add(40013);   
+	regBank.add(40014);    
+	regBank.add(40015);   
+	regBank.add(40016);    
+	regBank.add(40017);   
+	regBank.add(40018);     
+	regBank.add(40019);   
+
+	regBank.add(40020);                            
+	regBank.add(40021);   
+	regBank.add(40022);   
+	regBank.add(40023);   
+	regBank.add(40024);    
+	regBank.add(40025);   
+	regBank.add(40026);    
+	regBank.add(40027);   
+	regBank.add(40028);     
+	regBank.add(40029); 
+
+	regBank.add(40030);                            
+	regBank.add(40031);   
+	regBank.add(40032);   
+	regBank.add(40033);   
+	regBank.add(40034);    
+	regBank.add(40035);   
+	regBank.add(40036);    
+	regBank.add(40037);   
+	regBank.add(40038);     
+	regBank.add(40039); 
+
+	regBank.add(40040);                            
+	regBank.add(40041);   
+	regBank.add(40042);   
+	regBank.add(40043);   
+	regBank.add(40044);    
+	regBank.add(40045);   
+	regBank.add(40046);    
+	regBank.add(40047);   
+	regBank.add(40048);     
+	regBank.add(40049); 
+
 
 }
 

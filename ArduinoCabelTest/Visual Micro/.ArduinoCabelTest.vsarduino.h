@@ -104,6 +104,8 @@ void save_default_N1();
 void save_default_N2();
 void save_default_N3();
 void save_default_N4();
+void mem_byte_trans_read();
+void mem_byte_trans_save();
 void setup_mcp();
 void setup_port();
 void test_cabel_N1();
