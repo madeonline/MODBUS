@@ -103,10 +103,10 @@ int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, but
  //------------------------------------------------------------------------------------------------------------------
  // Назначение переменных для хранения текстов
 
- char  txt_menu1_1[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N 1";                   // Тест кабель N 1
- char  txt_menu1_2[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N 2";                   // Тест кабель N 2
- char  txt_menu1_3[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N 3";                   // Тест кабель N 3
- char  txt_menu1_4[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N 4";                   // Тест кабель N 4
+ char  txt_menu1_1[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N1";                   // Тест кабель N 1
+ char  txt_menu1_2[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N2";                   // Тест кабель N 2
+ char  txt_menu1_3[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N3";                   // Тест кабель N 3
+ char  txt_menu1_4[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N4";                   // Тест кабель N 4
 
  char  txt_menu2_1[] = "menu2_1";                                                // 
  char  txt_menu2_2[] = "menu2_2";                                                //
@@ -138,6 +138,34 @@ int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, but
  char  txt_info4[] = "\x81""e\xA2""epa\xA4op c\x9D\x98\xA2""a\xA0o\x97";        // Генератор сигналов
  char  txt_info5[] = "Oc\xA6\x9D\xA0\xA0o\x98pa\xA5";                           // Осциллограф
 
+ 
+ const unsigned int connektN1_default[]    PROGMEM  = { 
+    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,                                                     // Разъем А
+	1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20                                                      // Разъем B
+ } // 20 x 2 ячеек
+ const unsigned int connektN2_default[]    PROGMEM  = { 
+    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,                                   // Разъем А
+	1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26                                    // Разъем B
+ } // 26 x 2 ячеек
+ const unsigned int connektN3_default[]    PROGMEM  = { 
+    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,  // Разъем А
+	1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37   // Разъем B
+ } // 37 x 2 ячеек
+ const unsigned int connektN3_default[]    PROGMEM  = { 
+    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,           // Разъем А
+	1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34            // Разъем B
+ } // 34 x 2 ячеек
+
+ //++++++++++++++++++ Вариант № 1 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ const unsigned int adr_memN1      PROGMEM       =    100;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №1А, №1В
+ const unsigned int adr_memN2      PROGMEM       =    141;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №2А, №2В
+ const unsigned int adr_memN3      PROGMEM       =    194;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №3А, №3В
+ const unsigned int adr_memN4      PROGMEM       =    269;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №4А, №4В
+ //++++++++++++++++++ Вариант № 2 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ const unsigned int adr_memN1      PROGMEM       =    300;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №1А, №1В
+ const unsigned int adr_memN2      PROGMEM       =    341;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №2А, №2В
+ const unsigned int adr_memN3      PROGMEM       =    394;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №3А, №3В
+ const unsigned int adr_memN4      PROGMEM       =    469;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №4А, №4В
 
  void dateTime(uint16_t* date, uint16_t* time)                  // Программа записи времени и даты файла
 {
@@ -207,8 +235,8 @@ void control_command()
 	7 -   
 	8 -   
 	9 -   
-	10 -  
-	11 -  
+	10 -  Установить уровень сигнала резистором №1
+	11 -  Установить уровень сигнала резистором №2
 	12 -  
 	13 -  
 	14 -  
@@ -232,26 +260,26 @@ void control_command()
 	*/
 
 
-	int test_n = regBank.get(adr_control_command);                                  //адрес  40120
+	int test_n = regBank.get(adr_control_command);   //адрес  40000
 	if (test_n != 0)
 	{
 		if(test_n != 0) Serial.println(test_n);	
 		switch (test_n)
 		{
 			case 1:
-				 //
+				 test_cabel_N1();             // 
 				 break;
 			case 2:	
-				 //
+				 test_cabel_N2();             //
 				 break;
 			case 3:
-				 //
+				 test_cabel_N3();             //
 				 break;
 			case 4:	
-				 //
+				 test_cabel_N4();             //
 				 break;
 			case 5:
-				 //
+				 test_panel_N1();             //
 				 break;
 			case 6:	
 				 //
@@ -266,10 +294,10 @@ void control_command()
 				 //
 				 break;
 			case 10:
-				 //
+				 set_rezistor1();                   // Установить уровень сигнала резистором №1
 				 break;
 			case 11:
-				 //
+				 set_rezistor2();                   // Установить уровень сигнала резистором №1
 				 break;
 			case 12:
 				 //
@@ -789,6 +817,19 @@ void resistor(int resist, int valresist)
 			//level_resist = Wire.read();                 // sends potentiometer value byte  
 	// regBank.set(adr_control_command,0);
 }
+void set_rezistor1()
+{
+	int mwt1 = regBank.get(40003);             // Адрес хранения величины сигнала резистором № 1
+	resistor(1, mwt1);
+	regBank.set(adr_control_command,0);
+}
+void set_rezistor2()
+{
+	int mwt2 = regBank.get(40004);             // Адрес хранения величины сигнала резистором № 2
+	resistor(2, mwt2);
+	regBank.set(adr_control_command,0);
+}
+
 void setup_mcp()
 {
 	// Настройка расширителя портов
@@ -857,8 +898,26 @@ void setup_port()
 	digitalWrite(kn5Nano, HIGH);                        // 
 	digitalWrite(kn6Nano, HIGH);                        //
 }
+viod test_cabel_N1()
+{
 
+}
+viod test_cabel_N2()
+{
 
+}
+viod test_cabel_N3()
+{
+
+}
+viod test_cabel_N4()
+{
+
+}
+viod test_panel_N1()
+{
+
+}
 
 void setup_regModbus()
 {
@@ -914,13 +973,12 @@ modbus registers follow the following format
 
 	regBank.add(40001);                           //  Адрес передачи комманд на выполнение 
 	regBank.add(40002);                           //  Адрес счетчика всех ошибок
-	regBank.add(40003);                           //  
-	regBank.add(40004);                           //  
+	regBank.add(40003);                           //  Адрес хранения величины сигнала резистором № 1
+	regBank.add(40004);                           //  Адрес хранения величины сигнала резистором № 2
 	regBank.add(40005);                           //  
 	regBank.add(40006);                           //  
 	regBank.add(40007);                           //  
 	regBank.add(40008);                           //  
-
 
 }
 
