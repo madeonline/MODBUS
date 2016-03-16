@@ -72,12 +72,15 @@ uint8_t month  = 3;
 uint16_t year  = 16;
 RTC_DS1307 RTC;                         // define the Real Time Clock object
 
-int clockCenterX     = 119;
-int clockCenterY     = 119;
-int oldsec=0;
-const char* str[]          = {"MON","TUE","WED","THU","FRI","SAT","SUN"};
-const char* str1[]         = {"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
-const char* str_mon[]      = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+int clockCenterX               = 119;
+int clockCenterY               = 119;
+int oldsec                     = 0;
+const char* str[]              = {"MON","TUE","WED","THU","FRI","SAT","SUN"};
+const char* str1[]             = {"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
+const char* str_mon[]          = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+unsigned long wait_time        = 0;         // Время простоя прибора
+unsigned long wait_time_Old    = 0;         // Время простоя прибора
+int time_minute                = 5;         // Время простоя прибора
 //------------------------------------------------------------------------------
 
 const unsigned int adr_control_command    PROGMEM       = 40001; // Адрес передачи комманд на выполнение 
@@ -93,6 +96,27 @@ const unsigned int adr_reg_count_err      PROGMEM       = 40002; // Адрес счетчи
 #define  kn5Nano   A4                                            // Назначение кнопок управления Nano  A4
 #define  kn6Nano   A5                                            // Назначение кнопок управления Nano  A5
 
+
+
+
+//++++++++++++++++++++++++++++ Переменные для цифровой клавиатуры +++++++++++++++++++++++++++++
+int x, y, z;
+char stCurrent[20]    ="";         // Переменная хранения введенной строки 
+char stCurrent1[20];               // Переменная хранения введенной строки 
+int stCurrentLen      =0;          // Переменная хранения длины введенной строки 
+int stCurrentLen1     =0;          // Переменная временного хранения длины введенной строки  
+int stCurrentLen_user =0;          // Переменная  хранения длины введенной строки пароля пользователя
+int stCurrentLen_telef=0;          // Переменная  хранения длины введенной строки пароля пользователя
+int stCurrentLen_admin=0;          // Переменная  хранения длины введенной строки пароля администратора
+char stLast[20]       ="";                // Данные в введенной строке строке.
+char stLast1[20]      ="";               // Данные в введенной строке строке.
+int ret               = 0;                       // Признак прерывания операции
+int lenStr            = 0;                    // Длина строки ZegBee
+
+//-------------------------------------------------------------------------------------------------
+
+
+
 //-------------------------------------------------------------------------------------------------------
 //Назначение переменных для хранения № опций меню (клавиш)
 int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, butA, butB, butC, butD, but_m1, but_m2, but_m3, but_m4, but_m5, pressed_button;
@@ -103,41 +127,47 @@ int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, but
  //------------------------------------------------------------------------------------------------------------------
  // Назначение переменных для хранения текстов
 
- char  txt_menu1_1[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N1";                   // Тест кабель N 1
- char  txt_menu1_2[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N2";                   // Тест кабель N 2
- char  txt_menu1_3[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N3";                   // Тест кабель N 3
- char  txt_menu1_4[] = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N4";                   // Тест кабель N 4
+ char  txt_menu1_1[]       = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N1";                    // Тест кабель N 1
+ char  txt_menu1_2[]       = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N2";                    // Тест кабель N 2
+ char  txt_menu1_3[]       = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N3";                    // Тест кабель N 3
+ char  txt_menu1_4[]       = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N4";                    // Тест кабель N 4
+ char  txt_menu2_1[]       = "menu2_1";                                                // 
+ char  txt_menu2_2[]       = "menu2_2";                                                //
+ char  txt_menu2_3[]       = "menu2_3";                                                //
+ char  txt_menu2_4[]       = "menu2_4";                                                //
+ char  txt_menu3_1[]       = "Ta""\x96\xA0\x9D\xA6""a coe""\x99"".";                   // Таблица соед.
+ char  txt_menu3_2[]       = "Pe""\x99""a""\x9F\xA4"". ""\xA4""a""\x96\xA0\x9D\xA6";   // Редакт. таблиц
+ char  txt_menu3_3[]       = "\x85""a""\x98""py""\x9C"". y""\xA1""o""\xA0\xA7"".";     // Загруз. умолч.
+ char  txt_menu3_4[]       = "Bpe""\xA1\xAF"" ""\xA3""poc""\xA4""o""\xAF";             // Время простоя                   //
+ char  txt_menu4_1[]       = "C\x9D\xA2yco\x9D\x99""a";                                // Синусоида
+ char  txt_menu4_2[]       = "Tpey\x98o\xA0\xAC\xA2\xAB\x9E";                          // Треугольный
+ char  txt_menu4_3[]       = "\x89\x9D\xA0oo\x96pa\x9C\xA2\xAB\x9E";                   // Пилообразный
+ char  txt_menu4_4[]       = "\x89p\xAF\xA1oy\x98o\xA0\xAC\xA2\xAB\x9E";               // Прямоугольный
+ char  txt_menu5_1[]       = " ";// 
+ char  txt_menu5_2[]       = " ";//
+ char  txt_menu5_3[]       = " ";// 
+ char  txt_menu5_4[]       = " ";// 
+ char  txt_pass_ok[]       = "Tec\xA4 Pass!";                                           // Тест Pass!
+ char  txt_pass_no[]       = "Tec\xA4 NO!";                                             // Тест NO!
+ char  txt_info1[]         = "Tec\xA4 ""\x9F""a\x96""e\xA0""e\x9E";                     // Тест кабелей
+ char  txt_info2[]         = "Tec\xA4 \x96\xA0o\x9F""a \x98""ap\xA2\x9D\xA4yp";         // Тест блока гарнитур
+ char  txt_info3[]         = "Hac\xA4po\x9E\x9F""a c\x9D""c\xA4""e\xA1\xAB";            // Настройка системы
+ char  txt_info4[]         = "\x81""e\xA2""epa\xA4op c\x9D\x98\xA2""a\xA0o\x97";        // Генератор сигналов
+ char  txt_info5[]         = "Oc\xA6\x9D\xA0\xA0o\x98pa\xA5";                           // Осциллограф
+ char  txt_botton_clear[]  = "C\x96poc";                                                // Сброс
+ char  txt_botton_otmena[] = "O""\xA4\xA1""e""\xA2""a";                                 // Отмена
+ char  txt_system_clear1[] = "B\xA2\x9D\xA1""a\xA2\x9D""e!";                            // Внимание !  
+ char  txt_system_clear2[] = "Bc\xAF \xA1\xA2\xA5op\xA1""a""\xA6\xA1\xAF \x96y\x99""e\xA4";  // Вся информация будет 
+ char  txt_system_clear3[] = "\x8A\x82""A""\x88""EHA!";                                 // УДАЛЕНА 
+ char  txt9[6]             = "B\x97o\x99";                                              // Ввод
+ char  txt10[8]            = "O""\xA4\xA1""e""\xA2""a";                                 // "Отмена"
+ char  txt_time_wait[]     = "\xA1\x9D\xA2"".""\x97""pe""\xA1\xAF"" ""\xA3""poc""\xA4""o""\xAF";      //  мин. время простоя
 
- char  txt_menu2_1[] = "menu2_1";                                                // 
- char  txt_menu2_2[] = "menu2_2";                                                //
- char  txt_menu2_3[] = "menu2_3";                                                //
- char  txt_menu2_4[] = "menu2_4";                                                //
 
- char  txt_menu3_1[] = "Ta""\x96\xA0\x9D\xA6""a coe""\x99"".";                   // Таблица соед.
- char  txt_menu3_2[] = "Pe""\x99""a""\x9F\xA4"". ""\xA4""a""\x96\xA0\x9D\xA6";   // Редакт. таблиц
- char  txt_menu3_3[] = "\x85""a""\x98""py""\x9C"". y""\xA1""o""\xA0\xA7"".";     // Загруз. умолч.
- char  txt_menu3_4[] = "Me""\xA2\xAE"" 3.4";                                     //
 
- char  txt_menu4_1[] = "C\x9D\xA2yco\x9D\x99""a";                                // Синусоида
- char  txt_menu4_2[] = "Tpey\x98o\xA0\xAC\xA2\xAB\x9E";                          // Треугольный
- char  txt_menu4_3[] = "\x89\x9D\xA0oo\x96pa\x9C\xA2\xAB\x9E";                   // Пилообразный
- char  txt_menu4_4[] = "\x89p\xAF\xA1oy\x98o\xA0\xAC\xA2\xAB\x9E";               // Прямоугольный
 
- char  txt_menu5_1[] = " ";// 
- char  txt_menu5_2[] = " ";//
- char  txt_menu5_3[] = " ";// 
- char  txt_menu5_4[] = " ";// 
-
- char  txt_pass_ok[] = "Tec\xA4 Pass!"; // Тест Pass!
- char  txt_pass_no[] = "Tec\xA4 NO!"; // Тест NO!
-  
- char  txt_info1[] = "Tec\xA4 ""\x9F""a\x96""e\xA0""e\x9E";                     // Тест кабелей
- char  txt_info2[] = "Tec\xA4 \x96\xA0o\x9F""a \x98""ap\xA2\x9D\xA4yp";         // Тест блока гарнитур
- char  txt_info3[] = "Hac\xA4po\x9E\x9F""a c\x9D""c\xA4""e\xA1\xAB";            // Настройка системы
- char  txt_info4[] = "\x81""e\xA2""epa\xA4op c\x9D\x98\xA2""a\xA0o\x97";        // Генератор сигналов
- char  txt_info5[] = "Oc\xA6\x9D\xA0\xA0o\x98pa\xA5";                           // Осциллограф
-
- int   temp_buffer[40] ;                                                        // Буфер хранения временной информации
+ int   temp_buffer[40] ;                                                                // Буфер хранения временной информации
+ 
  const unsigned int connektN1_default[]    PROGMEM  = { 
     1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,                                                     // Разъем А
 	1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20                                                      // Разъем B
@@ -320,13 +350,13 @@ void drawDisplay()
   myGLCD.print("SET", 266, 212);
   myGLCD.setBackColor(0, 0, 0);
   
-  myGLCD.setColor(64, 64, 128);
+ /* myGLCD.setColor(64, 64, 128);
   myGLCD.fillRoundRect(260, 140, 319, 180);
   myGLCD.setColor(255, 255, 255);
   myGLCD.drawRoundRect(260, 140, 319, 180);
   myGLCD.setBackColor(64, 64, 128);
   myGLCD.print("RET", 266, 150);
-  myGLCD.setBackColor(0, 0, 0);
+  myGLCD.setBackColor(0, 0, 0);*/
 
 }
 void drawMark(int h)
@@ -505,6 +535,7 @@ void AnalogClock()
 		  }
 		  drawSec(second);
 		  oldsec = second;
+		  wait_time_Old =  millis();
 		}
 
 		if (myTouch.dataAvailable())
@@ -519,10 +550,19 @@ void AnalogClock()
 			setClock();
 		  }
 
-		  if (((y>=140) && (y<=180)) && ((x>=260) && (x<=319))) //Возврат
+		 //  if (((y>=140) && (y<=180)) && ((x>=260) && (x<=319))) //Возврат
+		  if (((y>=1) && (y<=239)) && ((x>=1) && (x<=260))) //Возврат
 		  {
-			myGLCD.setColor (255, 0, 0);
-			myGLCD.drawRoundRect(260, 140, 319, 180);
+			//myGLCD.setColor (255, 0, 0);
+			//myGLCD.drawRoundRect(260, 140, 319, 180);
+			myGLCD.clrScr();
+			myGLCD.setFont(BigFont);
+			break;
+		  }
+		 if (((y>=1) && (y<=180)) && ((x>=260) && (x<=319))) //Возврат
+		  {
+			//myGLCD.setColor (255, 0, 0);
+			//myGLCD.drawRoundRect(260, 140, 319, 180);
 			myGLCD.clrScr();
 			myGLCD.setFont(BigFont);
 			break;
@@ -543,6 +583,235 @@ void serialEvent3()
 {
 	control_command();
 }
+
+void reset_klav()
+{
+		myGLCD.clrScr();
+		myButtons.deleteAllButtons();
+		but1 = myButtons.addButton( 10,  20, 250,  35, txt_menu5_1);
+		but2 = myButtons.addButton( 10,  65, 250,  35, txt_menu5_2);
+		but3 = myButtons.addButton( 10, 110, 250,  35, txt_menu5_3);
+		but4 = myButtons.addButton( 10, 155, 250,  35, txt_menu5_4);
+		butX = myButtons.addButton(279, 199,  40,  40, "W", BUTTON_SYMBOL); // кнопка Часы 
+		but_m1 = myButtons.addButton(  10, 199, 45,  40, "1");
+		but_m2 = myButtons.addButton(  61, 199, 45,  40, "2");
+		but_m3 = myButtons.addButton(  112, 199, 45,  40, "3");
+		but_m4 = myButtons.addButton(  163, 199, 45,  40, "4");
+		but_m5 = myButtons.addButton(  214, 199, 45,  40, "5");
+
+}
+void txt_pass_no_all()
+{
+		myGLCD.clrScr();
+		myGLCD.setColor(255, 255, 255);
+		myGLCD.setBackColor(0, 0, 0);
+		myGLCD.print(txt_pass_no, RIGHT, 208);
+		delay (1000);
+}
+void klav123() // ввод данных с цифровой клавиатуры
+{
+	ret = 0;
+
+	while (true)
+	  {
+		if (myTouch.dataAvailable())
+		{
+			  myTouch.read();
+			  x=myTouch.getX();
+			  y=myTouch.getY();
+	  
+		if ((y>=10) && (y<=60))  // Upper row
+		  {
+			if ((x>=10) && (x<=60))  // Button: 1
+			  {
+				  waitForIt(10, 10, 60, 60);
+				  updateStr('1');
+			  }
+			if ((x>=70) && (x<=120))  // Button: 2
+			  {
+				  waitForIt(70, 10, 120, 60);
+				  updateStr('2');
+			  }
+			if ((x>=130) && (x<=180))  // Button: 3
+			  {
+				  waitForIt(130, 10, 180, 60);
+				  updateStr('3');
+			  }
+			if ((x>=190) && (x<=240))  // Button: 4
+			  {
+				  waitForIt(190, 10, 240, 60);
+				  updateStr('4');
+			  }
+			if ((x>=250) && (x<=300))  // Button: 5
+			  {
+				  waitForIt(250, 10, 300, 60);
+				  updateStr('5');
+			  }
+		  }
+
+		 if ((y>=70) && (y<=120))  // Center row
+		   {
+			 if ((x>=10) && (x<=60))  // Button: 6
+				{
+				  waitForIt(10, 70, 60, 120);
+				  updateStr('6');
+				}
+			 if ((x>=70) && (x<=120))  // Button: 7
+				{
+				  waitForIt(70, 70, 120, 120);
+				  updateStr('7');
+				}
+			 if ((x>=130) && (x<=180))  // Button: 8
+				{
+				  waitForIt(130, 70, 180, 120);
+				  updateStr('8');
+				}
+			 if ((x>=190) && (x<=240))  // Button: 9
+				{
+				  waitForIt(190, 70, 240, 120);
+				  updateStr('9');
+				}
+			 if ((x>=250) && (x<=300))  // Button: 0
+				{
+				  waitForIt(250, 70, 300, 120);
+				  updateStr('0');
+				}
+			}
+		  if ((y>=130) && (y<=180))  // Upper row
+			 {
+			 if ((x>=10) && (x<=130))  // Button: Clear
+				{
+				  waitForIt(10, 130, 120, 180);
+				  stCurrent[0]='\0';
+				  stCurrentLen=0;
+				  myGLCD.setColor(0, 0, 0);
+				  myGLCD.fillRect(0, 224, 319, 239);
+				}
+			 if ((x>=250) && (x<=300))  // Button: Exit
+				{
+				  waitForIt(250, 130, 300, 180);
+				  myGLCD.clrScr();
+				  myGLCD.setBackColor(VGA_BLACK);
+				  ret = 1;
+				  stCurrent[0]='\0';
+				  stCurrentLen=0;
+				  break;
+				}
+			 if ((x>=130) && (x<=240))  // Button: Enter
+				{
+				  waitForIt(130, 130, 240, 180);
+				 if (stCurrentLen>0)
+				   {
+				   for (x=0; x<stCurrentLen+1; x++)
+					 {
+						stLast[x]=stCurrent[x];
+					 }
+						stCurrent[0]='\0';
+						stLast[stCurrentLen+1]='\0';
+						//i2c_eeprom_write_byte(deviceaddress,adr_stCurrentLen1,stCurrentLen);
+						stCurrentLen1 = stCurrentLen;
+						stCurrentLen=0;
+						myGLCD.setColor(0, 0, 0);
+						myGLCD.fillRect(0, 208, 319, 239);
+						myGLCD.setColor(0, 255, 0);
+						myGLCD.print(stLast, LEFT, 208);
+						break;
+					}
+				  else
+					{
+						myGLCD.setColor(255, 0, 0);
+						myGLCD.print("\x80\x8A\x8B\x8B""EP \x89\x8A""CTO\x87!", CENTER, 192);//"БУФФЕР ПУСТОЙ!"
+						delay(500);
+						myGLCD.print("                ", CENTER, 192);
+						delay(500);
+						myGLCD.print("\x80\x8A\x8B\x8B""EP \x89\x8A""CTO\x87!", CENTER, 192);//"БУФФЕР ПУСТОЙ!"
+						delay(500);
+						myGLCD.print("                ", CENTER, 192);
+						myGLCD.setColor(0, 255, 0);
+					}
+				 }
+			  }
+		  }
+	   } 
+} 
+void drawButtons1() // Отображение цифровой клавиатуры
+{
+// Draw the upper row of buttons
+  for (x=0; x<5; x++)
+  {
+	myGLCD.setColor(0, 0, 255);
+	myGLCD.fillRoundRect (10+(x*60), 10, 60+(x*60), 60);
+	myGLCD.setColor(255, 255, 255);
+	myGLCD.drawRoundRect (10+(x*60), 10, 60+(x*60), 60);
+	myGLCD.printNumI(x+1, 27+(x*60), 27);
+  }
+// Draw the center row of buttons
+  for (x=0; x<5; x++)
+  {
+	myGLCD.setColor(0, 0, 255);
+	myGLCD.fillRoundRect (10+(x*60), 70, 60+(x*60), 120);
+	myGLCD.setColor(255, 255, 255);
+	myGLCD.drawRoundRect (10+(x*60), 70, 60+(x*60), 120);
+	if (x<4)
+	myGLCD.printNumI(x+6, 27+(x*60), 87);
+  }
+
+  myGLCD.print("0", 267, 87);
+// Draw the lower row of buttons
+  myGLCD.setColor(0, 0, 255);
+  myGLCD.fillRoundRect (10, 130, 120, 180);
+  myGLCD.setColor(255, 255, 255);
+  myGLCD.drawRoundRect (10, 130, 120, 180);
+  myGLCD.print(txt_botton_clear, 25, 147);     //"Сброс"
+
+
+  myGLCD.setColor(0, 0, 255);
+  myGLCD.fillRoundRect (130, 130, 240, 180);
+  myGLCD.setColor(255, 255, 255);
+  myGLCD.drawRoundRect (130, 130, 240, 180);
+  myGLCD.print("B\x97o\x99", 155, 147);       // "Ввод"
+  
+
+  myGLCD.setColor(0, 0, 255);
+  myGLCD.fillRoundRect (250, 130, 300, 180);
+  myGLCD.setColor(255, 255, 255);
+  myGLCD.drawRoundRect (250, 130, 300, 180);
+  myGLCD.print("B""\xAB""x", 252, 147);       // Вых
+  myGLCD.setBackColor (0, 0, 0);
+}
+void updateStr(int val)
+{
+  if (stCurrentLen<20)
+  {
+	stCurrent[stCurrentLen]=val;
+	stCurrent[stCurrentLen+1]='\0';
+	stCurrentLen++;
+	myGLCD.setColor(0, 255, 0);
+	myGLCD.print(stCurrent, LEFT, 224);
+  }
+  else
+  {   // Вывод строки "ПЕРЕПОЛНЕНИЕ!"
+	myGLCD.setColor(255, 0, 0);
+	myGLCD.print("\x89""EPE""\x89O\x88HEH\x86""E!", CENTER, 224);// ПЕРЕПОЛНЕНИЕ!
+	delay(500);
+	myGLCD.print("              ", CENTER, 224);
+	delay(500);
+	myGLCD.print("\x89""EPE""\x89O\x88HEH\x86""E!", CENTER, 224);// ПЕРЕПОЛНЕНИЕ!
+	delay(500);
+	myGLCD.print("              ", CENTER, 224);
+	myGLCD.setColor(0, 255, 0);
+  }
+}
+void waitForIt(int x1, int y1, int x2, int y2)
+{
+  myGLCD.setColor(255, 0, 0);
+  myGLCD.drawRoundRect (x1, y1, x2, y2);
+  while (myTouch.dataAvailable())
+	myTouch.read();
+  myGLCD.setColor(255, 255, 255);
+  myGLCD.drawRoundRect (x1, y1, x2, y2);
+}
+
 
 void control_command()
 {
@@ -737,28 +1006,40 @@ void draw_Glav_Menu()
 
 void swichMenu() // Тексты меню в строках "txt....."
 {
-	 m2=1;                           // Устанивить первую странице меню
+	 m2=1;                                                         // Устанивить первую странице меню
 	 while(1) 
 	   {
-		  myButtons.setTextFont(BigFont);    // Установить Большой шрифт кнопок  
+		  wait_time = millis();                                    // Программа вызова часов при простое 
+		  if (wait_time - wait_time_Old > 60000 * time_minute)
+		  {
+				wait_time_Old =  millis();
+				AnalogClock();
+				myGLCD.clrScr();
+				myButtons.drawButtons();                           // Восстановить кнопки
+				print_up();                                        // Восстановить верхнюю строку
+		  }
 
-			if (myTouch.dataAvailable() == true) // Проверить нажатие кнопок
+		  myButtons.setTextFont(BigFont);                          // Установить Большой шрифт кнопок  
+
+			if (myTouch.dataAvailable() == true)                   // Проверить нажатие кнопок
 			  {
-			    pressed_button = myButtons.checkButtons(); // Если нажата - проверить что нажато
-					 if (pressed_button==butX) // Нажата вызов часы
+			    pressed_button = myButtons.checkButtons();         // Если нажата - проверить что нажато
+				wait_time_Old =  millis();
+
+					 if (pressed_button==butX)                     // Нажата вызов часы
 					      {  
 							 AnalogClock();
 							 myGLCD.clrScr();
-							 myButtons.drawButtons(); // Восстановить кнопки
-							 print_up();              // Восстановить верхнюю строку
+							 myButtons.drawButtons();              // Восстановить кнопки
+							 print_up();                           // Восстановить верхнюю строку
 					      }
 		 
-					 if (pressed_button==but_m1) // Нажата 1 страница меню
+					 if (pressed_button==but_m1)                   // Нажата 1 страница меню
 						  {
 							  myButtons.setButtonColors(VGA_WHITE, VGA_GRAY, VGA_WHITE, VGA_RED, VGA_BLUE); // Голубой фон меню
-							  myButtons.drawButtons();   // Восстановить кнопки
+							  myButtons.drawButtons();             // Восстановить кнопки
 							  default_colors=true;
-							  m2=1;                                                // Устанивить первую странице меню
+							  m2=1;                                // Устанивить первую странице меню
 							  myButtons.relabelButton(but1, txt_menu1_1, m2 == 1);
 							  myButtons.relabelButton(but2, txt_menu1_2, m2 == 1);
 							  myButtons.relabelButton(but3, txt_menu1_3, m2 == 1);
@@ -766,7 +1047,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 							  myGLCD.setColor(0, 255, 0);
 							  myGLCD.setBackColor(0, 0, 0);
 							  myGLCD.print("                      ", CENTER, 0); 
-							  myGLCD.print(txt_info1, CENTER, 0);            // "Ввод данных"
+							  myGLCD.print(txt_info1, CENTER, 0);   // "Тест кабелей"
 		
 						  }
 				    if (pressed_button==but_m2)
@@ -782,7 +1063,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 							  myGLCD.setColor(0, 255, 0);
 							  myGLCD.setBackColor(0, 0, 0);
 							  myGLCD.print("                      ", CENTER, 0); 
-							  myGLCD.print(txt_info2, CENTER, 0);            // Информация
+							  myGLCD.print(txt_info2, CENTER, 0);     // Тест блока гарнитур
 						 }
 
 				   if (pressed_button==but_m3)
@@ -798,7 +1079,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 							  myGLCD.setColor(0, 255, 0);
 							  myGLCD.setBackColor(0, 0, 0);
 							  myGLCD.print("                      ", CENTER, 0); 
-							  myGLCD.print(txt_info3, CENTER, 0);            // Информация
+							  myGLCD.print(txt_info3, CENTER, 0);      // Настройка системы
 						}
 				   if (pressed_button==but_m4)
 						{
@@ -813,7 +1094,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 							  myGLCD.setColor(0, 255, 0);
 							  myGLCD.setBackColor(0, 0, 0);
 							  myGLCD.print("                      ", CENTER, 0); 
-							  myGLCD.print(txt_info4, CENTER, 0);            // 
+							  myGLCD.print(txt_info4, CENTER, 0);     // Генератор сигналов
 						}
 
 				   if (pressed_button==but_m5)
@@ -829,7 +1110,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 							  myGLCD.setColor(0, 255, 0);
 							  myGLCD.setBackColor(0, 0, 0);
 							  myGLCD.print("                      ", CENTER, 0); 
-							  myGLCD.print(txt_info5, CENTER, 0);            // 
+							  myGLCD.print(txt_info5, CENTER, 0);     // Осциллограф
 						}
 	
 	               //*****************  Меню №1  **************
@@ -959,14 +1240,26 @@ void swichMenu() // Тексты меню в строках "txt....."
 				      }
 
 	 //------------------------------------------------------------------
-				   if (pressed_button==but4 && m2 == 3) // Четвертый пункт меню 3
+				   if (pressed_button==but4 && m2 == 3)                 // Четвертый пункт меню 3
 				      {
 				
 							myGLCD.clrScr();
-							myGLCD.print(txt_pass_ok, RIGHT, 208);
-							delay (500);
-		    				//set_warm_temp();
-						
+							myGLCD.setFont(BigFont);
+							myGLCD.setBackColor(0, 0, 255);
+							myGLCD.clrScr();
+							drawButtons1();                            // Нарисовать цифровую клавиатуру
+							myGLCD.printNumI(time_minute, LEFT, 208);
+							myGLCD.print(txt_time_wait, 35, 208);   //
+							klav123();                                 // Считать информацию с клавиатуры
+							if (ret == 1)                              // Если "Возврат" - закончить
+								 {
+									goto bailout41;                    // Перейти на окончание выполнения пункта меню
+								 }
+							else                                       // Иначе выполнить пункт меню
+								 {
+									 time_minute = atol(stLast);
+								 }
+						    bailout41:                                 // Восстановить пункты меню
 						    myGLCD.clrScr();
 						    myButtons.drawButtons();
 						    print_up();
@@ -1461,7 +1754,7 @@ void setup()
     
 
 	draw_Glav_Menu();
-
+	wait_time_Old =  millis();
 	digitalWrite(ledPin13, HIGH);                       // 
 	Serial.println(" ");                                //
 	Serial.println("System initialization OK!.");       // Информация о завершении настройки
