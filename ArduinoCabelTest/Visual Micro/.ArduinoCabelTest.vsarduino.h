@@ -85,11 +85,20 @@ extern "C" void __cxa_pure_virtual() {;}
 
 void dateTime(uint16_t* date, uint16_t* time);
 void serial_print_date();
+void clock_read();
 void set_time();
 void i2c_eeprom_write_byte( int deviceaddress, unsigned int eeaddress, byte data );
 byte i2c_eeprom_read_byte( int deviceaddress, unsigned int eeaddress );
 void i2c_eeprom_read_buffer( int deviceaddress, unsigned int eeaddress, byte *buffer, int length );
 void i2c_eeprom_write_page( int deviceaddress, unsigned int eeaddresspage, byte* data, byte length );
+void drawDisplay();
+void drawMark(int h);
+void drawSec(int s);
+void drawMin(int m);
+void drawHour(int h, int m);
+void printDate();
+void clearDate();
+void AnalogClock();
 void flash_time();
 void serialEvent3();
 void control_command();
@@ -116,6 +125,19 @@ void test_panel_N1();
 void setup_regModbus();
 //
 //
+void drawUpButton(int x, int y);
+void drawDownButton(int x, int y);
+void showDOW(byte dow);
+int bin_to_bcd(int temp);
+byte validateDate(byte d, byte m, word y);
+byte validateDateForMonth(byte d, byte m, word y);
+void setClock();
+char uCase(char c);
+void buttonWait(int x, int y);
+byte calcDOW(byte d, byte m, int y);
+void waitForTouchRelease();
 
 #include <ArduinoCabelTest.ino>
+#include <setTimeDate.ino>
+#include <utils.pde>
 #endif

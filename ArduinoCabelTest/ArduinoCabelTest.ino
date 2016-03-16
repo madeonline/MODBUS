@@ -43,7 +43,10 @@ byte low;                                          // Младший байт для преобразо
 //********************* Настройка монитора ***********************************
 
 // Standard Arduino Mega/Due shield            : <display model>,38,39,40,41
-UTFT          myGLCD(ITDB32S,38,39,40,41);
+//UTFT          myGLCD(ITDB32S,38,39,40,41);     // Дисплей 3.2"
+UTFT        myGLCD(ITDB24E_8,38,39,40,41);   // Дисплей 2.4" !! Внимание! Изменены настройки UTouchCD.h
+
+
 // Standard Arduino Mega/Due shield            : 6,5,4,3,2
 UTouch        myTouch(6,5,4,3,2);
 // Finally we set up UTFT_Buttons :)
@@ -73,11 +76,9 @@ int clockCenterX     = 119;
 int clockCenterY     = 119;
 int oldsec=0;
 const char* str[]          = {"MON","TUE","WED","THU","FRI","SAT","SUN"};
+const char* str1[]         = {"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
 const char* str_mon[]      = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 //------------------------------------------------------------------------------
-
-
-
 
 const unsigned int adr_control_command    PROGMEM       = 40001; // Адрес передачи комманд на выполнение 
 const unsigned int adr_reg_count_err      PROGMEM       = 40002; // Адрес счетчика всех ошибок
@@ -91,7 +92,6 @@ const unsigned int adr_reg_count_err      PROGMEM       = 40002; // Адрес счетчи
 
 #define  kn5Nano   A4                                            // Назначение кнопок управления Nano  A4
 #define  kn6Nano   A5                                            // Назначение кнопок управления Nano  A5
-
 
 //-------------------------------------------------------------------------------------------------------
 //Назначение переменных для хранения № опций меню (клавиш)
@@ -130,8 +130,7 @@ int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, but
 
  char  txt_pass_ok[] = "Tec\xA4 Pass!"; // Тест Pass!
  char  txt_pass_no[] = "Tec\xA4 NO!"; // Тест NO!
-
- 
+  
  char  txt_info1[] = "Tec\xA4 ""\x9F""a\x96""e\xA0""e\x9E";                     // Тест кабелей
  char  txt_info2[] = "Tec\xA4 \x96\xA0o\x9F""a \x98""ap\xA2\x9D\xA4yp";         // Тест блока гарнитур
  char  txt_info3[] = "Hac\xA4po\x9E\x9F""a c\x9D""c\xA4""e\xA1\xAB";            // Настройка системы
@@ -167,7 +166,7 @@ int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, but
  const unsigned int adr_memN3_2      PROGMEM       =    394;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №3А, №3В
  const unsigned int adr_memN4_2      PROGMEM       =    469;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №4А, №4В
 
- void dateTime(uint16_t* date, uint16_t* time)                  // Программа записи времени и даты файла
+void dateTime(uint16_t* date, uint16_t* time)                  // Программа записи времени и даты файла
 {
   DateTime now = RTC.now();
 
@@ -185,14 +184,28 @@ void serial_print_date()                           // Печать даты и времени
 	  Serial.print('/');
 	  Serial.print(now.month(), DEC);
 	  Serial.print('/');
-	  Serial.print(now.year(), DEC);//Serial display time
+	  Serial.print(now.year(), DEC); 
 	  Serial.print(' ');
 	  Serial.print(now.hour(), DEC);
 	  Serial.print(':');
 	  Serial.print(now.minute(), DEC);
 	  Serial.print(':');
 	  Serial.print(now.second(), DEC);
+	  Serial.print("  ");
+	  Serial.println(str1[now.dayOfWeek()-1]);
 }
+void clock_read()
+{
+	DateTime now = RTC.now();
+	second = now.second();       
+	minute = now.minute();
+	hour   = now.hour();
+	dow    = now.dayOfWeek();
+	day    = now.day();
+	month  = now.month();
+	year   = now.year();
+}
+
 void set_time()
 {
 	RTC.adjust(DateTime(__DATE__, __TIME__));
@@ -254,6 +267,271 @@ void i2c_eeprom_write_page( int deviceaddress, unsigned int eeaddresspage, byte*
 	
 }
 
+void drawDisplay()
+{
+  // Clear screen
+  myGLCD.clrScr();
+  
+  // Draw Clockface
+  myGLCD.setColor(0, 0, 255);
+  myGLCD.setBackColor(0, 0, 0);
+  for (int i=0; i<5; i++)
+  {
+	myGLCD.drawCircle(clockCenterX, clockCenterY, 119-i);
+  }
+  for (int i=0; i<5; i++)
+  {
+	myGLCD.drawCircle(clockCenterX, clockCenterY, i);
+  }
+  
+  myGLCD.setColor(192, 192, 255);
+  myGLCD.print("3", clockCenterX+92, clockCenterY-8);
+  myGLCD.print("6", clockCenterX-8, clockCenterY+95);
+  myGLCD.print("9", clockCenterX-109, clockCenterY-8);
+  myGLCD.print("12", clockCenterX-16, clockCenterY-109);
+  for (int i=0; i<12; i++)
+  {
+	if ((i % 3)!=0)
+	  drawMark(i);
+  }  
+  clock_read();
+  drawMin(minute);
+  drawHour(hour, minute);
+  drawSec(second);
+  oldsec=second;
+
+  // Draw calendar
+  myGLCD.setColor(255, 255, 255);
+  myGLCD.fillRoundRect(240, 0, 319, 85);
+  myGLCD.setColor(0, 0, 0);
+  for (int i=0; i<7; i++)
+  {
+	myGLCD.drawLine(249+(i*10), 0, 248+(i*10), 3);
+	myGLCD.drawLine(250+(i*10), 0, 249+(i*10), 3);
+	myGLCD.drawLine(251+(i*10), 0, 250+(i*10), 3);
+  }
+
+  // Draw SET button
+  myGLCD.setColor(64, 64, 128);
+  myGLCD.fillRoundRect(260, 200, 319, 239);
+  myGLCD.setColor(255, 255, 255);
+  myGLCD.drawRoundRect(260, 200, 319, 239);
+  myGLCD.setBackColor(64, 64, 128);
+  myGLCD.print("SET", 266, 212);
+  myGLCD.setBackColor(0, 0, 0);
+  
+  myGLCD.setColor(64, 64, 128);
+  myGLCD.fillRoundRect(260, 140, 319, 180);
+  myGLCD.setColor(255, 255, 255);
+  myGLCD.drawRoundRect(260, 140, 319, 180);
+  myGLCD.setBackColor(64, 64, 128);
+  myGLCD.print("RET", 266, 150);
+  myGLCD.setBackColor(0, 0, 0);
+
+}
+void drawMark(int h)
+{
+  float x1, y1, x2, y2;
+  
+  h=h*30;
+  h=h+270;
+  
+  x1=110*cos(h*0.0175);
+  y1=110*sin(h*0.0175);
+  x2=100*cos(h*0.0175);
+  y2=100*sin(h*0.0175);
+  
+  myGLCD.drawLine(x1+clockCenterX, y1+clockCenterY, x2+clockCenterX, y2+clockCenterY);
+}
+void drawSec(int s)
+{
+  float x1, y1, x2, y2;
+  int ps = s-1;
+  
+  myGLCD.setColor(0, 0, 0);
+  if (ps==-1)
+  ps=59;
+  ps=ps*6;
+  ps=ps+270;
+  
+  x1=95*cos(ps*0.0175);
+  y1=95*sin(ps*0.0175);
+  x2=80*cos(ps*0.0175);
+  y2=80*sin(ps*0.0175);
+  
+  myGLCD.drawLine(x1+clockCenterX, y1+clockCenterY, x2+clockCenterX, y2+clockCenterY);
+
+  myGLCD.setColor(255, 0, 0);
+  s=s*6;
+  s=s+270;
+  
+  x1=95*cos(s*0.0175);
+  y1=95*sin(s*0.0175);
+  x2=80*cos(s*0.0175);
+  y2=80*sin(s*0.0175);
+  
+  myGLCD.drawLine(x1+clockCenterX, y1+clockCenterY, x2+clockCenterX, y2+clockCenterY);
+}
+void drawMin(int m)
+{
+  float x1, y1, x2, y2, x3, y3, x4, y4;
+  int pm = m-1;
+  
+  myGLCD.setColor(0, 0, 0);
+  if (pm==-1)
+  pm=59;
+  pm=pm*6;
+  pm=pm+270;
+  
+  x1=80*cos(pm*0.0175);
+  y1=80*sin(pm*0.0175);
+  x2=5*cos(pm*0.0175);
+  y2=5*sin(pm*0.0175);
+  x3=30*cos((pm+4)*0.0175);
+  y3=30*sin((pm+4)*0.0175);
+  x4=30*cos((pm-4)*0.0175);
+  y4=30*sin((pm-4)*0.0175);
+  
+  myGLCD.drawLine(x1+clockCenterX, y1+clockCenterY, x3+clockCenterX, y3+clockCenterY);
+  myGLCD.drawLine(x3+clockCenterX, y3+clockCenterY, x2+clockCenterX, y2+clockCenterY);
+  myGLCD.drawLine(x2+clockCenterX, y2+clockCenterY, x4+clockCenterX, y4+clockCenterY);
+  myGLCD.drawLine(x4+clockCenterX, y4+clockCenterY, x1+clockCenterX, y1+clockCenterY);
+
+  myGLCD.setColor(0, 255, 0);
+  m=m*6;
+  m=m+270;
+  
+  x1=80*cos(m*0.0175);
+  y1=80*sin(m*0.0175);
+  x2=5*cos(m*0.0175);
+  y2=5*sin(m*0.0175);
+  x3=30*cos((m+4)*0.0175);
+  y3=30*sin((m+4)*0.0175);
+  x4=30*cos((m-4)*0.0175);
+  y4=30*sin((m-4)*0.0175);
+  
+  myGLCD.drawLine(x1+clockCenterX, y1+clockCenterY, x3+clockCenterX, y3+clockCenterY);
+  myGLCD.drawLine(x3+clockCenterX, y3+clockCenterY, x2+clockCenterX, y2+clockCenterY);
+  myGLCD.drawLine(x2+clockCenterX, y2+clockCenterY, x4+clockCenterX, y4+clockCenterY);
+  myGLCD.drawLine(x4+clockCenterX, y4+clockCenterY, x1+clockCenterX, y1+clockCenterY);
+}
+void drawHour(int h, int m)
+{
+  float x1, y1, x2, y2, x3, y3, x4, y4;
+  int ph = h;
+  
+  myGLCD.setColor(0, 0, 0);
+  if (m==0)
+  {
+	ph=((ph-1)*30)+((m+59)/2);
+  }
+  else
+  {
+	ph=(ph*30)+((m-1)/2);
+  }
+  ph=ph+270;
+  
+  x1=60*cos(ph*0.0175);
+  y1=60*sin(ph*0.0175);
+  x2=5*cos(ph*0.0175);
+  y2=5*sin(ph*0.0175);
+  x3=20*cos((ph+5)*0.0175);
+  y3=20*sin((ph+5)*0.0175);
+  x4=20*cos((ph-5)*0.0175);
+  y4=20*sin((ph-5)*0.0175);
+  
+  myGLCD.drawLine(x1+clockCenterX, y1+clockCenterY, x3+clockCenterX, y3+clockCenterY);
+  myGLCD.drawLine(x3+clockCenterX, y3+clockCenterY, x2+clockCenterX, y2+clockCenterY);
+  myGLCD.drawLine(x2+clockCenterX, y2+clockCenterY, x4+clockCenterX, y4+clockCenterY);
+  myGLCD.drawLine(x4+clockCenterX, y4+clockCenterY, x1+clockCenterX, y1+clockCenterY);
+
+  myGLCD.setColor(255, 255, 0);
+  h=(h*30)+(m/2);
+  h=h+270;
+  
+  x1=60*cos(h*0.0175);
+  y1=60*sin(h*0.0175);
+  x2=5*cos(h*0.0175);
+  y2=5*sin(h*0.0175);
+  x3=20*cos((h+5)*0.0175);
+  y3=20*sin((h+5)*0.0175);
+  x4=20*cos((h-5)*0.0175);
+  y4=20*sin((h-5)*0.0175);
+  
+  myGLCD.drawLine(x1+clockCenterX, y1+clockCenterY, x3+clockCenterX, y3+clockCenterY);
+  myGLCD.drawLine(x3+clockCenterX, y3+clockCenterY, x2+clockCenterX, y2+clockCenterY);
+  myGLCD.drawLine(x2+clockCenterX, y2+clockCenterY, x4+clockCenterX, y4+clockCenterY);
+  myGLCD.drawLine(x4+clockCenterX, y4+clockCenterY, x1+clockCenterX, y1+clockCenterY);
+}
+void printDate()
+{
+  clock_read();
+  myGLCD.setFont(BigFont);
+  myGLCD.setColor(0, 0, 0);
+  myGLCD.setBackColor(255, 255, 255);
+	
+  myGLCD.print(str[dow-1], 256, 8);
+  if (day<10)
+	myGLCD.printNumI(day, 272, 28);
+  else
+	myGLCD.printNumI(day, 264, 28);
+
+  myGLCD.print(str_mon[month-1], 256, 48);
+  myGLCD.printNumI(year, 248, 65);
+}
+void clearDate()
+{
+  myGLCD.setColor(255, 255, 255);
+  myGLCD.fillRect(248, 8, 312, 81);
+}
+void AnalogClock()
+{
+	int x, y;
+	drawDisplay();
+	printDate();
+	while (true)
+	  {
+		if (oldsec != second)
+		{
+		  if ((second == 0) and (minute == 0) and (hour == 0))
+		  {
+			clearDate();
+			printDate();
+		  }
+		  if (second==0)
+		  {
+			drawMin(minute);
+			drawHour(hour, minute);
+		  }
+		  drawSec(second);
+		  oldsec = second;
+		}
+
+		if (myTouch.dataAvailable())
+		{
+		  myTouch.read();
+		  x=myTouch.getX();
+		  y=myTouch.getY();
+		  if (((y>=200) && (y<=239)) && ((x>=260) && (x<=319))) //установка часов
+		  {
+			myGLCD.setColor (255, 0, 0);
+			myGLCD.drawRoundRect(260, 200, 319, 239);
+			setClock();
+		  }
+
+		  if (((y>=140) && (y<=180)) && ((x>=260) && (x<=319))) //Возврат
+		  {
+			myGLCD.setColor (255, 0, 0);
+			myGLCD.drawRoundRect(260, 140, 319, 180);
+			myGLCD.clrScr();
+			myGLCD.setFont(BigFont);
+			break;
+		  }
+		}
+		delay(10);
+		clock_read();
+	  }
+}
 
 void flash_time()                                              // Программа обработчик прерывания 
 { 
@@ -415,8 +693,6 @@ void control_command()
 	}
 }
 
-
-
 void draw_Glav_Menu()
 {
 
@@ -458,9 +734,8 @@ void draw_Glav_Menu()
   myButtons.drawButtons();
 
 }
-// Выбор Меню Тексты меню в строках "txt....."
+
 void swichMenu() // Тексты меню в строках "txt....."
-	
 {
 	 m2=1;                           // Устанивить первую странице меню
 	 while(1) 
@@ -472,7 +747,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 			    pressed_button = myButtons.checkButtons(); // Если нажата - проверить что нажато
 					 if (pressed_button==butX) // Нажата вызов часы
 					      {  
-							// AnalogClock();
+							 AnalogClock();
 							 myGLCD.clrScr();
 							 myButtons.drawButtons(); // Восстановить кнопки
 							 print_up();              // Восстановить верхнюю строку
@@ -951,7 +1226,6 @@ void mem_byte_trans_save()                                      //  Получить таб
 	regBank.set(adr_control_command,0);                         // Завершить программу    
 	delay(200);
 }
-
 
 void setup_mcp()
 {
