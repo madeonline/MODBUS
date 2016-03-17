@@ -177,8 +177,8 @@ int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, but
 	1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26                                    // Разъем B
  }; // 26 x 2 ячеек
  const unsigned int connektN3_default[]    PROGMEM  = { 
-    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,  // Разъем А
-	1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37   // Разъем B
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,  // Разъем А
+	19,18,17,16,15,14,13,12,11,10,9, 8, 7, 6, 5, 4, 3, 2, 1, 37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20   // Разъем B
  }; // 37 x 2 ячеек
  const unsigned int connektN4_default[]    PROGMEM  = { 
     1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,           // Разъем А
@@ -811,7 +811,6 @@ void waitForIt(int x1, int y1, int x2, int y2)
   myGLCD.setColor(255, 255, 255);
   myGLCD.drawRoundRect (x1, y1, x2, y2);
 }
-
 
 void control_command()
 {
@@ -1493,6 +1492,291 @@ void save_default_N4()                                          // Запись заводс
 	delay(100);
 }
 
+void set_komm_mcp(int chanal_a_b, int chanal_n, int chanal_in_out )                     // Программа включения аналового канала
+{
+	int _chanal_a_b      = chanal_a_b;                // Канал входов коммутаторов  А - вход, B - выход.
+	int _chanal_n        = chanal_n;                  // № канала (1- 48).
+	int _chanal_in_out   = chanal_in_out;             // Вариант канала: 1 - сигнал,  2 - подключить на общий(заземлить).
+
+	if (_chanal_a_b == 1)                             // Установка каналов А 
+	{
+		if (_chanal_in_out == 1)                      // Установка аналового канала А  
+		{
+		    mcp_Out1.digitalWrite(8,  HIGH);          // Сброс выбора микросхемы аналового коммутатора
+			mcp_Out1.digitalWrite(9,  HIGH); 
+			mcp_Out1.digitalWrite(10, HIGH); 
+			if (_chanal_n <16)
+			{
+                set_mcp_byte_1a(_chanal_n);
+				Serial.print("A_An0 - 15  ");
+				Serial.println(_chanal_n);
+				mcp_Out1.digitalWrite(8, LOW); 
+			}
+			else if(_chanal_n > 15 && _chanal_n < 32)
+			{
+				set_mcp_byte_1a(_chanal_n - 16);
+				Serial.print("A_An16 - 31  ");
+				Serial.println(_chanal_n);
+				mcp_Out1.digitalWrite(9, LOW); 
+			}
+			else if(_chanal_n > 31 && _chanal_n < 48)
+			{
+				set_mcp_byte_1a(_chanal_n - 32);
+				Serial.print("A_An32 - 47  ");
+				Serial.println(_chanal_n);
+				mcp_Out1.digitalWrite(10, LOW); 
+			}
+
+		}
+		else                              // Заземлить канал А 
+		{
+		    mcp_Out1.digitalWrite(11, HIGH);   // Сброс выбора микросхемы аналового коммутатора
+			mcp_Out1.digitalWrite(12, HIGH); 
+			mcp_Out1.digitalWrite(13, HIGH); 
+			if (_chanal_n <16)
+			{
+				set_mcp_byte_1b(_chanal_n);
+				Serial.print("A_gr0 - 15  ");
+				Serial.println(_chanal_n);
+				mcp_Out1.digitalWrite(11, LOW); 
+			}
+			else if(_chanal_n > 15 && _chanal_n < 32)
+			{
+				set_mcp_byte_1b(_chanal_n - 16);
+				Serial.print("A_gr16 - 31  ");
+				Serial.println(_chanal_n);
+				mcp_Out1.digitalWrite(12, LOW); 
+			}
+			else if(_chanal_n > 31 && _chanal_n < 48)
+			{
+				set_mcp_byte_1b(_chanal_n - 32);
+				Serial.print("A_gr32 - 47  ");
+				Serial.println(_chanal_n);
+				mcp_Out1.digitalWrite(13, LOW); 
+			}
+
+		}
+	}
+	else if(_chanal_a_b == 2)                // Установка каналов В 
+	{
+		    mcp_Out2.digitalWrite(8,  HIGH);  // Сброс выбора микросхемы аналового коммутатора
+			mcp_Out2.digitalWrite(9,  HIGH); 
+			mcp_Out2.digitalWrite(10, HIGH); 
+			if (_chanal_n <16)
+			{
+				set_mcp_byte_2a(_chanal_n);
+				Serial.print("B_An0 - 15  ");
+				Serial.println(_chanal_n);
+				mcp_Out2.digitalWrite(8, LOW); 
+			}
+			else if(_chanal_n > 15 && _chanal_n < 32)
+			{
+				set_mcp_byte_2a(_chanal_n - 16);
+				Serial.print("B_An16 - 31  ");
+				Serial.println(_chanal_n);
+				mcp_Out2.digitalWrite(9, LOW); 
+			}
+			else if(_chanal_n > 31 && _chanal_n < 48)
+			{
+				set_mcp_byte_2a(_chanal_n - 32);
+				Serial.print("B_An32 - 47  ");
+				Serial.println(_chanal_n);
+				mcp_Out2.digitalWrite(10, LOW); 
+			}
+
+		}
+		else                              // Заземлить канал B 
+		{
+		    mcp_Out2.digitalWrite(11, HIGH);   // Сброс выбора микросхемы аналового коммутатора
+			mcp_Out2.digitalWrite(12, HIGH); 
+			mcp_Out2.digitalWrite(13, HIGH); 
+			if (_chanal_n <16)
+			{
+				set_mcp_byte_2b(_chanal_n);
+				Serial.print("B_gr0 - 15  ");
+				Serial.println(_chanal_n);
+				mcp_Out2.digitalWrite(11, LOW); 
+			}
+			else if(_chanal_n > 15 && _chanal_n < 32)
+			{
+				set_mcp_byte_2b(_chanal_n - 16);
+				Serial.print("B_gr16 - 31  ");
+				Serial.println(_chanal_n);
+				mcp_Out2.digitalWrite(12, LOW); 
+			}
+			else if(_chanal_n > 31 && _chanal_n < 48)
+			{
+				set_mcp_byte_2b(_chanal_n - 32);
+				Serial.print("B_gr32 - 47  ");
+				Serial.println(_chanal_n);
+				mcp_Out2.digitalWrite(13, LOW); 
+			}
+	}
+}
+void set_mcp_byte_1a(int set_byte)
+{
+	int _chanal_n = set_byte;
+
+		if(bitRead(_chanal_n, 0) == 1)      // Установить бит 0
+		{
+			mcp_Out1.digitalWrite(0, HIGH);
+		}
+		else
+		{
+            mcp_Out1.digitalWrite(0, LOW);
+		}
+
+		if(bitRead(_chanal_n, 1) == 1)      // Установить бит 1
+		{
+			mcp_Out1.digitalWrite(1, HIGH);
+		}
+		else
+		{
+            mcp_Out1.digitalWrite(1, LOW);
+		}
+
+		if(bitRead(_chanal_n, 2) == 1)      // Установить бит 2
+		{
+			mcp_Out1.digitalWrite(2, HIGH);
+		}
+		else
+		{
+            mcp_Out1.digitalWrite(2, LOW);
+		}
+
+
+		if(bitRead(_chanal_n, 3) == 1)      // Установить бит 3
+		{
+			mcp_Out1.digitalWrite(3, HIGH);
+		}
+		else
+		{
+            mcp_Out1.digitalWrite(3, LOW);
+		}
+}
+void set_mcp_byte_1b(int set_byte)
+{
+	int _chanal_n = set_byte;
+
+		if(bitRead(_chanal_n, 0) == 1)      // Установить бит 0
+		{
+			mcp_Out1.digitalWrite(4, HIGH);
+		}
+		else
+		{
+            mcp_Out1.digitalWrite(4, LOW);
+		}
+
+		if(bitRead(_chanal_n, 1) == 1)      // Установить бит 1
+		{
+			mcp_Out1.digitalWrite(5, HIGH);
+		}
+		else
+		{
+            mcp_Out1.digitalWrite(5, LOW);
+		}
+
+		if(bitRead(_chanal_n, 2) == 1)      // Установить бит 2
+		{
+			mcp_Out1.digitalWrite(6, HIGH);
+		}
+		else
+		{
+            mcp_Out1.digitalWrite(6, LOW);
+		}
+
+
+		if(bitRead(_chanal_n, 3) == 1)      // Установить бит 3
+		{
+			mcp_Out1.digitalWrite(7, HIGH);
+		}
+		else
+		{
+            mcp_Out1.digitalWrite(7, LOW);
+		}
+}
+void set_mcp_byte_2a(int set_byte)
+{
+	int _chanal_n = set_byte;
+
+		if(bitRead(_chanal_n, 0) == 1)      // Установить бит 0
+		{
+			mcp_Out2.digitalWrite(0, HIGH);
+		}
+		else
+		{
+            mcp_Out2.digitalWrite(0, LOW);
+		}
+
+		if(bitRead(_chanal_n, 1) == 1)      // Установить бит 1
+		{
+			mcp_Out2.digitalWrite(1, HIGH);
+		}
+		else
+		{
+            mcp_Out2.digitalWrite(1, LOW);
+		}
+
+		if(bitRead(_chanal_n, 2) == 1)      // Установить бит 2
+		{
+			mcp_Out2.digitalWrite(2, HIGH);
+		}
+		else
+		{
+            mcp_Out2.digitalWrite(2, LOW);
+		}
+
+
+		if(bitRead(_chanal_n, 3) == 1)      // Установить бит 3
+		{
+			mcp_Out2.digitalWrite(3, HIGH);
+		}
+		else
+		{
+            mcp_Out2.digitalWrite(3, LOW);
+		}
+}
+void set_mcp_byte_2b(int set_byte)
+{
+	int _chanal_n = set_byte;
+
+		if(bitRead(_chanal_n, 0) == 1)      // Установить бит 0
+		{
+			mcp_Out2.digitalWrite(4, HIGH);
+		}
+		else
+		{
+            mcp_Out2.digitalWrite(4, LOW);
+		}
+
+		if(bitRead(_chanal_n, 1) == 1)      // Установить бит 1
+		{
+			mcp_Out2.digitalWrite(5, HIGH);
+		}
+		else
+		{
+            mcp_Out2.digitalWrite(5, LOW);
+		}
+
+		if(bitRead(_chanal_n, 2) == 1)      // Установить бит 2
+		{
+			mcp_Out2.digitalWrite(6, HIGH);
+		}
+		else
+		{
+            mcp_Out2.digitalWrite(6, LOW);
+		}
+
+
+		if(bitRead(_chanal_n, 3) == 1)      // Установить бит 3
+		{
+			mcp_Out2.digitalWrite(7, HIGH);
+		}
+		else
+		{
+            mcp_Out2.digitalWrite(7, LOW);
+		}
+}
 void mem_byte_trans_read()                                      //  Чтение таблиц из EEPROM для передачи в ПК
 {
 	unsigned int _adr_reg = regBank.get(40005)+40000;           //  Адрес блока регистров для передачи в ПК таблиц.
@@ -1564,8 +1848,8 @@ void setup_mcp()
   mcp_Out2.pinMode(15, OUTPUT);                    //  2E8   Свободен
   for(int i=0;i<16;i++)
   {
-	  mcp_Out1.digitalWrite(i, LOW); 
-	  mcp_Out2.digitalWrite(i, LOW); 
+	  mcp_Out1.digitalWrite(i, HIGH); 
+	  mcp_Out2.digitalWrite(i, HIGH); 
   }
 }
 void setup_port()
@@ -1758,6 +2042,7 @@ void setup()
 	digitalWrite(ledPin13, HIGH);                       // 
 	Serial.println(" ");                                //
 	Serial.println("System initialization OK!.");       // Информация о завершении настройки
+	//set_komm_mcp(2,44,2);
 }
 
 void loop()
