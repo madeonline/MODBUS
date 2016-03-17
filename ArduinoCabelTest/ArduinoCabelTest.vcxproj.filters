@@ -16,9 +16,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ArduinoCabelTest.ino" />
+    <None Include="setTimeDate.ino" />
+    <None Include="utils.pde" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Visual Micro\.ArduinoCabelTest.vsarduino.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="AnalogBinLogger.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

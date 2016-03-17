@@ -127,12 +127,26 @@ void set_mcp_byte_2b(int set_byte);
 void mem_byte_trans_read();
 void mem_byte_trans_save();
 void setup_mcp();
-void setup_port();
+void setup_sound_port();
 void test_cabel_N1();
 void test_cabel_N2();
 void test_cabel_N3();
 void test_cabel_N4();
 void test_panel_N1();
+void Draw_menu_Osc();
+void menu_Oscilloscope();
+void trigger();
+void oscilloscope();
+void buttons_right();
+void buttons_right_time();
+void scale_time();
+void buttons_channel();
+void chench_Channel();
+void DrawGrid();
+void DrawGrid1();
+void touch_osc();
+void switch_trig(int trig_x);
+void trig_min_max(int trig_x);
 void setup_regModbus();
 //
 //
@@ -149,6 +163,7 @@ byte calcDOW(byte d, byte m, int y);
 void waitForTouchRelease();
 
 #include <ArduinoCabelTest.ino>
+#include <AnalogBinLogger.h>
 #include <setTimeDate.ino>
 #include <utils.pde>
 #endif
