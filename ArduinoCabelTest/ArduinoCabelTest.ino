@@ -2077,7 +2077,7 @@ void trigger()
 void oscilloscope()  // просмотр в реальном времени на большой скорости
 {
 	uint32_t bgnBlock, endBlock;
-//	block_t block[BUFFER_BLOCK_COUNT];
+	block_t block[BUFFER_BLOCK_COUNT];
 	myGLCD.clrScr();
 	myGLCD.setBackColor( 0, 0, 0);
 	delay(500);
@@ -2443,7 +2443,7 @@ void buttons_right()  //  Правые кнопки  oscilloscope
 
 void buttons_right_time()
 {
-	/*
+	
 	myGLCD.setColor(0, 0, 255);
 	myGLCD.fillRoundRect (250, 1, 318, 40);
 	myGLCD.fillRoundRect (250, 45, 318, 85);
@@ -2487,7 +2487,7 @@ void buttons_right_time()
 	if (mode1 == 2){ koeff_h = 1.939*4; myGLCD.print("0.25", 275, 110);}
 	if (mode1 == 3){ koeff_h = 0.969*4; myGLCD.print("0.1 ", 275, 110);}
 	scale_time();   // вывод цифровой шкалы
-	*/
+	
 }
 
 
