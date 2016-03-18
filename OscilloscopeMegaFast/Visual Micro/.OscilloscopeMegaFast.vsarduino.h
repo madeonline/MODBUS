@@ -97,4 +97,5 @@ void setup(void);
 void loop(void);
 
 #include <OscilloscopeMegaFast.ino>
+#include <AnalogBinLogger.h>
 #endif
