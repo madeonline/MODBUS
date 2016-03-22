@@ -187,8 +187,7 @@ volatile bool timerError = false;
 volatile bool timerFlag = false;
 //------------------------------------------------------------------------------
 // ADC done interrupt.
-ISR(ADC_vect) 
-{
+ISR(ADC_vect) {
   // Read ADC data.
 #if RECORD_EIGHT_BITS
   uint8_t d = ADCH;
@@ -197,8 +196,7 @@ ISR(ADC_vect)
   uint16_t d = ADC;
 #endif  // RECORD_EIGHT_BITS
 
-  if (isrBufNeeded && emptyHead == emptyTail) 
-  {
+  if (isrBufNeeded && emptyHead == emptyTail) {
     // no buffers - count overrun
     if (isrOver < 0XFFFF) isrOver++;
     
@@ -207,48 +205,42 @@ ISR(ADC_vect)
     return;
   }
   // Start ADC
-  if (PIN_COUNT > 1) 
-	  {
-		ADMUX = adcmux[adcindex];
-		ADCSRB = adcsrb[adcindex];
-		ADCSRA = adcsra[adcindex];
-		if (adcindex == 0) timerFlag = false;
-		adcindex =  adcindex < (PIN_COUNT - 1) ? adcindex + 1 : 0;
-	  }
-  else 
-	  {
-		timerFlag = false;
-	  }
+  if (PIN_COUNT > 1) {
+    ADMUX = adcmux[adcindex];
+    ADCSRB = adcsrb[adcindex];
+    ADCSRA = adcsra[adcindex];
+    if (adcindex == 0) timerFlag = false;
+    adcindex =  adcindex < (PIN_COUNT - 1) ? adcindex + 1 : 0;
+  } else {
+    timerFlag = false;
+  }
   // Check for buffer needed.
-  if (isrBufNeeded) 
-	  {   
-		// Remove buffer from empty queue.
-		isrBuf = emptyQueue[emptyTail];
-		emptyTail = queueNext(emptyTail);
-		isrBuf->count = 0;
-		isrBuf->overrun = isrOver;
-		isrBufNeeded = false;    
-	  }
+  if (isrBufNeeded) {   
+    // Remove buffer from empty queue.
+    isrBuf = emptyQueue[emptyTail];
+    emptyTail = queueNext(emptyTail);
+    isrBuf->count = 0;
+    isrBuf->overrun = isrOver;
+    isrBufNeeded = false;    
+  }
   // Store ADC data.
   isrBuf->data[isrBuf->count++] = d;
 
   // Check for buffer full.
-  if (isrBuf->count >= PIN_COUNT*SAMPLES_PER_BLOCK) 
-	  {
-		// Put buffer isrIn full queue.  
-		uint8_t tmp = fullHead;  // Avoid extra fetch of volatile fullHead.
-		fullQueue[tmp] = (block_t*)isrBuf;
-		fullHead = queueNext(tmp);
+  if (isrBuf->count >= PIN_COUNT*SAMPLES_PER_BLOCK) {
+    // Put buffer isrIn full queue.  
+    uint8_t tmp = fullHead;  // Avoid extra fetch of volatile fullHead.
+    fullQueue[tmp] = (block_t*)isrBuf;
+    fullHead = queueNext(tmp);
    
-		// Set buffer needed and clear overruns.
-		isrBufNeeded = true;
-		isrOver = 0;
-	  }
+    // Set buffer needed and clear overruns.
+    isrBufNeeded = true;
+    isrOver = 0;
+  }
 }
 //------------------------------------------------------------------------------
 // timer1 interrupt to clear OCF1B
-ISR(TIMER1_COMPB_vect) 
-{
+ISR(TIMER1_COMPB_vect) {
   // Make sure ADC ISR responded to timer event.
   if (timerFlag) timerError = true;
   timerFlag = true;
@@ -257,15 +249,13 @@ ISR(TIMER1_COMPB_vect)
 // Error messages stored in flash.
 #define error(msg) error_P(PSTR(msg))
 //------------------------------------------------------------------------------
-void error_P(const char* msg) 
-{
+void error_P(const char* msg) {
   sd.errorPrint_P(msg);
   fatalBlink();
 }
 //------------------------------------------------------------------------------
 //
-void fatalBlink() 
-{
+void fatalBlink() {
   while (true) {
     if (ERROR_LED_PIN >= 0) {
       digitalWrite(ERROR_LED_PIN, HIGH);
@@ -281,18 +271,15 @@ void fatalBlink()
 #endif
 //------------------------------------------------------------------------------
 // initialize ADC and timer1
-void adcInit(metadata_t* meta) 
-{
+void adcInit(metadata_t* meta) {
   uint8_t adps;  // prescaler bits for ADCSRA 
   uint32_t ticks = F_CPU*SAMPLE_INTERVAL + 0.5;  // Sample interval cpu cycles.
 
-  if (ADC_REF & ~((1 << REFS0) | (1 << REFS1))) 
-  {
+  if (ADC_REF & ~((1 << REFS0) | (1 << REFS1))) {
     error("Invalid ADC reference");
   }
 #ifdef ADC_PRESCALER
-  if (ADC_PRESCALER > 7 || ADC_PRESCALER < 2) 
-  {
+  if (ADC_PRESCALER > 7 || ADC_PRESCALER < 2) {
     error("Invalid ADC prescaler");
   }
   adps = ADC_PRESCALER;
@@ -301,14 +288,12 @@ void adcInit(metadata_t* meta)
   int32_t adcCycles = (ticks - ISR_TIMER0)/PIN_COUNT;
                       - (PIN_COUNT > 1 ? ISR_SETUP_ADC : 0);
                       
-  for (adps = 7; adps > 0; adps--) 
-  {
+  for (adps = 7; adps > 0; adps--) {
      if (adcCycles >= (MIN_ADC_CYCLES << adps)) break;
   }
 #endif  // ADC_PRESCALER
   meta->adcFrequency = F_CPU >> adps;
-  if (meta->adcFrequency > (RECORD_EIGHT_BITS ? 2000000 : 1000000)) 
-  {
+  if (meta->adcFrequency > (RECORD_EIGHT_BITS ? 2000000 : 1000000)) {
     error("Sample Rate Too High");
   }
 #if ROUND_SAMPLE_INTERVAL
@@ -318,37 +303,34 @@ void adcInit(metadata_t* meta)
   ticks <<= adps;
 #endif  // ROUND_SAMPLE_INTERVAL
 
-  if (PIN_COUNT > sizeof(meta->pinNumber)/sizeof(meta->pinNumber[0])) 
-  {
+  if (PIN_COUNT > sizeof(meta->pinNumber)/sizeof(meta->pinNumber[0])) {
     error("Too many pins");
   }
   meta->pinCount = PIN_COUNT;
   meta->recordEightBits = RECORD_EIGHT_BITS;
   
-  for (int i = 0; i < PIN_COUNT; i++) 
-  {
-		uint8_t pin = PIN_LIST[i];
-		if (pin >= NUM_ANALOG_INPUTS) error("Invalid Analog pin number");
-		meta->pinNumber[i] = pin;
+  for (int i = 0; i < PIN_COUNT; i++) {
+    uint8_t pin = PIN_LIST[i];
+    if (pin >= NUM_ANALOG_INPUTS) error("Invalid Analog pin number");
+    meta->pinNumber[i] = pin;
     
-	   // Set ADC reference and low three bits of analog pin number.   
-		adcmux[i] = (pin & 7) | ADC_REF;
-		if (RECORD_EIGHT_BITS) adcmux[i] |= 1 << ADLAR;
+   // Set ADC reference and low three bits of analog pin number.   
+    adcmux[i] = (pin & 7) | ADC_REF;
+    if (RECORD_EIGHT_BITS) adcmux[i] |= 1 << ADLAR;
     
-		// If this is the first pin, trigger on timer/counter 1 compare match B.
-		adcsrb[i] = i == 0 ? (1 << ADTS2) | (1 << ADTS0) : 0;
-	#ifdef MUX5
-		if (pin > 7) adcsrb[i] |= (1 << MUX5);
-	#endif  // MUX5
-		adcsra[i] = (1 << ADEN) | (1 << ADIE) | adps;
-		adcsra[i] |= i == 0 ? 1 << ADATE : 1 << ADSC;
+    // If this is the first pin, trigger on timer/counter 1 compare match B.
+    adcsrb[i] = i == 0 ? (1 << ADTS2) | (1 << ADTS0) : 0;
+#ifdef MUX5
+    if (pin > 7) adcsrb[i] |= (1 << MUX5);
+#endif  // MUX5
+    adcsra[i] = (1 << ADEN) | (1 << ADIE) | adps;
+    adcsra[i] |= i == 0 ? 1 << ADATE : 1 << ADSC;
   }
 
   // Setup timer1
   TCCR1A = 0;
   uint8_t tshift;
-  if (ticks < 0X10000) 
-  {
+  if (ticks < 0X10000) {
     // no prescale, CTC mode
     TCCR1B = (1 << WGM13) | (1 << WGM12) | (1 << CS10);
     tshift = 0;
@@ -386,8 +368,7 @@ void adcInit(metadata_t* meta)
   meta->cpuFrequency = F_CPU;
   float sampleRate = (float)meta->cpuFrequency/meta->sampleInterval;
   Serial.print(F("Sample pins:"));
-  for (int i = 0; i < meta->pinCount; i++) 
-  {
+  for (int i = 0; i < meta->pinCount; i++) {
     Serial.print(' ');
     Serial.print(meta->pinNumber[i], DEC);
   }
@@ -403,8 +384,7 @@ void adcInit(metadata_t* meta)
 }
 //------------------------------------------------------------------------------
 // enable ADC and timer1 interrupts
-void adcStart() 
-{
+void adcStart() {
   // initialize ISR
   isrBufNeeded = true;
   isrOver = 0;
@@ -426,15 +406,13 @@ void adcStart()
   TIMSK1 = 1 << OCIE1B;
 }
 //------------------------------------------------------------------------------
-void adcStop() 
-{
+void adcStop() {
   TIMSK1 = 0;
   ADCSRA = 0;
 }
 //------------------------------------------------------------------------------
 // Convert binary file to CSV file.
-void binaryToCsv() 
-{
+void binaryToCsv() {
   uint8_t lastPct = 0;
   block_t buf;
   metadata_t* pm;
@@ -503,8 +481,7 @@ void binaryToCsv()
 }
 //------------------------------------------------------------------------------
 // read data file and check for overruns
-void checkOverrun() 
-{
+void checkOverrun() {
   bool headerPrinted = false;
   block_t buf;
   uint32_t bgnBlock, endBlock;
@@ -549,8 +526,7 @@ void checkOverrun()
 }
 //------------------------------------------------------------------------------
 // dump data file to Serial
-void dumpData() 
-{
+void dumpData() {
   block_t buf;
   if (!binFile.isOpen()) {
     Serial.println(F("No current binary file"));
@@ -584,8 +560,7 @@ void dumpData()
 // log data
 // max number of blocks to erase per erase call
 uint32_t const ERASE_SIZE = 262144L;
-void logData() 
-{
+void logData() {
   uint32_t bgnBlock, endBlock;
   
   // Allocate extra buffer space.
@@ -691,6 +666,10 @@ void logData()
       if (!sd.card()->writeData((uint8_t*)pBlock)) {
         error("write data failed");
       }
+	   Serial.print(pBlock->count);
+	   Serial.print(" - ");
+	   Serial.println(pBlock->data[0]);
+
       usec = micros() - usec;
       t1 = millis();
       if (usec > maxLatency) maxLatency = usec;

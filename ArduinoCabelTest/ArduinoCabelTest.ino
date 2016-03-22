@@ -222,36 +222,33 @@ int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, but
 
  int   temp_buffer[40] ;                                                                // Буфер хранения временной информации
  
- const unsigned int connektN1_default[]    PROGMEM  = { 
-    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,                                                     // Разъем А
-	1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20                                                      // Разъем B
+ const unsigned char connektN1_default[]    PROGMEM  = { 
+   20,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,                                                     // Разъем А
+	  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20                                                      // Разъем B
  }; // 20 x 2 ячеек
- const unsigned int connektN2_default[]    PROGMEM  = { 
-    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,                                   // Разъем А
-	1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26                                    // Разъем B
+ const unsigned char connektN2_default[]    PROGMEM  = { 
+    26,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,                                   // Разъем А
+	   1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26                                    // Разъем B
  }; // 26 x 2 ячеек
- const unsigned int connektN3_default[]    PROGMEM  = { 
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,  // Разъем А
-	19,18,17,16,15,14,13,12,11,10,9, 8, 7, 6, 5, 4, 3, 2, 1, 37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20   // Разъем B
+ const unsigned char connektN3_default[]    PROGMEM  = { 
+   37, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,  // Разъем А
+	   19,18,17,16,15,14,13,12,11,10,9, 8, 7, 6, 5, 4, 3, 2, 1, 37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20   // Разъем B
  }; // 37 x 2 ячеек
- const unsigned int connektN4_default[]    PROGMEM  = { 
-    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,           // Разъем А
-	1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34            // Разъем B
+ const unsigned char connektN4_default[]    PROGMEM  = { 
+   34, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,           // Разъем А
+	   1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34            // Разъем B
  }; // 34 x 2 ячеек
 
  //++++++++++++++++++ Вариант № 1 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  const unsigned int adr_memN1_1      PROGMEM       =    100;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №1А, №1В
- const unsigned int adr_memN2_1      PROGMEM       =    141;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №2А, №2В
- const unsigned int adr_memN3_1      PROGMEM       =    194;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №3А, №3В
- const unsigned int adr_memN4_1      PROGMEM       =    269;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №4А, №4В
+ const unsigned int adr_memN1_2      PROGMEM       =    142;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №2А, №2В
+ const unsigned int adr_memN1_3      PROGMEM       =    196;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №3А, №3В
+ const unsigned int adr_memN1_4      PROGMEM       =    272;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №4А, №4В
  //++++++++++++++++++ Вариант № 2 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- const unsigned int adr_memN1_2      PROGMEM       =    300;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №1А, №1В
- const unsigned int adr_memN2_2      PROGMEM       =    341;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №2А, №2В
- const unsigned int adr_memN3_2      PROGMEM       =    394;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №3А, №3В
- const unsigned int adr_memN4_2      PROGMEM       =    469;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №4А, №4В
-
-
-
+ const unsigned int adr_memN2_1      PROGMEM       =    400;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №1А, №1В
+ const unsigned int adr_memN2_2      PROGMEM       =    442;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №2А, №2В
+ const unsigned int adr_memN2_3      PROGMEM       =    496;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №3А, №3В
+ const unsigned int adr_memN2_4      PROGMEM       =    572;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №4А, №4В
 
 
 //==========================================================================================================================
@@ -936,16 +933,16 @@ void control_command()
 				 test_panel_N1();             // Программа проверки панели гарнитур
 				 break;
 			case 6:	
-				 save_default_N1();           // Записать таблицу проверки №1 по умолчанию
+				 save_default_pc();           // Записать таблицу проверки № по умолчанию
 				 break;
 			case 7:
-				 save_default_N1();           // Записать таблицу проверки №2 по умолчанию
+				
 				 break;
 			case 8:	
-				 save_default_N1();           // Записать таблицу проверки №3 по умолчанию
+				
 				 break;
 			case 9:
-				 save_default_N1();           // Записать таблицу проверки №4 по умолчанию
+				 
 				 break;
 			case 10:
 				 set_rezistor1();             // Установить уровень сигнала резистором №1
@@ -1506,53 +1503,117 @@ void set_rezistor2()
 	regBank.set(adr_control_command,0);
 }
 
-void save_default_N1()                                          // Запись заводских установок таблицы разъемов №1
+void save_default(byte adrN_eeprom)                                          // Запись заводских установок таблицы разъемов №1
 {
-	int _step_mem = 20*2;                                         // Длина блока с таблицы
-	byte _u_konnekt  = 0;                                       // Временное хранения содержимого регистра.
-    for (int i = 0; i < _step_mem;i++)                    
-		{
-			_u_konnekt = pgm_read_word_near(connektN1_default+i);
-			i2c_eeprom_write_byte(deviceaddress,i+adr_memN1_1, _u_konnekt); 
-		}
-	regBank.set(adr_control_command,0);                        // Завершить программу    
-	delay(100);
+	byte _u_konnekt     = 0;                                                 // Временное хранения содержимого регистра.
+    int _step_mem       = 0;                                                 // Длина блока с таблицы
+	int adr_memN        = 0;
+	int connekt_default = 0;                                                 // Адрес в постоянной памяти
+		switch (adrN_eeprom)
+		   {
+			case 1:
+				 adr_memN = adr_memN1_1;                                     // Адрес блока EEPROM № 1 
+				 _step_mem = (pgm_read_byte_near(connektN1_default)*2);      // Длина блока с таблицы
+				 for (int i = 1; i < _step_mem;i++)                    
+					{
+					  _u_konnekt = pgm_read_byte_near(connektN1_default+i);
+					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
+					}
+				 break;
+			case 2:
+				 adr_memN = adr_memN1_2;                                     // Адрес блока EEPROM № 2 
+				 _step_mem = (pgm_read_byte_near(connektN2_default)*2);      // Длина блока с таблицы
+				 for (int i = 1; i < _step_mem;i++)                    
+					{
+					  _u_konnekt = pgm_read_byte_near(connektN2_default+i);
+					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
+					}
+				 break;
+			case 3:
+				 adr_memN = adr_memN1_3;                                     // Адрес блока EEPROM № 3
+				 _step_mem = (pgm_read_byte_near(connektN3_default)*2);      // Длина блока с таблицы
+				 for (int i = 1; i < _step_mem;i++)                    
+					{
+					  _u_konnekt = pgm_read_byte_near(connektN3_default+i);
+					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
+					}
+				 break;
+			case 4:
+				 adr_memN = adr_memN1_4;                                     // Адрес блока EEPROM № 4
+				 _step_mem = (pgm_read_byte_near(connektN4_default)*2);      // Длина блока с таблицы
+				 for (int i = 1; i < _step_mem;i++)                    
+					{
+					  _u_konnekt = pgm_read_byte_near(connektN4_default+i);
+					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
+					}
+				 break;
+			default:
+				 adr_memN = adr_memN1_1;                                     // Адрес блока EEPROM № 1 
+				 _step_mem = (pgm_read_byte_near(connektN1_default)*2);      // Длина блока с таблицы
+				 for (int i = 1; i < _step_mem;i++)                    
+					{
+					  _u_konnekt = pgm_read_byte_near(connektN1_default+i);
+					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
+					}
+				 break;
+		  }
 }
-void save_default_N2()                                          // Запись заводских установок таблицы разъемов №1
+void save_default_pc()                                                       // Запись заводских установок таблицы разъемов №1
 {
-	int _step_mem = 26*2;                                         // Длина блока с таблицы
-	byte _u_konnekt  = 0;                                       // Временное хранения содержимого регистра.
-    for (int i = 0; i < _step_mem;i++)                    
-		{
-			_u_konnekt = pgm_read_word_near(connektN2_default+i);
-			i2c_eeprom_write_byte(deviceaddress,i+adr_memN2_1, _u_konnekt); 
-		}
-	regBank.set(adr_control_command,0);                        // Завершить программу    
-	delay(100);
-}
-void save_default_N3()                                          // Запись заводских установок таблицы разъемов №1
-{
-	int _step_mem = 37*2;                                         // Длина блока с таблицы
-	byte _u_konnekt  = 0;                                       // Временное хранения содержимого регистра.
-    for (int i = 0; i < _step_mem;i++)                    
-		{
-			_u_konnekt = pgm_read_word_near(connektN3_default+i);
-			i2c_eeprom_write_byte(deviceaddress,i+adr_memN3_1, _u_konnekt); 
-		}
-	regBank.set(adr_control_command,0);                        // Завершить программу    
-	delay(100);
-}
-void save_default_N4()                                          // Запись заводских установок таблицы разъемов №1
-{
-	int _step_mem = 34*2;                                         // Длина блока с таблицы
-	byte _u_konnekt  = 0;                                       // Временное хранения содержимого регистра.
-    for (int i = 0; i < _step_mem;i++)                    
-		{
-			_u_konnekt = pgm_read_word_near(connektN4_default+i);
-			i2c_eeprom_write_byte(deviceaddress,i+adr_memN4_1, _u_konnekt); 
-		}
-	regBank.set(adr_control_command,0);                        // Завершить программу    
-	delay(100);
+	int _step_mem       = 0;                                                 // Длина блока с таблицы
+	byte _u_konnekt     = 0;                                                 // Временное хранения содержимого регистра.
+    int adr_memN        = 0;
+	int adrN_eeprom     = regBank.get(40008);                                // Получить номер таблицы из регистра
+
+		switch (adrN_eeprom)
+		   {
+			case 1:
+				 adr_memN = adr_memN1_1;                                     // Адрес блока EEPROM № 1 
+				 _step_mem = (pgm_read_byte_near(connektN1_default)*2);      // Длина блока с таблицы
+				 for (int i = 1; i < _step_mem;i++)                    
+					{
+					  _u_konnekt = pgm_read_byte_near(connektN1_default+i);
+					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
+					}
+				 break;
+			case 2:
+				 adr_memN = adr_memN1_2;                                     // Адрес блока EEPROM № 2 
+				 _step_mem = (pgm_read_byte_near(connektN2_default)*2);      // Длина блока с таблицы
+				 for (int i = 1; i < _step_mem;i++)                    
+					{
+					  _u_konnekt = pgm_read_byte_near(connektN2_default+i);
+					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
+					}
+				 break;
+			case 3:
+				 adr_memN = adr_memN1_3;                                     // Адрес блока EEPROM № 3
+				 _step_mem = (pgm_read_byte_near(connektN3_default)*2);      // Длина блока с таблицы
+				 for (int i = 1; i < _step_mem;i++)                    
+					{
+					  _u_konnekt = pgm_read_byte_near(connektN3_default+i);
+					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
+					}
+				 break;
+			case 4:
+				 adr_memN = adr_memN1_4;                                     // Адрес блока EEPROM № 4
+				 _step_mem = (pgm_read_byte_near(connektN4_default)*2);      // Длина блока с таблицы
+				 for (int i = 1; i < _step_mem;i++)                    
+					{
+					  _u_konnekt = pgm_read_byte_near(connektN4_default+i);
+					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
+					}
+				 break;
+			default:
+				 adr_memN = adr_memN1_1;                                     // Адрес блока EEPROM № 1 
+				 _step_mem = (pgm_read_byte_near(connektN1_default)*2);      // Длина блока с таблицы
+			 	 for (int i = 1; i < _step_mem;i++)                    
+					{
+					  _u_konnekt = pgm_read_byte_near(connektN1_default+i);
+					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
+					}
+				 break;
+		  }
+	regBank.set(adr_control_command,0);                                      // Завершить программу    
 }
 
 void set_komm_mcp(int chanal_a_b, int chanal_n, int chanal_in_out )                     // Программа включения аналового канала
@@ -2077,7 +2138,7 @@ void trigger()
 void oscilloscope()  // просмотр в реальном времени на большой скорости
 {
 	uint32_t bgnBlock, endBlock;
-	block_t block[BUFFER_BLOCK_COUNT];
+//	block_t block[BUFFER_BLOCK_COUNT];
 	myGLCD.clrScr();
 	myGLCD.setBackColor( 0, 0, 0);
 	delay(500);
@@ -2933,7 +2994,7 @@ void setup_regModbus()
 	regBank.add(40005);  //  Адрес блока регистров для передачи в ПК таблиц.
 	regBank.add(40006);  //  Адрес блока памяти для передачи в ПК таблиц.
 	regBank.add(40007);  //  Адрес длины блока таблиц
-	regBank.add(40008);  //  
+	regBank.add(40008);  //  Номер блока таблиц по умолчанию
 	regBank.add(40009);  //  
 
 	regBank.add(40010);  //  Регистры временного хранения для передачи таблицы
