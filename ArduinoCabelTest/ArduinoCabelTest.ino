@@ -100,13 +100,13 @@ const unsigned int adr_reg_count_err      PROGMEM       = 40002; // Адрес счетчи
 //-------------------------------------------------------------------------------------------------------
 //+++++++++++++++++++++++++++ Порты управления платой Arduino Nano +++++++++++++++++++++++++++++++
 
-#define  kn1Nano   A0                                            // Назначение кнопок управления Nano  A0
-#define  kn2Nano   A1                                            // Назначение кнопок управления Nano  A1
-#define  kn3Nano   A2                                            // Назначение кнопок управления Nano  A2
-#define  kn4Nano   A3                                            // Назначение кнопок управления Nano  A3
+#define  kn1Nano   A1                                            // Назначение кнопок управления Nano  
+#define  kn2Nano   A2                                            // Назначение кнопок управления Nano  A1
+#define  kn3Nano   A3                                            // Назначение кнопок управления Nano  A2
+#define  kn4Nano   A4                                            // Назначение кнопок управления Nano  A3
 
-#define  kn5Nano   A4                                            // Назначение кнопок управления Nano  A4
-#define  kn6Nano   A5                                            // Назначение кнопок управления Nano  A5
+#define  kn5Nano   A5                                            // Назначение кнопок управления Nano  A4
+#define  kn6Nano   A6                                            // Назначение кнопок управления Nano  A5
 
 
 
@@ -1989,10 +1989,10 @@ void setup_sound_port()
 	pinMode(kn5Nano, OUTPUT);  
 	pinMode(kn6Nano, OUTPUT);  
 
-	digitalWrite(kn1Nano, HIGH);                        // 
+	digitalWrite(kn1Nano, LOW);                        // 
 	digitalWrite(kn2Nano, HIGH);                        //
 	digitalWrite(kn3Nano, HIGH);                        //
-	digitalWrite(kn4Nano, LOW);                         // 
+	digitalWrite(kn4Nano, HIGH);                         // 
 	digitalWrite(kn5Nano, HIGH);                        // 
 	digitalWrite(kn6Nano, HIGH);                        //
 }
@@ -3068,6 +3068,8 @@ void setup()
 	Serial1.begin(115200);                                 // Подключение к 
 	slave.setSerial(3,57600);                              // Подключение к протоколу MODBUS компьютера Serial3 
 	Serial2.begin(115200);                                 // Подключение к 
+	digitalWrite(ledPin12, HIGH);                          // 
+	digitalWrite(ledPin13, LOW);                           // 
 	Wire.begin();
 	if (!RTC.begin())                                      // Настройка часов 
 		{
@@ -3081,7 +3083,7 @@ void setup()
 	Serial.println(" ");
 	set_time();
 	serial_print_date();
-	pinMode(ledPin13, OUTPUT);   
+	//pinMode(ledPin13, OUTPUT);   
 	Wire.begin();
 	setup_sound_port();
 	setup_mcp();                                          // Настроить порты расширения  
@@ -3108,7 +3110,8 @@ void setup()
 
 	draw_Glav_Menu();
 	wait_time_Old =  millis();
-	digitalWrite(ledPin13, HIGH);                       // 
+	digitalWrite(ledPin13, HIGH);                          // 
+	digitalWrite(ledPin12, LOW);                           // 
 	Serial.println(" ");                                //
 	Serial.println("System initialization OK!.");       // Информация о завершении настройки
 	//set_komm_mcp(2,44,2);
