@@ -18,9 +18,9 @@
 // calibration sketch anyway.
 
 // 3,2"
-#define CAL_X 0x00378F66UL
-#define CAL_Y 0x03C34155UL
-#define CAL_S 0x000EF13FUL
+//#define CAL_X 0x00378F66UL
+//#define CAL_Y 0x03C34155UL
+//#define CAL_S 0x000EF13FUL
 // 7"
 
 //#define CAL_X 0x001BCFA9UL
@@ -28,6 +28,6 @@
 //#define CAL_S 0x8031F1DFUL
 
 // 2.4"
-//#define CAL_X 0x0398C15FUL
-//#define CAL_Y 0x03970246UL
-//#define CAL_S 0x000EF13FUL
+#define CAL_X 0x0398C15FUL
+#define CAL_Y 0x03970246UL
+#define CAL_S 0x000EF13FUL
