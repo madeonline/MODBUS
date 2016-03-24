@@ -100,13 +100,13 @@ const unsigned int adr_reg_count_err      PROGMEM       = 40002; // Адрес счетчи
 //-------------------------------------------------------------------------------------------------------
 //+++++++++++++++++++++++++++ Порты управления платой Arduino Nano +++++++++++++++++++++++++++++++
 
-#define  kn1Nano   A1                                            // Назначение кнопок управления Nano  
-#define  kn2Nano   A2                                            // Назначение кнопок управления Nano  A1
-#define  kn3Nano   A3                                            // Назначение кнопок управления Nano  A2
-#define  kn4Nano   A4                                            // Назначение кнопок управления Nano  A3
+#define  kn1Nano   A0                                            // Назначение кнопок управления Nano  A0  pulse    импульс
+#define  kn2Nano   A1                                            // Назначение кнопок управления Nano  A1  triangle треугольник
+#define  kn3Nano   A2                                            // Назначение кнопок управления Nano  A2  saw      пила
+#define  kn4Nano   A3                                            // Назначение кнопок управления Nano  A3  sine     синус
 
-#define  kn5Nano   A5                                            // Назначение кнопок управления Nano  A4
-#define  kn6Nano   A6                                            // Назначение кнопок управления Nano  A5
+#define  kn5Nano   A4                                            // Назначение кнопок управления Nano  A4
+#define  kn6Nano   A5                                            // Назначение кнопок управления Nano  A5
 
 
 
@@ -190,8 +190,8 @@ int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, but
  char  txt_menu3_3[]       = "\x85""a""\x98""py""\x9C"". y""\xA1""o""\xA0\xA7"".";     // Загруз. умолч.
  char  txt_menu3_4[]       = "Bpe""\xA1\xAF"" ""\xA3""poc""\xA4""o""\xAF";             // Время простоя                   //
  char  txt_menu4_1[]       = "C\x9D\xA2yco\x9D\x99""a";                                // Синусоида
- char  txt_menu4_2[]       = "Tpey\x98o\xA0\xAC\xA2\xAB\x9E";                          // Треугольный
- char  txt_menu4_3[]       = "\x89\x9D\xA0oo\x96pa\x9C\xA2\xAB\x9E";                   // Пилообразный
+ char  txt_menu4_2[]       = "\x89\x9D\xA0oo\x96pa\x9C\xA2\xAB\x9E";                   // Пилообразный
+ char  txt_menu4_3[]       = "Tpey\x98o\xA0\xAC\xA2\xAB\x9E";                          // Треугольный
  char  txt_menu4_4[]       = "\x89p\xAF\xA1oy\x98o\xA0\xAC\xA2\xAB\x9E";               // Прямоугольный
  char  txt_menu5_1[]       = " ";// 
  char  txt_menu5_2[]       = " ";//
@@ -1331,6 +1331,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 							myGLCD.clrScr();   // Очистить экран
 							myGLCD.print(txt_pass_ok, RIGHT, 208); 
 							delay (500);
+							sine();
 							//butA = myButtons.addButton(279, 20,  40,  35, "W", BUTTON_SYMBOL); // Синусоида
 							//if (myButtons.buttonEnabled(butB)) myButtons.deleteButton(butB);
 							//if (myButtons.buttonEnabled(butC)) myButtons.deleteButton(butC);
@@ -1347,7 +1348,8 @@ void swichMenu() // Тексты меню в строках "txt....."
 							myGLCD.clrScr();
 							myGLCD.print(txt_pass_ok, RIGHT, 208);
 							delay (500);
-		    	//			butB = myButtons.addButton(279, 65, 40,  35, "W", BUTTON_SYMBOL); // Треугольный
+							saw();
+							//			butB = myButtons.addButton(279, 65, 40,  35, "W", BUTTON_SYMBOL); // Треугольный
 							//if (myButtons.buttonEnabled(butA)) myButtons.deleteButton(butA);
 							//if (myButtons.buttonEnabled(butC)) myButtons.deleteButton(butC);
 							//if (myButtons.buttonEnabled(butD)) myButtons.deleteButton(butD);
@@ -1361,6 +1363,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 							myGLCD.clrScr();
 							myGLCD.print(txt_pass_ok, RIGHT, 208);
 							delay (500);
+							triangle();
 							//butC = myButtons.addButton(279, 110,  40,  35, "W", BUTTON_SYMBOL); // Пилообразный
 							//if (myButtons.buttonEnabled(butA)) myButtons.deleteButton(butA);
 							//if (myButtons.buttonEnabled(butB)) myButtons.deleteButton(butB);
@@ -1373,6 +1376,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 							myGLCD.clrScr();
 							myGLCD.print(txt_pass_ok, RIGHT, 208);
 							delay (500);
+							pulse();
 							//butD = myButtons.addButton(279, 155,  40,  35, "W", BUTTON_SYMBOL); // Прямоугольный сигнал
 							//if (myButtons.buttonEnabled(butB)) myButtons.deleteButton(butB);
 							//if (myButtons.buttonEnabled(butC)) myButtons.deleteButton(butC);
@@ -1455,6 +1459,35 @@ void print_up() // Печать верхней строчки над меню
 			myGLCD.print(txt_info5, CENTER, 0);
 			break;
     }
+}
+
+void pulse()
+{
+	digitalWrite(kn1Nano,  LOW);                        // 
+	digitalWrite(kn2Nano, HIGH);                        //
+	digitalWrite(kn3Nano, HIGH);                        //
+	digitalWrite(kn4Nano, HIGH);                         // 
+}
+void triangle()
+{
+	digitalWrite(kn1Nano, HIGH);                        // 
+	digitalWrite(kn2Nano,  LOW);                        //
+	digitalWrite(kn3Nano, HIGH);                        //
+	digitalWrite(kn4Nano, HIGH);                         // 
+}
+void saw()
+{
+	digitalWrite(kn1Nano, HIGH);                        // 
+	digitalWrite(kn2Nano, HIGH);                        //
+	digitalWrite(kn3Nano, LOW);                        //
+	digitalWrite(kn4Nano, HIGH);                         // 
+}
+void sine()
+{
+	digitalWrite(kn1Nano, HIGH);                        // 
+	digitalWrite(kn2Nano, HIGH);                        //
+	digitalWrite(kn3Nano, HIGH);                        //
+	digitalWrite(kn4Nano, LOW);                         // 
 }
 
 void setup_resistor()
@@ -1975,6 +2008,7 @@ void setup_mcp()
 	  mcp_Out1.digitalWrite(i, HIGH); 
 	  mcp_Out2.digitalWrite(i, HIGH); 
   }
+   mcp_Out2.digitalWrite(14, LOW); 
 }
 void setup_sound_port()
 {
@@ -1982,6 +2016,7 @@ void setup_sound_port()
 	pinMode(ledPin12, OUTPUT);  
 	digitalWrite(ledPin12, LOW);                   // 
 	digitalWrite(ledPin13, LOW);                   // 
+
 	pinMode(kn1Nano, OUTPUT);  
 	pinMode(kn2Nano, OUTPUT);  
 	pinMode(kn3Nano, OUTPUT);  
@@ -1989,10 +2024,10 @@ void setup_sound_port()
 	pinMode(kn5Nano, OUTPUT);  
 	pinMode(kn6Nano, OUTPUT);  
 
-	digitalWrite(kn1Nano, LOW);                        // 
+	digitalWrite(kn1Nano, HIGH);                        // 
 	digitalWrite(kn2Nano, HIGH);                        //
 	digitalWrite(kn3Nano, HIGH);                        //
-	digitalWrite(kn4Nano, HIGH);                         // 
+	digitalWrite(kn4Nano, LOW);                         // 
 	digitalWrite(kn5Nano, HIGH);                        // 
 	digitalWrite(kn6Nano, HIGH);                        //
 }
