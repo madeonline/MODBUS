@@ -3116,10 +3116,10 @@ void setup()
 	Serial.println(" ");
 	Serial.println(" ***** Start system  *****");
 	Serial.println(" ");
-	set_time();
+	//set_time();
 	serial_print_date();
 	//pinMode(ledPin13, OUTPUT);   
-	Wire.begin();
+	//Wire.begin();
 	setup_sound_port();
 	setup_mcp();                                          // Настроить порты расширения  
 	setup_resistor();                                     // Начальные установки резистора
