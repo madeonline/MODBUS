@@ -3132,7 +3132,8 @@ void setup()
 	myGLCD.setFont(BigFont);
 	myTouch.InitTouch();
 	// myTouch.setPrecision(PREC_MEDIUM);
-	myTouch.setPrecision(PREC_HI);
+	//myTouch.setPrecision(PREC_HI);
+	myTouch.setPrecision(PREC_EXTREME);
 	myButtons.setTextFont(BigFont);
 	myButtons.setSymbolFont(Dingbats1_XL);
 	// ++++++++++++++++++ Настройка АЦП +++++++++++++++++++++++++++++++++++++++++++++++++++
