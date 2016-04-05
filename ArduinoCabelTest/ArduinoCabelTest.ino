@@ -1547,9 +1547,9 @@ void save_tab_def()
 		for (int x = 10;x<60;x++)
 		{
 			myGLCD.setColor(0, 0, 255);
-			myGLCD.fillRoundRect (30, 100, 30+ (x*4),100);
+			myGLCD.fillRoundRect (30, 100, 30+ (x*4),95);
 			myGLCD.setColor(255, 255, 255);
-			myGLCD.drawRoundRect (28, 98, 32+ (x*4),102);
+			myGLCD.drawRoundRect (28, 98, 32+ (x*4),97);
 		}
 		myGLCD.clrScr();
 	}
