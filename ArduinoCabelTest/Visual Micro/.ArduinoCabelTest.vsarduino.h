@@ -119,6 +119,7 @@ void setup_resistor();
 void resistor(int resist, int valresist);
 void set_rezistor1();
 void set_rezistor2();
+void save_tab_def();
 void save_default(byte adrN_eeprom);
 void save_default_pc();
 void set_komm_mcp(int chanal_a_b, int chanal_n, int chanal_in_out );

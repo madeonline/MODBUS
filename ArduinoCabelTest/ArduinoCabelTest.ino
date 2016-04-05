@@ -1287,9 +1287,10 @@ void swichMenu() // Тексты меню в строках "txt....."
 			       if (pressed_button==but3 && m2 == 3)  // Третий пункт меню 3
 					  { 
 							myGLCD.clrScr();
-							myGLCD.print(txt_pass_ok, RIGHT, 208);
+						//	myGLCD.print(txt_pass_ok, RIGHT, 208);
 							delay (500);
-		    	//
+		                    save_tab_def();	  
+							delay (2500);//
 							myGLCD.clrScr();
 							myButtons.drawButtons();
 							print_up();
@@ -1534,6 +1535,25 @@ void set_rezistor2()
 	regBank.set(adr_control_command,0);
 }
 
+void save_tab_def()
+{
+	for (int i = 1;i<5;i++)
+	{
+		myGLCD.setColor(255, 255, 255);
+		myGLCD.print("Save block N ", 25, 70);//
+		myGLCD.printNumI(i, 230, 70);
+		save_default(i);
+
+		for (int x = 10;x<60;x++)
+		{
+			myGLCD.setColor(0, 0, 255);
+			myGLCD.fillRoundRect (30, 100, 30+ (x*4),100);
+			myGLCD.setColor(255, 255, 255);
+			myGLCD.drawRoundRect (28, 98, 32+ (x*4),102);
+		}
+		myGLCD.clrScr();
+	}
+}
 void save_default(byte adrN_eeprom)                                          // Запись заводских установок таблицы разъемов №1
 {
 	byte _u_konnekt     = 0;                                                 // Временное хранения содержимого регистра.
