@@ -109,8 +109,6 @@ const unsigned int adr_reg_count_err      PROGMEM       = 40002; // Адрес счетчи
 #define  kn6Nano   A5                                            // Назначение кнопок управления Nano  A5
 
 
-
-
 //++++++++++++++++++++++++++++ Переменные для цифровой клавиатуры +++++++++++++++++++++++++++++
 int x, y, z;
 char stCurrent[20]    ="";         // Переменная хранения введенной строки 
@@ -1649,124 +1647,129 @@ void save_default_pc()                                                       // 
 	regBank.set(adr_control_command,0);                                      // Завершить программу    
 }
 
-void set_komm_mcp(int chanal_a_b, int chanal_n, int chanal_in_out )                     // Программа включения аналового канала
+void set_komm_mcp(int chanal_a_b, int chanal_n, int chanal_in_out )   // Программа включения аналового канала
 {
-	int _chanal_a_b      = chanal_a_b;                // Канал входов коммутаторов  А - вход, B - выход.
-	int _chanal_n        = chanal_n;                  // № канала (1- 48).
-	int _chanal_in_out   = chanal_in_out;             // Вариант канала: 1 - сигнал,  2 - подключить на общий(заземлить).
+	/*
+	int chanal_a_b  -  выбрать блок разъемов А или В
+	int chanal_n    -  выбрать № канала (1-48)
+	chanal_in_out   -  выбрать аналоговый выход или заземлить выбранный канал канал
+	*/
+	int _chanal_a_b      = chanal_a_b;                                // Канал входов коммутаторов  А - вход, B - выход.
+	int _chanal_n        = chanal_n;                                  // № канала (1- 48).
+	int _chanal_in_out   = chanal_in_out;                             // Вариант канала: 1 - сигнал,  2 - подключить на общий(заземлить).
 
-	if (_chanal_a_b == 1)                             // Установка каналов А 
+	if (_chanal_a_b == 1)                                             // Установка каналов А 
 	{
-		if (_chanal_in_out == 1)                      // Установка аналового канала А  
+		if (_chanal_in_out == 1)                                      // Установка аналового канала А  
 		{
-		    mcp_Out1.digitalWrite(8,  HIGH);          // Сброс выбора микросхемы аналового коммутатора
-			mcp_Out1.digitalWrite(9,  HIGH); 
-			mcp_Out1.digitalWrite(10, HIGH); 
+		    mcp_Out1.digitalWrite(8,  HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  1E1  U13
+			mcp_Out1.digitalWrite(9,  HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  1E2  U17
+			mcp_Out1.digitalWrite(10, HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  1E3  U23
 			if (_chanal_n <16)
 			{
-                set_mcp_byte_1a(_chanal_n);
+                set_mcp_byte_1a(_chanal_n);                           // Сформировать байт выбора канала (0 - 15)
 				Serial.print("A_An0 - 15  ");
 				Serial.println(_chanal_n);
-				mcp_Out1.digitalWrite(8, LOW); 
+				mcp_Out1.digitalWrite(8, LOW);                        // Выбрать EN микросхемы аналового коммутатора  1E1  U13
 			}
 			else if(_chanal_n > 15 && _chanal_n < 32)
 			{
-				set_mcp_byte_1a(_chanal_n - 16);
+				set_mcp_byte_1a(_chanal_n - 16);                      //  Сформировать байт выбора канала (15 - 31)
 				Serial.print("A_An16 - 31  ");
 				Serial.println(_chanal_n);
-				mcp_Out1.digitalWrite(9, LOW); 
+				mcp_Out1.digitalWrite(9, LOW);                        // Выбрать EN микросхемы аналового коммутатора  1E2  U17
 			}
 			else if(_chanal_n > 31 && _chanal_n < 48)
 			{
-				set_mcp_byte_1a(_chanal_n - 32);
+				set_mcp_byte_1a(_chanal_n - 32);                      // Сформировать байт выбора канала (32 - 48)
 				Serial.print("A_An32 - 47  ");
 				Serial.println(_chanal_n);
-				mcp_Out1.digitalWrite(10, LOW); 
+				mcp_Out1.digitalWrite(10, LOW);                       // Выбрать EN микросхемы аналового коммутатора  1E3  U23
 			}
 
 		}
-		else                              // Заземлить канал А 
+		else                                                          // Заземлить канал А 
 		{
-		    mcp_Out1.digitalWrite(11, HIGH);   // Сброс выбора микросхемы аналового коммутатора
-			mcp_Out1.digitalWrite(12, HIGH); 
-			mcp_Out1.digitalWrite(13, HIGH); 
+		    mcp_Out1.digitalWrite(11, HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  1E4  U14
+			mcp_Out1.digitalWrite(12, HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  1E5  U19 
+			mcp_Out1.digitalWrite(13, HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  1E6  U21 
 			if (_chanal_n <16)
 			{
-				set_mcp_byte_1b(_chanal_n);
+				set_mcp_byte_1b(_chanal_n);                           // Сформировать байт выбора канала (0 - 15)
 				Serial.print("A_gr0 - 15  ");
 				Serial.println(_chanal_n);
-				mcp_Out1.digitalWrite(11, LOW); 
+				mcp_Out1.digitalWrite(11, LOW);                       // Выбрать  EN микросхемы аналового коммутатора  1E4  U14
 			}
 			else if(_chanal_n > 15 && _chanal_n < 32)
 			{
-				set_mcp_byte_1b(_chanal_n - 16);
+				set_mcp_byte_1b(_chanal_n - 16);                      // Сформировать байт выбора канала (16 - 31)
 				Serial.print("A_gr16 - 31  ");
 				Serial.println(_chanal_n);
-				mcp_Out1.digitalWrite(12, LOW); 
+				mcp_Out1.digitalWrite(12, LOW);                       // Выбрать EN микросхемы аналового коммутатора  1E5  U19 
 			}
 			else if(_chanal_n > 31 && _chanal_n < 48)
 			{
-				set_mcp_byte_1b(_chanal_n - 32);
+				set_mcp_byte_1b(_chanal_n - 32);                      // Сформировать байт выбора канала (32 - 48)
 				Serial.print("A_gr32 - 47  ");
 				Serial.println(_chanal_n);
-				mcp_Out1.digitalWrite(13, LOW); 
+				mcp_Out1.digitalWrite(13, LOW);                       // Выбрать  EN микросхемы аналового коммутатора  1E6  U21 
 			}
 
 		}
 	}
-	else if(_chanal_a_b == 2)                // Установка каналов В 
+	else if(_chanal_a_b == 2)                                         // Установка каналов В 
 	{
-		    mcp_Out2.digitalWrite(8,  HIGH);  // Сброс выбора микросхемы аналового коммутатора
-			mcp_Out2.digitalWrite(9,  HIGH); 
-			mcp_Out2.digitalWrite(10, HIGH); 
+		    mcp_Out2.digitalWrite(8,  HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  2E1  U15
+			mcp_Out2.digitalWrite(9,  HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  2E2  U18 
+			mcp_Out2.digitalWrite(10, HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  2E3  U22
 			if (_chanal_n <16)
 			{
-				set_mcp_byte_2a(_chanal_n);
+				set_mcp_byte_2a(_chanal_n);                           // Сформировать байт выбора канала (0 - 15)
 				Serial.print("B_An0 - 15  ");
 				Serial.println(_chanal_n);
-				mcp_Out2.digitalWrite(8, LOW); 
+				mcp_Out2.digitalWrite(8, LOW);                        // Выбрать EN микросхемы аналового коммутатора  2E1  U15
 			}
 			else if(_chanal_n > 15 && _chanal_n < 32)
 			{
-				set_mcp_byte_2a(_chanal_n - 16);
+				set_mcp_byte_2a(_chanal_n - 16);                      // Сформировать байт выбора канала (16 - 31)
 				Serial.print("B_An16 - 31  ");
 				Serial.println(_chanal_n);
-				mcp_Out2.digitalWrite(9, LOW); 
+				mcp_Out2.digitalWrite(9, LOW);                        // Выбрать EN микросхемы аналового коммутатора  2E2  U18 
 			}
 			else if(_chanal_n > 31 && _chanal_n < 48)
 			{
-				set_mcp_byte_2a(_chanal_n - 32);
+				set_mcp_byte_2a(_chanal_n - 32);                      // Сформировать байт выбора канала (32 - 48)
 				Serial.print("B_An32 - 47  ");
 				Serial.println(_chanal_n);
-				mcp_Out2.digitalWrite(10, LOW); 
+				mcp_Out2.digitalWrite(10, LOW);                       // Выбрать EN микросхемы аналового коммутатора  2E3  U22
 			}
 
 		}
-		else                              // Заземлить канал B 
+		else                                                          // Заземлить канал B 
 		{
-		    mcp_Out2.digitalWrite(11, HIGH);   // Сброс выбора микросхемы аналового коммутатора
-			mcp_Out2.digitalWrite(12, HIGH); 
-			mcp_Out2.digitalWrite(13, HIGH); 
+		    mcp_Out2.digitalWrite(11, HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  2E4  U16
+			mcp_Out2.digitalWrite(12, HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  2E5  U20 
+			mcp_Out2.digitalWrite(13, HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  2E6  U24
 			if (_chanal_n <16)
 			{
-				set_mcp_byte_2b(_chanal_n);
+				set_mcp_byte_2b(_chanal_n);                           // Сформировать байт выбора канала (0 - 15)
 				Serial.print("B_gr0 - 15  ");
 				Serial.println(_chanal_n);
-				mcp_Out2.digitalWrite(11, LOW); 
+				mcp_Out2.digitalWrite(11, LOW);                       // Выбрать EN микросхемы аналового коммутатора  2E4  U16
 			}
 			else if(_chanal_n > 15 && _chanal_n < 32)
 			{
-				set_mcp_byte_2b(_chanal_n - 16);
+				set_mcp_byte_2b(_chanal_n - 16);                      // Сформировать байт выбора канала (16 - 31)
 				Serial.print("B_gr16 - 31  ");
 				Serial.println(_chanal_n);
-				mcp_Out2.digitalWrite(12, LOW); 
+				mcp_Out2.digitalWrite(12, LOW);                       // Выбрать EN микросхемы аналового коммутатора  2E5  U20 
 			}
 			else if(_chanal_n > 31 && _chanal_n < 48)
 			{
-				set_mcp_byte_2b(_chanal_n - 32);
+				set_mcp_byte_2b(_chanal_n - 32);                      // Сформировать байт выбора канала (32 - 48)
 				Serial.print("B_gr32 - 47  ");
 				Serial.println(_chanal_n);
-				mcp_Out2.digitalWrite(13, LOW); 
+				mcp_Out2.digitalWrite(13, LOW);                       // Выбрать EN микросхемы аналового коммутатора  2E6  U24
 			}
 	}
 }
@@ -1961,77 +1964,6 @@ void mem_byte_trans_save()                                      //  Получить таб
 	delay(200);
 }
 
-void setup_mcp()
-{
-	// Настройка расширителя портов
- 
-  mcp_Out1.begin(1);                               //  Адрес (4) второго  расширителя портов
-  mcp_Out1.pinMode(0, OUTPUT);                     //  1A1
-  mcp_Out1.pinMode(1, OUTPUT);                     //  1B1  
-  mcp_Out1.pinMode(2, OUTPUT);                     //  1C1
-  mcp_Out1.pinMode(3, OUTPUT);                     //  1D1  
-  mcp_Out1.pinMode(4, OUTPUT);                     //  1A2
-  mcp_Out1.pinMode(5, OUTPUT);                     //  1B2
-  mcp_Out1.pinMode(6, OUTPUT);                     //  1C2
-  mcp_Out1.pinMode(7, OUTPUT);                     //  1D2
-  
-  mcp_Out1.pinMode(8, OUTPUT);                     //  1E1   U13
-  mcp_Out1.pinMode(9, OUTPUT);                     //  1E2   U17
-  mcp_Out1.pinMode(10, OUTPUT);                    //  1E3   U23
-  mcp_Out1.pinMode(11, OUTPUT);                    //  1E4   U14
-  mcp_Out1.pinMode(12, OUTPUT);                    //  1E5   U19
-  mcp_Out1.pinMode(13, OUTPUT);                    //  1E6   U21 
-  mcp_Out1.pinMode(14, OUTPUT);                    //  1E7   Свободен  
-  mcp_Out1.pinMode(15, OUTPUT);                    //  1E8   Свободен
-
-	
-  mcp_Out2.begin(2);                               //  
-  mcp_Out2.pinMode(0, OUTPUT);                     //  2A1  
-  mcp_Out2.pinMode(1, OUTPUT);                     //  2B1  
-  mcp_Out2.pinMode(2, OUTPUT);                     //  2C1
-  mcp_Out2.pinMode(3, OUTPUT);                     //  2D1  
-  mcp_Out2.pinMode(4, OUTPUT);                     //  2A2
-  mcp_Out2.pinMode(5, OUTPUT);                     //  2B2
-  mcp_Out2.pinMode(6, OUTPUT);                     //  2C2
-  mcp_Out2.pinMode(7, OUTPUT);                     //  2D2
-  
-  mcp_Out2.pinMode(8, OUTPUT);                     //  2E1   U15
-  mcp_Out2.pinMode(9, OUTPUT);                     //  2E2   U18
-  mcp_Out2.pinMode(10, OUTPUT);                    //  2E3   U22
-  mcp_Out2.pinMode(11, OUTPUT);                    //  2E4   U16
-  mcp_Out2.pinMode(12, OUTPUT);                    //  2E5   U20     
-  mcp_Out2.pinMode(13, OUTPUT);                    //  2E6   U24       
-  mcp_Out2.pinMode(14, OUTPUT);                    //  2E7   Реле №1, №2
-  mcp_Out2.pinMode(15, OUTPUT);                    //  2E8   Свободен
-  for(int i=0;i<16;i++)
-  {
-	  mcp_Out1.digitalWrite(i, HIGH); 
-	  mcp_Out2.digitalWrite(i, HIGH); 
-  }
-   mcp_Out2.digitalWrite(14, LOW); 
-}
-void setup_sound_port()
-{
-	pinMode(ledPin13, OUTPUT);   
-	pinMode(ledPin12, OUTPUT);  
-	digitalWrite(ledPin12, LOW);                   // 
-	digitalWrite(ledPin13, LOW);                   // 
-
-	pinMode(kn1Nano, OUTPUT);  
-	pinMode(kn2Nano, OUTPUT);  
-	pinMode(kn3Nano, OUTPUT);  
-	pinMode(kn4Nano, OUTPUT);  
-	pinMode(kn5Nano, OUTPUT);  
-	pinMode(kn6Nano, OUTPUT);  
-
-	digitalWrite(kn1Nano, HIGH);                        // 
-	digitalWrite(kn2Nano, HIGH);                        //
-	digitalWrite(kn3Nano, HIGH);                        //
-	digitalWrite(kn4Nano, LOW);                         // 
-	digitalWrite(kn5Nano, HIGH);                        // 
-	digitalWrite(kn6Nano, HIGH);                        //
-}
-
 void test_cabel_N1()
 {
 
@@ -2053,8 +1985,7 @@ void test_panel_N1()
 
 }
 
-// +++++++++++++++++++++ Осциллограф +++++++++++++++++++++++++++++
-
+//+++++++++++++++++++++ Осциллограф +++++++++++++++++++++++++++++
 void Draw_menu_Osc()
 {
 	myGLCD.clrScr();
@@ -2168,8 +2099,6 @@ void trigger()
 	}
 	*/
 }
-
-
 void oscilloscope()  // просмотр в реальном времени на большой скорости
 {
 	uint32_t bgnBlock, endBlock;
@@ -2496,8 +2425,6 @@ while (myTouch.dataAvailable()){}
 
 
 }
-
-
 void buttons_right()  //  Правые кнопки  oscilloscope
 {
 	
@@ -2535,8 +2462,6 @@ void buttons_right()  //  Правые кнопки  oscilloscope
 	myGLCD.printNumI(t_in_mode, 282, 212);
 	
 }
-
-
 void buttons_right_time()
 {
 	
@@ -2585,9 +2510,6 @@ void buttons_right_time()
 	scale_time();   // вывод цифровой шкалы
 	
 }
-
-
-
 void scale_time()
 {
 	
@@ -2699,7 +2621,6 @@ void buttons_channel()  // Нижние кнопки переключения входов
 	myGLCD.drawRoundRect (190, 210, 240, 239);
 	
 }
-
 void chench_Channel()
 {
 	
@@ -2724,8 +2645,6 @@ void chench_Channel()
 		// SAMPLES_PER_BLOCK = DATA_DIM16/count_pin;
 		
 }
-
-
 void DrawGrid()
 {
 	
@@ -2796,7 +2715,6 @@ void DrawGrid()
 	myGLCD.setColor(255,255,255);
 	
 }
-
 void DrawGrid1()
 {
 	
@@ -2823,8 +2741,6 @@ void DrawGrid1()
 	myGLCD.setColor(255,255,255);
 	
 }
-
-
 void touch_osc()  //  Нижнее меню осциллографа
 {
 	
@@ -2921,7 +2837,6 @@ void touch_osc()  //  Нижнее меню осциллографа
 	}
 	
 }
-
 void switch_trig(int trig_x)
 {
 	
@@ -2988,9 +2903,81 @@ void trig_min_max(int trig_x)
 					}
 
 }
-
+//--------------------- Конец программы осциллографа -------------
 
 //----------------------------------------------------------------
+
+
+void setup_mcp()
+{
+	// Настройка расширителя портов
+ 
+  mcp_Out1.begin(1);                               //  Адрес (4) второго  расширителя портов
+  mcp_Out1.pinMode(0, OUTPUT);                     //  1A1
+  mcp_Out1.pinMode(1, OUTPUT);                     //  1B1  
+  mcp_Out1.pinMode(2, OUTPUT);                     //  1C1
+  mcp_Out1.pinMode(3, OUTPUT);                     //  1D1  
+  mcp_Out1.pinMode(4, OUTPUT);                     //  1A2
+  mcp_Out1.pinMode(5, OUTPUT);                     //  1B2
+  mcp_Out1.pinMode(6, OUTPUT);                     //  1C2
+  mcp_Out1.pinMode(7, OUTPUT);                     //  1D2
+  
+  mcp_Out1.pinMode(8, OUTPUT);                     //  1E1   U13
+  mcp_Out1.pinMode(9, OUTPUT);                     //  1E2   U17
+  mcp_Out1.pinMode(10, OUTPUT);                    //  1E3   U23
+  mcp_Out1.pinMode(11, OUTPUT);                    //  1E4   U14
+  mcp_Out1.pinMode(12, OUTPUT);                    //  1E5   U19
+  mcp_Out1.pinMode(13, OUTPUT);                    //  1E6   U21 
+  mcp_Out1.pinMode(14, OUTPUT);                    //  1E7   Свободен  
+  mcp_Out1.pinMode(15, OUTPUT);                    //  1E8   Свободен
+
+	
+  mcp_Out2.begin(2);                               //  
+  mcp_Out2.pinMode(0, OUTPUT);                     //  2A1  
+  mcp_Out2.pinMode(1, OUTPUT);                     //  2B1  
+  mcp_Out2.pinMode(2, OUTPUT);                     //  2C1
+  mcp_Out2.pinMode(3, OUTPUT);                     //  2D1  
+  mcp_Out2.pinMode(4, OUTPUT);                     //  2A2
+  mcp_Out2.pinMode(5, OUTPUT);                     //  2B2
+  mcp_Out2.pinMode(6, OUTPUT);                     //  2C2
+  mcp_Out2.pinMode(7, OUTPUT);                     //  2D2
+  
+  mcp_Out2.pinMode(8, OUTPUT);                     //  2E1   U15
+  mcp_Out2.pinMode(9, OUTPUT);                     //  2E2   U18
+  mcp_Out2.pinMode(10, OUTPUT);                    //  2E3   U22
+  mcp_Out2.pinMode(11, OUTPUT);                    //  2E4   U16
+  mcp_Out2.pinMode(12, OUTPUT);                    //  2E5   U20     
+  mcp_Out2.pinMode(13, OUTPUT);                    //  2E6   U24       
+  mcp_Out2.pinMode(14, OUTPUT);                    //  2E7   Реле №1, №2
+  mcp_Out2.pinMode(15, OUTPUT);                    //  2E8   Свободен
+  for(int i=0;i<16;i++)
+  {
+	  mcp_Out1.digitalWrite(i, HIGH); 
+	  mcp_Out2.digitalWrite(i, HIGH); 
+  }
+   mcp_Out2.digitalWrite(14, LOW); 
+}
+void setup_sound_port()
+{
+	pinMode(ledPin13, OUTPUT);   
+	pinMode(ledPin12, OUTPUT);  
+	digitalWrite(ledPin12, LOW);                   // 
+	digitalWrite(ledPin13, LOW);                   // 
+
+	pinMode(kn1Nano, OUTPUT);  
+	pinMode(kn2Nano, OUTPUT);  
+	pinMode(kn3Nano, OUTPUT);  
+	pinMode(kn4Nano, OUTPUT);  
+	pinMode(kn5Nano, OUTPUT);  
+	pinMode(kn6Nano, OUTPUT);  
+
+	digitalWrite(kn1Nano, HIGH);                        // 
+	digitalWrite(kn2Nano, HIGH);                        //
+	digitalWrite(kn3Nano, HIGH);                        //
+	digitalWrite(kn4Nano, LOW);                         // 
+	digitalWrite(kn5Nano, HIGH);                        // 
+	digitalWrite(kn6Nano, HIGH);                        //
+}
 void setup_regModbus()
 {
     regBank.setId(1);    // Slave ID 1
@@ -3103,6 +3090,8 @@ void setup()
 	Serial1.begin(115200);                                 // Подключение к 
 	slave.setSerial(3,57600);                              // Подключение к протоколу MODBUS компьютера Serial3 
 	Serial2.begin(115200);                                 // Подключение к 
+	pinMode(ledPin12, OUTPUT);   
+	pinMode(ledPin13, OUTPUT);   
 	digitalWrite(ledPin12, HIGH);                          // 
 	digitalWrite(ledPin13, LOW);                           // 
 	Wire.begin();
@@ -3118,8 +3107,6 @@ void setup()
 	Serial.println(" ");
 	//set_time();
 	serial_print_date();
-	//pinMode(ledPin13, OUTPUT);   
-	//Wire.begin();
 	setup_sound_port();
 	setup_mcp();                                          // Настроить порты расширения  
 	setup_resistor();                                     // Начальные установки резистора
@@ -3131,9 +3118,9 @@ void setup()
 	myGLCD.clrScr();
 	myGLCD.setFont(BigFont);
 	myTouch.InitTouch();
-	// myTouch.setPrecision(PREC_MEDIUM);
-	//myTouch.setPrecision(PREC_HI);
-	myTouch.setPrecision(PREC_EXTREME);
+	//myTouch.setPrecision(PREC_MEDIUM);
+	myTouch.setPrecision(PREC_HI);
+	//myTouch.setPrecision(PREC_EXTREME);
 	myButtons.setTextFont(BigFont);
 	myButtons.setSymbolFont(Dingbats1_XL);
 	// ++++++++++++++++++ Настройка АЦП +++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3148,8 +3135,8 @@ void setup()
 	wait_time_Old =  millis();
 	digitalWrite(ledPin13, HIGH);                          // 
 	digitalWrite(ledPin12, LOW);                           // 
-	Serial.println(" ");                                //
-	Serial.println("System initialization OK!.");       // Информация о завершении настройки
+	Serial.println(" ");                                   //
+	Serial.println("System initialization OK!.");          // Информация о завершении настройки
 	//set_komm_mcp(2,44,2);
 }
 

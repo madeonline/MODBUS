@@ -128,8 +128,6 @@ void set_mcp_byte_2a(int set_byte);
 void set_mcp_byte_2b(int set_byte);
 void mem_byte_trans_read();
 void mem_byte_trans_save();
-void setup_mcp();
-void setup_sound_port();
 void test_cabel_N1();
 void test_cabel_N2();
 void test_cabel_N3();
@@ -149,6 +147,8 @@ void DrawGrid1();
 void touch_osc();
 void switch_trig(int trig_x);
 void trig_min_max(int trig_x);
+void setup_mcp();
+void setup_sound_port();
 void setup_regModbus();
 //
 //
