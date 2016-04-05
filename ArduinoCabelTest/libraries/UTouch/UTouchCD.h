@@ -33,6 +33,6 @@
 //#define CAL_S 0x000EF13FUL        // ориентация 00XXXXXXUL размер X XX0EFXXXUL размер Y - XXXXX13FUL,   
 
 // 2.4"
-#define CAL_X 0x04010190UL        // ЧИСЛО 0x0398C  разделить на 4
-#define CAL_Y 0x03B601C2UL        // touch_x_right    ,touch_x_left
+#define CAL_X 0x03F481AEUL        // ЧИСЛО 0x0398C  разделить на 4
+#define CAL_Y 0x03E801C2UL        // touch_x_right    ,touch_x_left
 #define CAL_S 0x000EF13FUL        // ориентация 00XXXXXXUL размер X XX0EFXXXUL размер Y - XXXXX13FUL,   

@@ -56,7 +56,7 @@ byte low;                                          // Младший байт для преобразо
 
 // Standard Arduino Mega/Due shield            : <display model>,38,39,40,41
 //UTFT        myGLCD(ITDB32S,38,39,40,41);     // Дисплей 3.2"
-UTFT        myGLCD(ITDB24E_8,38,39,40,41);   // Дисплей 2.4" !! Внимание! Изменены настройки UTouchCD.h
+UTFT        myGLCD(ITDB24E_8,38,39,40,41);     // Дисплей 2.4" !! Внимание! Изменены настройки UTouchCD.h
 
 
 // Standard Arduino Mega/Due shield            : 6,5,4,3,2
