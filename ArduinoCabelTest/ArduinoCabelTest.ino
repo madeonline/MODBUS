@@ -218,40 +218,51 @@ int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, but
  char  txt_info30[]            = "\x89o\x97\xA4op."; 
 
 
- byte   temp_buffer[40] ;                                                                                               // Буфер хранения временной информации
+ byte   temp_buffer[40] ;                                                                                                // Буфер хранения временной информации
  
  const byte connektN1_default[]    PROGMEM  = { 20,
-      1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,                                                               // Разъем А
-	  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20                                                                // Разъем B
- }; // 20 x 2 ячеек
+      1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,                                                                // Разъем А
+	  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
+	  0,0,0,0,0,0,0,0,0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	  0,0,0,0,0,0,0,0,0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0                                                                  // Разъем B
+ }; // 20 x 4 ячеек
  const byte connektN2_default[]    PROGMEM  = { 26,
-       1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,                                            // Разъем А
-	   1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26                                             // Разъем B
+       1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,                                             // Разъем А
+	   1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,                                             // Разъем B
+	   0,0,0,0,0,0,0,0,0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	   0,0,0,0,0,0,0,0,0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
  }; // 26 x 2 ячеек
  const byte connektN3_default[]    PROGMEM  = { 37,
-       1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,  // Разъем А
-	   19,18,17,16,15,14,13,12,11,10,9, 8, 7, 6, 5, 4, 3, 2, 1, 37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20   // Разъем B
+       1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,   // Разъем А
+	   19,18,17,16,15,14,13,12,11,10,9, 8, 7, 6, 5, 4, 3, 2, 1, 37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,   // Разъем B
+ 	   0,0,0,0,0,0,0,0,0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	   0,0,0,0,0,0,0,0,0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
  }; // 37 x 2 ячеек
  const byte connektN4_default[]    PROGMEM  = { 32,
-       1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,                          // Разъем А
-	   1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32                           // Разъем B
+       1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,                           // Разъем А
+	   1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,                           // Разъем B
+ 	   0,0,0,0,0,0,0,0,0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	   0,0,0,0,0,0,0,0,0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
  }; // 32 x 2 ячеек
 
- //++++++++++++++++++ Вариант № 1 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- const unsigned int adr_memN1_1      PROGMEM       =    100;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №1А, №1В
- const unsigned int adr_memN1_2      PROGMEM       =    142;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №2А, №2В
- const unsigned int adr_memN1_3      PROGMEM       =    196;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №3А, №3В
- const unsigned int adr_memN1_4      PROGMEM       =    272;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №4А, №4В
- //++++++++++++++++++ Вариант № 2 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- const unsigned int adr_memN2_1      PROGMEM       =    400;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №1А, №1В
- const unsigned int adr_memN2_2      PROGMEM       =    442;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №2А, №2В
- const unsigned int adr_memN2_3      PROGMEM       =    496;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №3А, №3В
- const unsigned int adr_memN2_4      PROGMEM       =    572;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №4А, №4В
 
+
+
+
+
+ //++++++++++++++++++ Вариант № 1 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ // Определение адреса производится в программе  set_adr_EEPROM()
+unsigned int adr_memN1_1 = 0;                       // Начальный адрес памяти таблицы соответствия контактов разъемов №1А, №1В
+unsigned int adr_memN1_2 = 0;                       // Начальный адрес памяти таблицы соответствия контактов разъемов №2А, №2В
+unsigned int adr_memN1_3 = 0;                       // Начальный адрес памяти таблицы соответствия контактов разъемов №3А, №3В
+unsigned int adr_memN1_4 = 0;                       // Начальный адрес памяти таблицы соответствия контактов разъемов №4А, №4В
+ //++++++++++++++++++ Вариант № 2 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+unsigned int adr_memN2_1 = 0;                       // Начальный адрес памяти таблицы соответствия контактов разъемов №1А, №1В
+unsigned int adr_memN2_2 = 0;                       // Начальный адрес памяти таблицы соответствия контактов разъемов №2А, №2В
+unsigned int adr_memN2_3 = 0;                       // Начальный адрес памяти таблицы соответствия контактов разъемов №3А, №3В
+unsigned int adr_memN2_4 = 0;                       // Начальный адрес памяти таблицы соответствия контактов разъемов №4А, №4В
 
 //==========================================================================================================================
-
-
 
 void dateTime(uint16_t* date, uint16_t* time)                                    // Программа записи времени и даты файла
 {
@@ -1650,20 +1661,20 @@ void save_default_pc()                                                       // 
 	regBank.set(adr_control_command,0);                                      // Завершить программу    
 }
 
-void set_komm_mcp(int chanal_a_b, int chanal_n, int chanal_in_out )   // Программа включения аналового канала
+void set_komm_mcp(char chanal_a_b, int chanal_n, char chanal_in_out )   // Программа включения аналового канала
 {
 	/*
 	int chanal_a_b  -  выбрать блок разъемов А - 1 или В - 2
 	int chanal_n    -  выбрать № канала (1-48)
 	chanal_in_out   -  выбрать аналоговый выход - 1 или заземлить выбранный канал канал
 	*/
-	int _chanal_a_b      = chanal_a_b;                                // Канал входов коммутаторов  А - вход, B - выход.
+	char _chanal_a_b     = chanal_a_b;                                // Канал входов коммутаторов  А - вход, B - выход.
 	int _chanal_n        = chanal_n;                                  // № канала (1- 48).
 	int _chanal_in_out   = chanal_in_out;                             // Вариант канала: 1 - сигнал,  2 - подключить на общий(заземлить).
 
-	if (_chanal_a_b == 1)                                             // Установка каналов А 
+	if (_chanal_a_b == 'A')                                           // Установка каналов А 
 	{
-		if (_chanal_in_out == 1)                                      // Установка входа аналового канала А  
+		if (_chanal_in_out == 'O')                                    // Установка  аналового канала А  на вход/выход
 		{
 		    mcp_Out1.digitalWrite(8,  HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  1E1  U13
 			mcp_Out1.digitalWrite(9,  HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  1E2  U17
@@ -1691,7 +1702,7 @@ void set_komm_mcp(int chanal_a_b, int chanal_n, int chanal_in_out )   // Програм
 			}
 
 		}
-		else                                                          // Заземлить канал А 
+		if (_chanal_in_out == 'G')                                    // Заземлить канал А 
 		{
 		    mcp_Out1.digitalWrite(11, HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  1E4  U14
 			mcp_Out1.digitalWrite(12, HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  1E5  U19 
@@ -1720,8 +1731,10 @@ void set_komm_mcp(int chanal_a_b, int chanal_n, int chanal_in_out )   // Програм
 
 		}
 	}
-	else if(_chanal_a_b == 2)                                         // Установка каналов В 
+	else if(_chanal_a_b == 'B')                                         // Установка каналов В 
 	{
+		if (_chanal_in_out == 'O')                                    // Установка  аналового канала А  на вход/выход
+		{
 		    mcp_Out2.digitalWrite(8,  HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  2E1  U15
 			mcp_Out2.digitalWrite(9,  HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  2E2  U18 
 			mcp_Out2.digitalWrite(10, HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  2E3  U22
@@ -1748,7 +1761,7 @@ void set_komm_mcp(int chanal_a_b, int chanal_n, int chanal_in_out )   // Програм
 			}
 
 		}
-		else                                                          // Заземлить канал B 
+		if (_chanal_in_out == 'G')                                    // Заземлить канал B 
 		{
 		    mcp_Out2.digitalWrite(11, HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  2E4  U16
 			mcp_Out2.digitalWrite(12, HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  2E5  U20 
@@ -1774,6 +1787,7 @@ void set_komm_mcp(int chanal_a_b, int chanal_n, int chanal_in_out )   // Програм
 				Serial.println(_chanal_n);
 				mcp_Out2.digitalWrite(13, LOW);                       // Выбрать EN микросхемы аналового коммутатора  2E6  U24
 			}
+		}
 	}
 }
 void set_mcp_byte_1a(int set_byte)
@@ -1976,7 +1990,9 @@ void test_cabel_N1()
 	for (unsigned int x_mem = 1;x_mem < _size_block+1;x_mem++)
 	{
 		 canal_N = i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem);
-		 set_komm_mcp(1, canal_N,1);
+		 set_komm_mcp('A', canal_N,'O');
+		 canal_N = i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem + _size_block);
+		 set_komm_mcp('B', canal_N,'O');
 
 		 Serial.print(i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem));
 		 Serial.print(" - ");
@@ -1987,10 +2003,15 @@ void test_cabel_N1()
 void test_cabel_N2()
 {
     byte  _size_block = i2c_eeprom_read_byte(deviceaddress,adr_memN1_2);
+	byte canal_N = 0;
     Serial.println(_size_block);
 
 	for (unsigned int x_mem = 1;x_mem < _size_block+1;x_mem++)
 	{
+		 canal_N = i2c_eeprom_read_byte(deviceaddress,adr_memN1_2 + x_mem);
+		 set_komm_mcp('A', canal_N,'O');
+		 canal_N = i2c_eeprom_read_byte(deviceaddress,adr_memN1_2 + x_mem + _size_block);
+		 set_komm_mcp('B', canal_N,'O');
 		 Serial.print(i2c_eeprom_read_byte(deviceaddress,adr_memN1_2 + x_mem));
 		 Serial.print(" - ");
 		 Serial.println(i2c_eeprom_read_byte(deviceaddress,adr_memN1_2 + x_mem+_size_block));
@@ -1999,10 +2020,15 @@ void test_cabel_N2()
 void test_cabel_N3()
 {
     byte  _size_block = i2c_eeprom_read_byte(deviceaddress,adr_memN1_3);
+	byte canal_N = 0;
     Serial.println(_size_block);
 
 	for (unsigned int x_mem = 1;x_mem < _size_block+1;x_mem++)
 	{
+		 canal_N = i2c_eeprom_read_byte(deviceaddress,adr_memN1_3 + x_mem);
+		 set_komm_mcp('A', canal_N,'O');
+		 canal_N = i2c_eeprom_read_byte(deviceaddress,adr_memN1_3 + x_mem + _size_block);
+		 set_komm_mcp('B', canal_N,'O');
 		 Serial.print(i2c_eeprom_read_byte(deviceaddress,adr_memN1_3 + x_mem));
 		 Serial.print(" - ");
 		 Serial.println(i2c_eeprom_read_byte(deviceaddress,adr_memN1_3 + x_mem+_size_block));
@@ -2011,10 +2037,15 @@ void test_cabel_N3()
 void test_cabel_N4()
 {
 	byte  _size_block = i2c_eeprom_read_byte(deviceaddress,adr_memN1_4);
+	byte canal_N = 0;
     Serial.println(_size_block);
 
 	for (unsigned int x_mem = 1;x_mem < _size_block+1;x_mem++)
 	{
+		 canal_N = i2c_eeprom_read_byte(deviceaddress,adr_memN1_4 + x_mem);
+		 set_komm_mcp('A', canal_N,'O');
+		 canal_N = i2c_eeprom_read_byte(deviceaddress,adr_memN1_4 + x_mem + _size_block);
+		 set_komm_mcp('B', canal_N,'O');
 		 Serial.print(i2c_eeprom_read_byte(deviceaddress,adr_memN1_4 + x_mem));
 		 Serial.print(" - ");
 		 Serial.println(i2c_eeprom_read_byte(deviceaddress,adr_memN1_4 + x_mem+_size_block));
@@ -2946,8 +2977,43 @@ void trig_min_max(int trig_x)
 //--------------------- Конец программы осциллографа -------------
 
 //----------------------------------------------------------------
+void set_adr_EEPROM()
+{
+ adr_memN1_1 = 100;                       // Начальный адрес памяти таблицы соответствия контактов разъемов №1А, №1В
+ adr_memN1_2 = adr_memN1_1+sizeof(connektN1_default)+1;                       // Начальный адрес памяти таблицы соответствия контактов разъемов №2А, №2В
+ adr_memN1_3 = adr_memN1_2+sizeof(connektN2_default)+1;                       // Начальный адрес памяти таблицы соответствия контактов разъемов №3А, №3В
+ adr_memN1_4 = adr_memN1_3+sizeof(connektN3_default)+1;                       // Начальный адрес памяти таблицы соответствия контактов разъемов №4А, №4В
+ //++++++++++++++++++ Вариант № 2 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ //adr_memN2_1 = adr_memN1_1+sizeof(connektN1_default)+1;                       // Начальный адрес памяти таблицы соответствия контактов разъемов №1А, №1В
+ //adr_memN2_2 = adr_memN1_1+sizeof(connektN1_default)+1;                       // Начальный адрес памяти таблицы соответствия контактов разъемов №2А, №2В
+ //adr_memN2_3 = adr_memN1_1+sizeof(connektN1_default)+1;                       // Начальный адрес памяти таблицы соответствия контактов разъемов №3А, №3В
+ //adr_memN2_4 = adr_memN1_1+sizeof(connektN1_default)+1;                       // Начальный адрес памяти таблицы соответствия контактов разъемов №4А, №4В
+
+ 
+ 	Serial.println(adr_memN1_4+sizeof(connektN4_default)+1); 
+	/*
+	Serial.println(adr_memN1_2); 
+	Serial.println(adr_memN1_3); 
+	Serial.println(adr_memN1_4); 
+*/
+
+	
 
 
+}
+void setup_pin()
+{
+	pinMode(ledPin12, OUTPUT);   
+	pinMode(ledPin13, OUTPUT);   
+	digitalWrite(ledPin12, HIGH);                          // 
+	digitalWrite(ledPin13, LOW);                           // 
+	pinMode(48, OUTPUT);   
+	pinMode(49, OUTPUT);   
+	digitalWrite(48, HIGH);                               // Отключить оптрон включения звука U11_1
+	digitalWrite(49, HIGH);                               // Отключить оптрон включения звука U11_2
+	pinMode(46, INPUT);                                   // Выход коммутаторов блока А
+	pinMode(47, INPUT);                                   // Выход коммутаторов блока В
+}
 void setup_mcp()
 {
 	// Настройка расширителя портов
@@ -2995,7 +3061,7 @@ void setup_mcp()
 	  mcp_Out1.digitalWrite(i, HIGH); 
 	  mcp_Out2.digitalWrite(i, HIGH); 
   }
-   mcp_Out2.digitalWrite(14, LOW); 
+   mcp_Out2.digitalWrite(14, LOW);                 // Отключить реле
 }
 void setup_sound_port()
 {
@@ -3130,10 +3196,7 @@ void setup()
 	Serial1.begin(115200);                                 // Подключение к 
 	slave.setSerial(3,57600);                              // Подключение к протоколу MODBUS компьютера Serial3 
 	Serial2.begin(115200);                                 // Подключение к 
-	pinMode(ledPin12, OUTPUT);   
-	pinMode(ledPin13, OUTPUT);   
-	digitalWrite(ledPin12, HIGH);                          // 
-	digitalWrite(ledPin13, LOW);                           // 
+    setup_pin();
 	Wire.begin();
 	if (!RTC.begin())                                      // Настройка часов 
 		{
@@ -3175,6 +3238,7 @@ void setup()
 	wait_time_Old =  millis();
 	digitalWrite(ledPin13, HIGH);                          // 
 	digitalWrite(ledPin12, LOW);                           // 
+	set_adr_EEPROM();
 	Serial.println(" ");                                   //
 	Serial.println("System initialization OK!.");          // Информация о завершении настройки
 	//set_komm_mcp(2,44,2);
