@@ -175,67 +175,67 @@ int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, but
  //------------------------------------------------------------------------------------------------------------------
  // Назначение переменных для хранения текстов
 
- char  txt_menu1_1[]       = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N1";                    // Тест кабель N 1
- char  txt_menu1_2[]       = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N2";                    // Тест кабель N 2
- char  txt_menu1_3[]       = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N3";                    // Тест кабель N 3
- char  txt_menu1_4[]       = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N4";                    // Тест кабель N 4
- char  txt_menu2_1[]       = "menu2_1";                                                // 
- char  txt_menu2_2[]       = "menu2_2";                                                //
- char  txt_menu2_3[]       = "menu2_3";                                                //
- char  txt_menu2_4[]       = "menu2_4";                                                //
- char  txt_menu3_1[]       = "Ta""\x96\xA0\x9D\xA6""a coe""\x99"".";                   // Таблица соед.
- char  txt_menu3_2[]       = "Pe""\x99""a""\x9F\xA4"". ""\xA4""a""\x96\xA0\x9D\xA6";   // Редакт. таблиц
- char  txt_menu3_3[]       = "\x85""a""\x98""py""\x9C"". y""\xA1""o""\xA0\xA7"".";     // Загруз. умолч.
- char  txt_menu3_4[]       = "Bpe""\xA1\xAF"" ""\xA3""poc""\xA4""o""\xAF";             // Время простоя                   //
- char  txt_menu4_1[]       = "C\x9D\xA2yco\x9D\x99""a";                                // Синусоида
- char  txt_menu4_2[]       = "\x89\x9D\xA0oo\x96pa\x9C\xA2\xAB\x9E";                   // Пилообразный
- char  txt_menu4_3[]       = "Tpey\x98o\xA0\xAC\xA2\xAB\x9E";                          // Треугольный
- char  txt_menu4_4[]       = "\x89p\xAF\xA1oy\x98o\xA0\xAC\xA2\xAB\x9E";               // Прямоугольный
- char  txt_menu5_1[]       = " ";// 
- char  txt_menu5_2[]       = " ";//
- char  txt_menu5_3[]       = " ";// 
- char  txt_menu5_4[]       = " ";// 
- char  txt_pass_ok[]       = "Tec\xA4 Pass!";                                           // Тест Pass!
- char  txt_pass_no[]       = "Tec\xA4 NO!";                                             // Тест NO!
- char  txt_info1[]         = "Tec\xA4 ""\x9F""a\x96""e\xA0""e\x9E";                     // Тест кабелей
- char  txt_info2[]         = "Tec\xA4 \x96\xA0o\x9F""a \x98""ap\xA2\x9D\xA4yp";         // Тест блока гарнитур
- char  txt_info3[]         = "Hac\xA4po\x9E\x9F""a c\x9D""c\xA4""e\xA1\xAB";            // Настройка системы
- char  txt_info4[]         = "\x81""e\xA2""epa\xA4op c\x9D\x98\xA2""a\xA0o\x97";        // Генератор сигналов
- char  txt_info5[]         = "Oc\xA6\x9D\xA0\xA0o\x98pa\xA5";                           // Осциллограф
- char  txt_botton_clear[]  = "C\x96poc";                                                // Сброс
- char  txt_botton_otmena[] = "O""\xA4\xA1""e""\xA2""a";                                 // Отмена
- char  txt_system_clear1[] = "B\xA2\x9D\xA1""a\xA2\x9D""e!";                            // Внимание !  
- char  txt_system_clear2[] = "Bc\xAF \xA1\xA2\xA5op\xA1""a""\xA6\xA1\xAF \x96y\x99""e\xA4";  // Вся информация будет 
- char  txt_system_clear3[] = "\x8A\x82""A""\x88""EHA!";                                 // УДАЛЕНА 
- char  txt9[6]             = "B\x97o\x99";                                              // Ввод
- char  txt10[8]            = "O""\xA4\xA1""e""\xA2""a";                                 // "Отмена"
- char  txt_time_wait[]     = "\xA1\x9D\xA2"".""\x97""pe""\xA1\xAF"" ""\xA3""poc""\xA4""o""\xAF";      //  мин. время простоя
- char  txt_osc_menu1[]     = "Oc\xA6\x9D\xA0\xA0o\x98pa\xA5";                           //
- char  txt_osc_menu2[]     = "Oc\xA6\x9D\xA0\xA0.1-18\xA1\x9D\xA2";                     //
- char  txt_osc_menu3[]     = "O\xA8\x9d\x96\x9F\x9D";                                   //
+ char  txt_menu1_1[]       = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N1";                                    // Тест кабель N 1
+ char  txt_menu1_2[]       = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N2";                                    // Тест кабель N 2
+ char  txt_menu1_3[]       = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N3";                                    // Тест кабель N 3
+ char  txt_menu1_4[]       = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N4";                                    // Тест кабель N 4
+ char  txt_menu2_1[]       = "menu2_1";                                                                // 
+ char  txt_menu2_2[]       = "menu2_2";                                                                //
+ char  txt_menu2_3[]       = "menu2_3";                                                                //
+ char  txt_menu2_4[]       = "menu2_4";                                                                //
+ char  txt_menu3_1[]       = "Ta""\x96\xA0\x9D\xA6""a coe""\x99"".";                                   // Таблица соед.
+ char  txt_menu3_2[]       = "Pe""\x99""a""\x9F\xA4"". ""\xA4""a""\x96\xA0\x9D\xA6";                   // Редакт. таблиц
+ char  txt_menu3_3[]       = "\x85""a""\x98""py""\x9C"". y""\xA1""o""\xA0\xA7"".";                     // Загруз. умолч.
+ char  txt_menu3_4[]       = "Bpe""\xA1\xAF"" ""\xA3""poc""\xA4""o""\xAF";                             // Время простоя
+ char  txt_menu4_1[]       = "C\x9D\xA2yco\x9D\x99""a";                                                // Синусоида
+ char  txt_menu4_2[]       = "\x89\x9D\xA0oo\x96pa\x9C\xA2\xAB\x9E";                                   // Пилообразный
+ char  txt_menu4_3[]       = "Tpey\x98o\xA0\xAC\xA2\xAB\x9E";                                          // Треугольный
+ char  txt_menu4_4[]       = "\x89p\xAF\xA1oy\x98o\xA0\xAC\xA2\xAB\x9E";                               // Прямоугольный
+ char  txt_menu5_1[]       = " ";                                                                      // 
+ char  txt_menu5_2[]       = " ";                                                                      //
+ char  txt_menu5_3[]       = " ";                                                                      // 
+ char  txt_menu5_4[]       = " ";                                                                      // 
+ char  txt_pass_ok[]       = "Tec\xA4 Pass!";                                                          // Тест Pass!
+ char  txt_pass_no[]       = "Tec\xA4 NO!";                                                            // Тест NO!
+ char  txt_info1[]         = "Tec\xA4 ""\x9F""a\x96""e\xA0""e\x9E";                                    // Тест кабелей
+ char  txt_info2[]         = "Tec\xA4 \x96\xA0o\x9F""a \x98""ap\xA2\x9D\xA4yp";                        // Тест блока гарнитур
+ char  txt_info3[]         = "Hac\xA4po\x9E\x9F""a c\x9D""c\xA4""e\xA1\xAB";                           // Настройка системы
+ char  txt_info4[]         = "\x81""e\xA2""epa\xA4op c\x9D\x98\xA2""a\xA0o\x97";                       // Генератор сигналов
+ char  txt_info5[]         = "Oc\xA6\x9D\xA0\xA0o\x98pa\xA5";                                          // Осциллограф
+ char  txt_botton_clear[]  = "C\x96poc";                                                               // Сброс
+ char  txt_botton_otmena[] = "O""\xA4\xA1""e""\xA2""a";                                                // Отмена
+ char  txt_system_clear1[] = "B\xA2\x9D\xA1""a\xA2\x9D""e!";                                           // Внимание !  
+ char  txt_system_clear2[] = "Bc\xAF \xA1\xA2\xA5op\xA1""a""\xA6\xA1\xAF \x96y\x99""e\xA4";            // Вся информация будет 
+ char  txt_system_clear3[] = "\x8A\x82""A""\x88""EHA!";                                                // УДАЛЕНА 
+ char  txt9[6]             = "B\x97o\x99";                                                             // Ввод
+ char  txt10[8]            = "O""\xA4\xA1""e""\xA2""a";                                                // "Отмена"
+ char  txt_time_wait[]     = "\xA1\x9D\xA2"".""\x97""pe""\xA1\xAF"" ""\xA3""poc""\xA4""o""\xAF";       //  мин. время простоя
+ char  txt_osc_menu1[]     = "Oc\xA6\x9D\xA0\xA0o\x98pa\xA5";                                          //
+ char  txt_osc_menu2[]     = "Oc\xA6\x9D\xA0\xA0.1-18\xA1\x9D\xA2";                                    //
+ char  txt_osc_menu3[]     = "O\xA8\x9d\x96\x9F\x9D";                                                  //
  char  txt_osc_menu4[]     = "B\x91XO\x82";           
  char  txt_info29[]        = "Stop->PUSH Disp"; 
  char  txt_info30[]            = "\x89o\x97\xA4op."; 
 
 
- int   temp_buffer[40] ;                                                                // Буфер хранения временной информации
+ byte   temp_buffer[40] ;                                                                                               // Буфер хранения временной информации
  
- const unsigned char connektN1_default[]    PROGMEM  = { 
-   20,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,                                                     // Разъем А
-	  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20                                                      // Разъем B
+ const byte connektN1_default[]    PROGMEM  = { 20,
+      1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,                                                               // Разъем А
+	  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20                                                                // Разъем B
  }; // 20 x 2 ячеек
- const unsigned char connektN2_default[]    PROGMEM  = { 
-    26,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,                                   // Разъем А
-	   1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26                                    // Разъем B
+ const byte connektN2_default[]    PROGMEM  = { 26,
+       1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,                                            // Разъем А
+	   1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26                                             // Разъем B
  }; // 26 x 2 ячеек
- const unsigned char connektN3_default[]    PROGMEM  = { 
-   37, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,  // Разъем А
+ const byte connektN3_default[]    PROGMEM  = { 37,
+       1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,  // Разъем А
 	   19,18,17,16,15,14,13,12,11,10,9, 8, 7, 6, 5, 4, 3, 2, 1, 37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20   // Разъем B
  }; // 37 x 2 ячеек
- const unsigned char connektN4_default[]    PROGMEM  = { 
-   34, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,           // Разъем А
-	   1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34            // Разъем B
- }; // 34 x 2 ячеек
+ const byte connektN4_default[]    PROGMEM  = { 32,
+       1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,                          // Разъем А
+	   1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32                           // Разъем B
+ }; // 32 x 2 ячеек
 
  //++++++++++++++++++ Вариант № 1 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  const unsigned int adr_memN1_1      PROGMEM       =    100;                      // Начальный адрес памяти таблицы соответствия контактов разъемов №1А, №1В
@@ -253,7 +253,7 @@ int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, but
 
 
 
-void dateTime(uint16_t* date, uint16_t* time)                  // Программа записи времени и даты файла
+void dateTime(uint16_t* date, uint16_t* time)                                    // Программа записи времени и даты файла
 {
   DateTime now = RTC.now();
 
@@ -864,7 +864,7 @@ void waitForIt(int x1, int y1, int x2, int y2)
   myGLCD.setColor(255, 0, 0);
   myGLCD.drawRoundRect (x1, y1, x2, y2);
   while (myTouch.dataAvailable())
-	myTouch.read();
+  myTouch.read();
   myGLCD.setColor(255, 255, 255);
   myGLCD.drawRoundRect (x1, y1, x2, y2);
 }
@@ -949,10 +949,10 @@ void control_command()
 				 set_rezistor2();             // Установить уровень сигнала резистором №1
 				 break;
 			case 12:
-				 mem_byte_trans_read();       // Чтение таблиц из EEPROM для передачи в ПК
+				 mem_byte_trans_readPC();     // Чтение таблиц из EEPROM для передачи в ПК
 				 break;
 			case 13:
-				 mem_byte_trans_save();       // Получить таблицу из ПK и записать в EEPROM
+				 mem_byte_trans_savePC();     // Получить таблицу из ПK и записать в EEPROM
 				 break;
 			case 14:
 				 //
@@ -1174,24 +1174,19 @@ void swichMenu() // Тексты меню в строках "txt....."
 		           if (pressed_button==but1 && m2 == 1)
 			           {
 						
-								myGLCD.clrScr();   // Очистить экран
-								myGLCD.print(txt_pass_ok, RIGHT, 208); 
-								delay (500);
-		    				//	elektro_save_start(); // если верно - выполнить пункт меню
-					
-			   				 myGLCD.clrScr();
-							 myButtons.drawButtons();
-							 print_up();
+							myGLCD.clrScr();   // Очистить экран
+//							delay (500);
+		    				test_cabel_N1();
+			   				myGLCD.clrScr();
+							myButtons.drawButtons();
+							print_up();
 			           }
 	  
 		           if (pressed_button==but2 && m2 == 1)
 					   {
 						
-								myGLCD.clrScr();   // Очистить экран
-								myGLCD.print(txt_pass_ok, RIGHT, 208); 
-								delay (500);
-		    				//	gaz_save_start(); // если верно - выполнить пункт меню
-					
+							myGLCD.clrScr();   // Очистить экран
+		                    test_cabel_N2();
 			   				myGLCD.clrScr();
 							myButtons.drawButtons();
 							print_up();
@@ -1200,11 +1195,8 @@ void swichMenu() // Тексты меню в строках "txt....."
 		           if (pressed_button==but3 && m2 == 1)
 					   {
 						
-								myGLCD.clrScr();   // Очистить экран
-								myGLCD.print(txt_pass_ok, RIGHT, 208); 
-								delay (500);
-		    				 //  colwater_save_start(); // если верно - выполнить пункт меню
-					
+							myGLCD.clrScr();   // Очистить экран
+                        	test_cabel_N3();
 			   				myGLCD.clrScr();
 							myButtons.drawButtons();
 							print_up();
@@ -1212,10 +1204,8 @@ void swichMenu() // Тексты меню в строках "txt....."
 		           if (pressed_button==but4 && m2 == 1)
 					   {
 					
-								myGLCD.clrScr();   // Очистить экран
-								myGLCD.print(txt_pass_ok, RIGHT, 208); 
-								delay (500);
-		    		// 
+							myGLCD.clrScr();   // Очистить экран
+	                        test_cabel_N4();
 			   				myGLCD.clrScr();
 							myButtons.drawButtons();
 							print_up();
@@ -1226,7 +1216,6 @@ void swichMenu() // Тексты меню в строках "txt....."
 
 		           if (pressed_button==but1 && m2 == 2)
 					  {
-						//	print_info();
 	        				myGLCD.clrScr();
 							myButtons.drawButtons();
 							print_up();
@@ -1234,7 +1223,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 
 				  if (pressed_button==but2 && m2 == 2)
 					  {
-						//   info_nomer_user();
+ 
 				  			myGLCD.clrScr();
 							myButtons.drawButtons();
 							print_up();
@@ -1242,8 +1231,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 	  
 				  if (pressed_button==but3 && m2 == 2)
 					  {
-					
-						 // test_arRequestMod();
+
 							myGLCD.clrScr();
 							myButtons.drawButtons();
 							print_up();
@@ -1251,8 +1239,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 				  if (pressed_button==but4 && m2 == 2)
 					  {
 						 
-						  //  testRemoteAtCommand();
-						    myGLCD.clrScr();
+	     				    myGLCD.clrScr();
 							myButtons.drawButtons();
 							print_up();
 				      }
@@ -1261,8 +1248,8 @@ void swichMenu() // Тексты меню в строках "txt....."
 		           if (pressed_button==but1 && m2 == 3) // Первый пункт меню 3
 					{
 						    myGLCD.clrScr();   // Очистить экран
-							myGLCD.print(txt_pass_ok, RIGHT, 208); 
-							delay (500);
+	/*						myGLCD.print(txt_pass_ok, RIGHT, 208); 
+							delay (500);*/
 							//eeprom_clear == 0;
 		    		//			system_clear_start(); // если верно - выполнить пункт меню
 							 myGLCD.clrScr();
@@ -1274,7 +1261,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 		           if (pressed_button==but2 && m2 == 3)  // Второй пункт меню 3
 				      {
 							myGLCD.clrScr();
-							myGLCD.print(txt_pass_ok, RIGHT, 208);
+						//	myGLCD.print(txt_pass_ok, RIGHT, 208);
 						//	set_n_telef();
 							myGLCD.clrScr();
 							myButtons.drawButtons();
@@ -1287,10 +1274,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 			       if (pressed_button==but3 && m2 == 3)  // Третий пункт меню 3
 					  { 
 							myGLCD.clrScr();
-						//	myGLCD.print(txt_pass_ok, RIGHT, 208);
-							delay (500);
 		                    save_tab_def();	  
-							delay (2500);//
 							myGLCD.clrScr();
 							myButtons.drawButtons();
 							print_up();
@@ -1299,7 +1283,6 @@ void swichMenu() // Тексты меню в строках "txt....."
 	 //------------------------------------------------------------------
 				   if (pressed_button==but4 && m2 == 3)                 // Четвертый пункт меню 3
 				      {
-				
 							myGLCD.clrScr();
 							myGLCD.setFont(BigFont);
 							myGLCD.setBackColor(0, 0, 255);
@@ -1328,7 +1311,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 					  {
 			
 							myGLCD.clrScr();   // Очистить экран
-							myGLCD.print(txt_pass_ok, RIGHT, 208); 
+						//	myGLCD.print(txt_pass_ok, RIGHT, 208); 
 							delay (500);
 							sine();
 							//butA = myButtons.addButton(279, 20,  40,  35, "W", BUTTON_SYMBOL); // Синусоида
@@ -1345,7 +1328,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 					  {
 					
 							myGLCD.clrScr();
-							myGLCD.print(txt_pass_ok, RIGHT, 208);
+						//	myGLCD.print(txt_pass_ok, RIGHT, 208);
 							delay (500);
 							saw();
 							//			butB = myButtons.addButton(279, 65, 40,  35, "W", BUTTON_SYMBOL); // Треугольный
@@ -1360,7 +1343,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 					  {
 				
 							myGLCD.clrScr();
-							myGLCD.print(txt_pass_ok, RIGHT, 208);
+						//	myGLCD.print(txt_pass_ok, RIGHT, 208);
 							delay (500);
 							triangle();
 							//butC = myButtons.addButton(279, 110,  40,  35, "W", BUTTON_SYMBOL); // Пилообразный
@@ -1373,7 +1356,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 				   if (pressed_button==but4 && m2 == 4) //
 					  {
 							myGLCD.clrScr();
-							myGLCD.print(txt_pass_ok, RIGHT, 208);
+						//	myGLCD.print(txt_pass_ok, RIGHT, 208);
 							delay (500);
 							pulse();
 							//butD = myButtons.addButton(279, 155,  40,  35, "W", BUTTON_SYMBOL); // Прямоугольный сигнал
@@ -1396,7 +1379,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 				   if (pressed_button==but2 && m2 == 5)
 					  {
 							  myGLCD.clrScr();   // Очистить экран
-							  myGLCD.print(txt_pass_ok, RIGHT, 208); 
+							//  myGLCD.print(txt_pass_ok, RIGHT, 208); 
 							  delay (500);
 		    				 // ZigBee_SetH(); // если верно - выполнить пункт меню
 		
@@ -1407,7 +1390,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 				   if (pressed_button==but3 && m2 == 5) // Ввод пароля пользователя
 					  {
 							  myGLCD.clrScr();   // Очистить экран
-							  myGLCD.print(txt_pass_ok, RIGHT, 208); 
+						//	  myGLCD.print(txt_pass_ok, RIGHT, 208); 
 							  delay (500);
 		    				 // ZigBee_SetL(); // если верно - выполнить пункт меню
 					
@@ -1420,7 +1403,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 				   
 					
 								myGLCD.clrScr();   // Очистить экран
-								myGLCD.print(txt_pass_ok, RIGHT, 208); 
+							//	myGLCD.print(txt_pass_ok, RIGHT, 208); 
 								delay (500);
 		    			//		break;
 						
@@ -1535,73 +1518,73 @@ void set_rezistor2()
 	regBank.set(adr_control_command,0);
 }
 
-void save_tab_def()
+void save_tab_def()                        // Запись в EEPROM  таблиц проверки по умолчанию
 {
 	for (int i = 1;i<5;i++)
 	{
 		myGLCD.setColor(255, 255, 255);
 		myGLCD.print("Save block N ", 25, 70);//
 		myGLCD.printNumI(i, 230, 70);
-		save_default(i);
+		save_default(i);                 //Подпрограмма записи в EEPROM блока таблиц проверки по умолчанию
 
-		for (int x = 10;x<60;x++)
+		for (int x = 10;x<65;x++)
 		{
 			myGLCD.setColor(0, 0, 255);
-			myGLCD.fillRoundRect (30, 100, 30+ (x*4),95);
+			myGLCD.fillRoundRect (30, 100, 30+ (x*4),110);
 			myGLCD.setColor(255, 255, 255);
-			myGLCD.drawRoundRect (28, 98, 32+ (x*4),97);
+			myGLCD.drawRoundRect (28, 98, 32+ (x*4),112);
 		}
 		myGLCD.clrScr();
 	}
 }
-void save_default(byte adrN_eeprom)                                          // Запись заводских установок таблицы разъемов №1
+void save_default(byte adrN_eeprom)                                               //Подпрограмма записи в EEPROM блока таблиц проверки по умолчанию
 {
-	byte _u_konnekt     = 0;                                                 // Временное хранения содержимого регистра.
-    int _step_mem       = 0;                                                 // Длина блока с таблицы
+	byte _u_konnekt     = 0;                                                      // Временное хранения содержимого регистра.
+    byte _step_mem      = 0;                                                      // Длина блока с таблицы
 	int adr_memN        = 0;
-	int connekt_default = 0;                                                 // Адрес в постоянной памяти
+	int connekt_default = 0;                                                      // Адрес в постоянной памяти
 		switch (adrN_eeprom)
 		   {
 			case 1:
-				 adr_memN = adr_memN1_1;                                     // Адрес блока EEPROM № 1 
-				 _step_mem = (pgm_read_byte_near(connektN1_default)*2);      // Длина блока с таблицы
-				 for (int i = 1; i < _step_mem;i++)                    
+				 adr_memN   = adr_memN1_1;                                        // Адрес блока EEPROM № 1 
+				 _step_mem  = (pgm_read_byte_near(connektN1_default));            // Длина блока с таблицы
+				 for (int i = 0; i < (_step_mem * 2)+1;i++)                    
 					{
 					  _u_konnekt = pgm_read_byte_near(connektN1_default+i);
 					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
 					}
 				 break;
 			case 2:
-				 adr_memN = adr_memN1_2;                                     // Адрес блока EEPROM № 2 
-				 _step_mem = (pgm_read_byte_near(connektN2_default)*2);      // Длина блока с таблицы
-				 for (int i = 1; i < _step_mem;i++)                    
+				 adr_memN   = adr_memN1_2;                                        // Адрес блока EEPROM № 2 
+				 _step_mem  = (pgm_read_byte_near(connektN2_default));            // Длина блока с таблицы
+				 for (int i = 0; i < (_step_mem * 2)+1;i++)                    
 					{
 					  _u_konnekt = pgm_read_byte_near(connektN2_default+i);
 					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
 					}
 				 break;
 			case 3:
-				 adr_memN = adr_memN1_3;                                     // Адрес блока EEPROM № 3
-				 _step_mem = (pgm_read_byte_near(connektN3_default)*2);      // Длина блока с таблицы
-				 for (int i = 1; i < _step_mem;i++)                    
+				 adr_memN   = adr_memN1_3;                                       // Адрес блока EEPROM № 3
+				 _step_mem  = (pgm_read_byte_near(connektN3_default));           // Длина блока с таблицы
+				 for (int i = 0; i < (_step_mem * 2)+1;i++)                    
 					{
 					  _u_konnekt = pgm_read_byte_near(connektN3_default+i);
 					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
 					}
 				 break;
 			case 4:
-				 adr_memN = adr_memN1_4;                                     // Адрес блока EEPROM № 4
-				 _step_mem = (pgm_read_byte_near(connektN4_default)*2);      // Длина блока с таблицы
-				 for (int i = 1; i < _step_mem;i++)                    
+				 adr_memN   = adr_memN1_4;                                       // Адрес блока EEPROM № 4
+				 _step_mem  = (pgm_read_byte_near(connektN4_default));           // Длина блока с таблицы
+				 for (int i = 0; i < (_step_mem * 2)+1;i++)                    
 					{
 					  _u_konnekt = pgm_read_byte_near(connektN4_default+i);
 					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
 					}
 				 break;
 			default:
-				 adr_memN = adr_memN1_1;                                     // Адрес блока EEPROM № 1 
-				 _step_mem = (pgm_read_byte_near(connektN1_default)*2);      // Длина блока с таблицы
-				 for (int i = 1; i < _step_mem;i++)                    
+				 adr_memN   = adr_memN1_1;                                       // Адрес блока EEPROM № 1 
+				 _step_mem  = (pgm_read_byte_near(connektN1_default));           // Длина блока с таблицы
+				 for (int i = 0; i < (_step_mem * 2)+1;i++)                    
 					{
 					  _u_konnekt = pgm_read_byte_near(connektN1_default+i);
 					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
@@ -1620,8 +1603,8 @@ void save_default_pc()                                                       // 
 		   {
 			case 1:
 				 adr_memN = adr_memN1_1;                                     // Адрес блока EEPROM № 1 
-				 _step_mem = (pgm_read_byte_near(connektN1_default)*2);      // Длина блока с таблицы
-				 for (int i = 1; i < _step_mem;i++)                    
+				 _step_mem = (pgm_read_byte_near(connektN1_default));        // Длина блока с таблицы
+				 for (int i = 1; i < (_step_mem * 2)+1;i++)                    
 					{
 					  _u_konnekt = pgm_read_byte_near(connektN1_default+i);
 					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
@@ -1629,8 +1612,8 @@ void save_default_pc()                                                       // 
 				 break;
 			case 2:
 				 adr_memN = adr_memN1_2;                                     // Адрес блока EEPROM № 2 
-				 _step_mem = (pgm_read_byte_near(connektN2_default)*2);      // Длина блока с таблицы
-				 for (int i = 1; i < _step_mem;i++)                    
+				 _step_mem = (pgm_read_byte_near(connektN2_default));        // Длина блока с таблицы
+				 for (int i = 1; i < (_step_mem * 2)+1;i++)                    
 					{
 					  _u_konnekt = pgm_read_byte_near(connektN2_default+i);
 					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
@@ -1638,8 +1621,8 @@ void save_default_pc()                                                       // 
 				 break;
 			case 3:
 				 adr_memN = adr_memN1_3;                                     // Адрес блока EEPROM № 3
-				 _step_mem = (pgm_read_byte_near(connektN3_default)*2);      // Длина блока с таблицы
-				 for (int i = 1; i < _step_mem;i++)                    
+				 _step_mem = (pgm_read_byte_near(connektN3_default));        // Длина блока с таблицы
+				 for (int i = 1; i < (_step_mem * 2)+1;i++)                    
 					{
 					  _u_konnekt = pgm_read_byte_near(connektN3_default+i);
 					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
@@ -1647,8 +1630,8 @@ void save_default_pc()                                                       // 
 				 break;
 			case 4:
 				 adr_memN = adr_memN1_4;                                     // Адрес блока EEPROM № 4
-				 _step_mem = (pgm_read_byte_near(connektN4_default)*2);      // Длина блока с таблицы
-				 for (int i = 1; i < _step_mem;i++)                    
+				 _step_mem = (pgm_read_byte_near(connektN4_default));        // Длина блока с таблицы
+				 for (int i = 1; i < (_step_mem * 2)+1;i++)                    
 					{
 					  _u_konnekt = pgm_read_byte_near(connektN4_default+i);
 					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
@@ -1656,8 +1639,8 @@ void save_default_pc()                                                       // 
 				 break;
 			default:
 				 adr_memN = adr_memN1_1;                                     // Адрес блока EEPROM № 1 
-				 _step_mem = (pgm_read_byte_near(connektN1_default)*2);      // Длина блока с таблицы
-			 	 for (int i = 1; i < _step_mem;i++)                    
+				 _step_mem = (pgm_read_byte_near(connektN1_default));        // Длина блока с таблицы
+			 	 for (int i = 1; i < (_step_mem * 2)+1;i++)                    
 					{
 					  _u_konnekt = pgm_read_byte_near(connektN1_default+i);
 					  i2c_eeprom_write_byte(deviceaddress,adr_memN+i, _u_konnekt); 
@@ -1670,9 +1653,9 @@ void save_default_pc()                                                       // 
 void set_komm_mcp(int chanal_a_b, int chanal_n, int chanal_in_out )   // Программа включения аналового канала
 {
 	/*
-	int chanal_a_b  -  выбрать блок разъемов А или В
+	int chanal_a_b  -  выбрать блок разъемов А - 1 или В - 2
 	int chanal_n    -  выбрать № канала (1-48)
-	chanal_in_out   -  выбрать аналоговый выход или заземлить выбранный канал канал
+	chanal_in_out   -  выбрать аналоговый выход - 1 или заземлить выбранный канал канал
 	*/
 	int _chanal_a_b      = chanal_a_b;                                // Канал входов коммутаторов  А - вход, B - выход.
 	int _chanal_n        = chanal_n;                                  // № канала (1- 48).
@@ -1680,7 +1663,7 @@ void set_komm_mcp(int chanal_a_b, int chanal_n, int chanal_in_out )   // Програм
 
 	if (_chanal_a_b == 1)                                             // Установка каналов А 
 	{
-		if (_chanal_in_out == 1)                                      // Установка аналового канала А  
+		if (_chanal_in_out == 1)                                      // Установка входа аналового канала А  
 		{
 		    mcp_Out1.digitalWrite(8,  HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  1E1  U13
 			mcp_Out1.digitalWrite(9,  HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  1E2  U17
@@ -1957,7 +1940,7 @@ void set_mcp_byte_2b(int set_byte)
             mcp_Out2.digitalWrite(7, LOW);
 		}
 }
-void mem_byte_trans_read()                                      //  Чтение таблиц из EEPROM для передачи в ПК
+void mem_byte_trans_readPC()                                      //  Чтение таблиц из EEPROM для передачи в ПК
 {
 	unsigned int _adr_reg = regBank.get(40005)+40000;           //  Адрес блока регистров для передачи в ПК таблиц.
 	unsigned int _adr_mem = regBank.get(40006);                 //  Адрес блока памяти для передачи в ПК таблиц.
@@ -1970,7 +1953,7 @@ void mem_byte_trans_read()                                      //  Чтение табли
 	regBank.set(adr_control_command,0);                         // Завершить программу    
 	delay(200);
 }
-void mem_byte_trans_save()                                      //  Получить таблицу из ПK и записать в EEPROM
+void mem_byte_trans_savePC()                                      //  Получить таблицу из ПK и записать в EEPROM
 {
 	unsigned int _adr_reg = regBank.get(40005);                 //  Адрес блока регистров для передачи в ПК таблиц.
 	unsigned int _adr_mem = regBank.get(40006);                 //  Адрес блока памяти для передачи в ПК таблиц.
@@ -1986,19 +1969,56 @@ void mem_byte_trans_save()                                      //  Получить таб
 
 void test_cabel_N1()
 {
+	byte  _size_block = i2c_eeprom_read_byte(deviceaddress,adr_memN1_1);
+	byte canal_N = 0;
+    Serial.println(_size_block);
+
+	for (unsigned int x_mem = 1;x_mem < _size_block+1;x_mem++)
+	{
+		 canal_N = i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem);
+		 set_komm_mcp(1, canal_N,1);
+
+		 Serial.print(i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem));
+		 Serial.print(" - ");
+		 Serial.println(i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem+_size_block));
+	}
 
 }
 void test_cabel_N2()
 {
+    byte  _size_block = i2c_eeprom_read_byte(deviceaddress,adr_memN1_2);
+    Serial.println(_size_block);
 
+	for (unsigned int x_mem = 1;x_mem < _size_block+1;x_mem++)
+	{
+		 Serial.print(i2c_eeprom_read_byte(deviceaddress,adr_memN1_2 + x_mem));
+		 Serial.print(" - ");
+		 Serial.println(i2c_eeprom_read_byte(deviceaddress,adr_memN1_2 + x_mem+_size_block));
+	}
 }
 void test_cabel_N3()
 {
+    byte  _size_block = i2c_eeprom_read_byte(deviceaddress,adr_memN1_3);
+    Serial.println(_size_block);
 
+	for (unsigned int x_mem = 1;x_mem < _size_block+1;x_mem++)
+	{
+		 Serial.print(i2c_eeprom_read_byte(deviceaddress,adr_memN1_3 + x_mem));
+		 Serial.print(" - ");
+		 Serial.println(i2c_eeprom_read_byte(deviceaddress,adr_memN1_3 + x_mem+_size_block));
+	}
 }
 void test_cabel_N4()
 {
+	byte  _size_block = i2c_eeprom_read_byte(deviceaddress,adr_memN1_4);
+    Serial.println(_size_block);
 
+	for (unsigned int x_mem = 1;x_mem < _size_block+1;x_mem++)
+	{
+		 Serial.print(i2c_eeprom_read_byte(deviceaddress,adr_memN1_4 + x_mem));
+		 Serial.print(" - ");
+		 Serial.println(i2c_eeprom_read_byte(deviceaddress,adr_memN1_4 + x_mem+_size_block));
+	}
 }
 void test_panel_N1()
 {
