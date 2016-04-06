@@ -1682,22 +1682,22 @@ void set_komm_mcp(char chanal_a_b, int chanal_n, char chanal_in_out )   // Прогр
 			if (_chanal_n <16)
 			{
                 set_mcp_byte_1a(_chanal_n);                           // Сформировать байт выбора канала (0 - 15)
-				Serial.print("A_An0 - 15  ");
-				Serial.println(_chanal_n);
+		/*		Serial.print("A_An0 - 15  ");
+				Serial.println(_chanal_n);*/
 				mcp_Out1.digitalWrite(8, LOW);                        // Выбрать EN микросхемы аналового коммутатора  1E1  U13
 			}
 			else if(_chanal_n > 15 && _chanal_n < 32)
 			{
 				set_mcp_byte_1a(_chanal_n - 16);                      //  Сформировать байт выбора канала (15 - 31)
-				Serial.print("A_An16 - 31  ");
-				Serial.println(_chanal_n);
+			/*	Serial.print("A_An16 - 31  ");
+				Serial.println(_chanal_n);*/
 				mcp_Out1.digitalWrite(9, LOW);                        // Выбрать EN микросхемы аналового коммутатора  1E2  U17
 			}
 			else if(_chanal_n > 31 && _chanal_n < 48)
 			{
 				set_mcp_byte_1a(_chanal_n - 32);                      // Сформировать байт выбора канала (32 - 48)
-				Serial.print("A_An32 - 47  ");
-				Serial.println(_chanal_n);
+			/*	Serial.print("A_An32 - 47  ");
+				Serial.println(_chanal_n);*/
 				mcp_Out1.digitalWrite(10, LOW);                       // Выбрать EN микросхемы аналового коммутатора  1E3  U23
 			}
 
@@ -1710,22 +1710,22 @@ void set_komm_mcp(char chanal_a_b, int chanal_n, char chanal_in_out )   // Прогр
 			if (_chanal_n <16)
 			{
 				set_mcp_byte_1b(_chanal_n);                           // Сформировать байт выбора канала (0 - 15)
-				Serial.print("A_gr0 - 15  ");
-				Serial.println(_chanal_n);
+			/*	Serial.print("A_gr0 - 15  ");
+				Serial.println(_chanal_n);*/
 				mcp_Out1.digitalWrite(11, LOW);                       // Выбрать  EN микросхемы аналового коммутатора  1E4  U14
 			}
 			else if(_chanal_n > 15 && _chanal_n < 32)
 			{
 				set_mcp_byte_1b(_chanal_n - 16);                      // Сформировать байт выбора канала (16 - 31)
-				Serial.print("A_gr16 - 31  ");
-				Serial.println(_chanal_n);
+			/*	Serial.print("A_gr16 - 31  ");
+				Serial.println(_chanal_n);*/
 				mcp_Out1.digitalWrite(12, LOW);                       // Выбрать EN микросхемы аналового коммутатора  1E5  U19 
 			}
 			else if(_chanal_n > 31 && _chanal_n < 48)
 			{
 				set_mcp_byte_1b(_chanal_n - 32);                      // Сформировать байт выбора канала (32 - 48)
-				Serial.print("A_gr32 - 47  ");
-				Serial.println(_chanal_n);
+				/*Serial.print("A_gr32 - 47  ");
+				Serial.println(_chanal_n);*/
 				mcp_Out1.digitalWrite(13, LOW);                       // Выбрать  EN микросхемы аналового коммутатора  1E6  U21 
 			}
 
@@ -1741,22 +1741,22 @@ void set_komm_mcp(char chanal_a_b, int chanal_n, char chanal_in_out )   // Прогр
 			if (_chanal_n <16)
 			{
 				set_mcp_byte_2a(_chanal_n);                           // Сформировать байт выбора канала (0 - 15)
-				Serial.print("B_An0 - 15  ");
-				Serial.println(_chanal_n);
+			/*	Serial.print("B_An0 - 15  ");
+				Serial.println(_chanal_n);*/
 				mcp_Out2.digitalWrite(8, LOW);                        // Выбрать EN микросхемы аналового коммутатора  2E1  U15
 			}
 			else if(_chanal_n > 15 && _chanal_n < 32)
 			{
 				set_mcp_byte_2a(_chanal_n - 16);                      // Сформировать байт выбора канала (16 - 31)
-				Serial.print("B_An16 - 31  ");
-				Serial.println(_chanal_n);
+				/*Serial.print("B_An16 - 31  ");
+				Serial.println(_chanal_n);*/
 				mcp_Out2.digitalWrite(9, LOW);                        // Выбрать EN микросхемы аналового коммутатора  2E2  U18 
 			}
 			else if(_chanal_n > 31 && _chanal_n < 48)
 			{
 				set_mcp_byte_2a(_chanal_n - 32);                      // Сформировать байт выбора канала (32 - 48)
-				Serial.print("B_An32 - 47  ");
-				Serial.println(_chanal_n);
+			/*	Serial.print("B_An32 - 47  ");
+				Serial.println(_chanal_n);*/
 				mcp_Out2.digitalWrite(10, LOW);                       // Выбрать EN микросхемы аналового коммутатора  2E3  U22
 			}
 
@@ -1769,22 +1769,22 @@ void set_komm_mcp(char chanal_a_b, int chanal_n, char chanal_in_out )   // Прогр
 			if (_chanal_n <16)
 			{
 				set_mcp_byte_2b(_chanal_n);                           // Сформировать байт выбора канала (0 - 15)
-				Serial.print("B_gr0 - 15  ");
-				Serial.println(_chanal_n);
+			/*	Serial.print("B_gr0 - 15  ");
+				Serial.println(_chanal_n);*/
 				mcp_Out2.digitalWrite(11, LOW);                       // Выбрать EN микросхемы аналового коммутатора  2E4  U16
 			}
 			else if(_chanal_n > 15 && _chanal_n < 32)
 			{
 				set_mcp_byte_2b(_chanal_n - 16);                      // Сформировать байт выбора канала (16 - 31)
-				Serial.print("B_gr16 - 31  ");
-				Serial.println(_chanal_n);
+			/*	Serial.print("B_gr16 - 31  ");
+				Serial.println(_chanal_n);*/
 				mcp_Out2.digitalWrite(12, LOW);                       // Выбрать EN микросхемы аналового коммутатора  2E5  U20 
 			}
 			else if(_chanal_n > 31 && _chanal_n < 48)
 			{
 				set_mcp_byte_2b(_chanal_n - 32);                      // Сформировать байт выбора канала (32 - 48)
-				Serial.print("B_gr32 - 47  ");
-				Serial.println(_chanal_n);
+			/*	Serial.print("B_gr32 - 47  ");
+				Serial.println(_chanal_n);*/
 				mcp_Out2.digitalWrite(13, LOW);                       // Выбрать EN микросхемы аналового коммутатора  2E6  U24
 			}
 		}
@@ -1986,19 +1986,34 @@ void test_cabel_N1()
 	byte  _size_block = i2c_eeprom_read_byte(deviceaddress,adr_memN1_1);
 	byte canal_N = 0;
     Serial.println(_size_block);
-
+	pinMode(46, OUTPUT);                                   // Выход коммутаторов блока А
+	digitalWrite(47, HIGH);      
 	for (unsigned int x_mem = 1;x_mem < _size_block+1;x_mem++)
 	{
 		 canal_N = i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem);
 		 set_komm_mcp('A', canal_N,'O');
-		 canal_N = i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem + _size_block);
-		 set_komm_mcp('B', canal_N,'O');
+		// digitalWrite(46, HIGH);      
+		  digitalWrite(46, LOW);    // 
+		 for (unsigned int x_mem1 = 1;x_mem1 < _size_block+1;x_mem1++)
+	     {
+			 canal_N = i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem1 + _size_block);
+			 set_komm_mcp('B', canal_N,'O');
+			 if (digitalRead(47) == LOW); 
+			 {
+				 Serial.print(" - ");
+				 Serial.println(canal_N);
+			 }
+		 }
 
-		 Serial.print(i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem));
+
+
+
+		/* Serial.print(i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem));
 		 Serial.print(" - ");
-		 Serial.println(i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem+_size_block));
+		 Serial.println(i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem+_size_block));*/
 	}
 
+	pinMode(46, INPUT);                                   // Выход коммутаторов блока А
 }
 void test_cabel_N2()
 {
