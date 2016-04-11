@@ -1671,8 +1671,7 @@ void set_komm_mcp(char chanal_a_b, int chanal_n, char chanal_in_out )   // Прогр
 	char _chanal_a_b     = chanal_a_b;                                // Канал входов коммутаторов  А - вход, B - выход.
 	int _chanal_n        = chanal_n;                                  // № канала (1- 48).
 	int _chanal_in_out   = chanal_in_out;                             // Вариант канала: 1 - сигнал,  2 - подключить на общий(заземлить).
-	//Serial.print(_chanal_n);
-	//Serial.print(" - ");
+
 	if (_chanal_a_b == 'A')                                           // Установка каналов А 
 	{
 		if (_chanal_in_out == 'O')                                    // Установка  аналового канала А  на вход/выход
@@ -1682,7 +1681,7 @@ void set_komm_mcp(char chanal_a_b, int chanal_n, char chanal_in_out )   // Прогр
 			mcp_Out1.digitalWrite(10, HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  1E3  U23
 			if (_chanal_n <17)
 			{
-                set_mcp_byte_1a(_chanal_n-1);                           // Сформировать байт выбора канала (0 - 15)
+                set_mcp_byte_1a(_chanal_n-1);                         // Сформировать байт выбора канала (0 - 15)
 				mcp_Out1.digitalWrite(8, LOW);                        // Выбрать EN микросхемы аналового коммутатора  1E1  U13
 			}
 			else if(_chanal_n > 16 && _chanal_n < 33)
@@ -1704,7 +1703,7 @@ void set_komm_mcp(char chanal_a_b, int chanal_n, char chanal_in_out )   // Прогр
 			mcp_Out1.digitalWrite(13, HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  1E6  U21 
 			if (_chanal_n <17)
 			{
-				set_mcp_byte_1b(_chanal_n-1);                           // Сформировать байт выбора канала (0 - 15)
+				set_mcp_byte_1b(_chanal_n-1);                         // Сформировать байт выбора канала (0 - 15)
 				mcp_Out1.digitalWrite(11, LOW);                       // Выбрать  EN микросхемы аналового коммутатора  1E4  U14
 			}
 			else if(_chanal_n > 16 && _chanal_n < 33)
@@ -1720,7 +1719,7 @@ void set_komm_mcp(char chanal_a_b, int chanal_n, char chanal_in_out )   // Прогр
 
 		}
 	}
-	else if(_chanal_a_b == 'B')                                         // Установка каналов В 
+	else if(_chanal_a_b == 'B')                                       // Установка каналов В 
 	{
 		if (_chanal_in_out == 'O')                                    // Установка  аналового канала А  на вход/выход
 		{
@@ -1729,7 +1728,7 @@ void set_komm_mcp(char chanal_a_b, int chanal_n, char chanal_in_out )   // Прогр
 			mcp_Out2.digitalWrite(10, HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  2E3  U22
 			if (_chanal_n <17)
 			{
-				set_mcp_byte_2a(_chanal_n-1);                           // Сформировать байт выбора канала (0 - 15)
+				set_mcp_byte_2a(_chanal_n-1);                         // Сформировать байт выбора канала (0 - 15)
 				mcp_Out2.digitalWrite(8, LOW);                        // Выбрать EN микросхемы аналового коммутатора  2E1  U15
 			}
 			else if(_chanal_n > 16 && _chanal_n < 33)
@@ -1751,7 +1750,7 @@ void set_komm_mcp(char chanal_a_b, int chanal_n, char chanal_in_out )   // Прогр
 			mcp_Out2.digitalWrite(13, HIGH);                          // Сброс выбора EN микросхемы аналового коммутатора  2E6  U24
 			if (_chanal_n <17)
 			{
-				set_mcp_byte_2b(_chanal_n-1);                           // Сформировать байт выбора канала (0 - 15)
+				set_mcp_byte_2b(_chanal_n-1);                         // Сформировать байт выбора канала (0 - 15)
 				mcp_Out2.digitalWrite(11, LOW);                       // Выбрать EN микросхемы аналового коммутатора  2E4  U16
 			}
 			else if(_chanal_n > 16 && _chanal_n < 33)
@@ -1808,9 +1807,6 @@ void set_mcp_byte_1a(int set_byte)
 		{
             mcp_Out1.digitalWrite(3, LOW);
 		}
-	//	Serial.println(_chanal_n);
-
-
 }
 void set_mcp_byte_1b(int set_byte)
 {
@@ -1852,7 +1848,6 @@ void set_mcp_byte_1b(int set_byte)
 		{
             mcp_Out1.digitalWrite(7, LOW);
 		}
-	//	Serial.println(_chanal_n);
 }
 void set_mcp_byte_2a(int set_byte)
 {
