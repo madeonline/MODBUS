@@ -1,5 +1,5 @@
 //#include <avr/io.h>
-
+#include "Globals.h"                             // Глобальные настройки
 #include <SPI.h>
 #include <SdFat.h>
 #include <SdFatUtil.h>
@@ -17,15 +17,10 @@
 #include <UTFT.h>
 #include <UTouch.h>
 #include <UTFT_Buttons.h>
+#include <Arduino.h>
 
 MCP23017 mcp_Out1;                                 // Назначение портов расширения MCP23017  4 A - Out, B - Out
 MCP23017 mcp_Out2;                                 // Назначение портов расширения MCP23017  6 A - Out, B - Out
-
-#define  ledPin13  13                              // Назначение светодиодов на плате
-#define  ledPin12  12                              // Назначение светодиодов на плате
-
-
-
 
 // Define various ADC prescaler
 const unsigned char PS_16 = (1 << ADPS2);
@@ -36,15 +31,10 @@ const unsigned char PS_128 = (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
 //+++++++++++++++++++ MODBUS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 modbusDevice regBank;
-//Create the modbus slave protocol handler
 modbusSlave slave;
 
 //+++++++++++++++++++++++ Настройка электронного резистора +++++++++++++++++++++++++++++++++++++
-#define address_AD5252   0x2F                      // Адрес микросхемы AD5252  
-#define control_word1    0x07                      // Байт инструкции резистор №1
-#define control_word2    0x87                      // Байт инструкции резистор №2
-byte resistance        = 0x00;                     // Сопротивление 0x00..0xFF - 0Ом..100кОм
-
+  byte resistance        = 0x00;                     // Сопротивление 0x00..0xFF - 0Ом..100кОм
 
 //+++++++++++++++++++++++++++++ Внешняя память +++++++++++++++++++++++++++++++++++++++
 int deviceaddress        = 80;                     // Адрес микросхемы памяти
@@ -73,7 +63,6 @@ extern uint8_t BigFont[];
 extern uint8_t Dingbats1_XL[];
 extern uint8_t SmallSymbolFont[];
 
-
 //+++++++++++++++++++++++++++ Настройка часов +++++++++++++++++++++++++++++++
 uint8_t second = 0;                      //Initialization time
 uint8_t minute = 10;
@@ -98,16 +87,6 @@ int time_minute                = 5;         // Время простоя прибора
 const unsigned int adr_control_command    PROGMEM       = 40001; // Адрес передачи комманд на выполнение 
 const unsigned int adr_reg_count_err      PROGMEM       = 40002; // Адрес счетчика всех ошибок
 //-------------------------------------------------------------------------------------------------------
-//+++++++++++++++++++++++++++ Порты управления платой Arduino Nano +++++++++++++++++++++++++++++++
-
-#define  kn1Nano   A0                                            // Назначение кнопок управления Nano  A0  pulse    импульс
-#define  kn2Nano   A1                                            // Назначение кнопок управления Nano  A1  triangle треугольник
-#define  kn3Nano   A2                                            // Назначение кнопок управления Nano  A2  saw      пила
-#define  kn4Nano   A3                                            // Назначение кнопок управления Nano  A3  sine     синус
-
-#define  kn5Nano   A4                                            // Назначение кнопок управления Nano  A4
-#define  kn6Nano   A5                                            // Назначение кнопок управления Nano  A5
-
 
 //++++++++++++++++++++++++++++ Переменные для цифровой клавиатуры +++++++++++++++++++++++++++++
 int x, y, z;
@@ -157,13 +136,6 @@ const int hpos = 95; //set 0v on horizontal  grid
 bool sled = false;
 bool repeat = false;
 int16_t count_repeat = 0;
-
-
-
-
-
-
-
 
 //-------------------------------------------------------------------------------------------------------
 //Назначение переменных для хранения № опций меню (клавиш)
@@ -1977,7 +1949,7 @@ void test_cabel_N1()
 		// // digitalWrite(46, LOW);    // 
 		// for (unsigned int x_mem1 = 1;x_mem1 < _size_block+1;x_mem1++)
 	 //    {
-			 canal_N = i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem1 + _size_block);
+		//	 canal_N = i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem1 + _size_block);
 			 set_komm_mcp('B', canal_N,'O');
 		//	 if (digitalRead(47) == LOW)
 		//	 {

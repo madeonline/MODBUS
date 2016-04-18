@@ -169,6 +169,7 @@ void waitForTouchRelease();
 
 #include <ArduinoCabelTest.ino>
 #include <AnalogBinLogger.h>
+#include <Globals.h>
 #include <setTimeDate.ino>
 #include <utils.pde>
 #endif
