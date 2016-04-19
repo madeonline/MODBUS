@@ -3023,7 +3023,6 @@ void setup_mcp()
   mcp_Out1.pinMode(13, OUTPUT);                    //  1E6   U21 
   mcp_Out1.pinMode(14, OUTPUT);                    //  1E7   Свободен  
   mcp_Out1.pinMode(15, OUTPUT);                    //  1E8   Свободен
-
 	
   mcp_Out2.begin(2);                               //  
   mcp_Out2.pinMode(0, OUTPUT);                     //  2A1  
@@ -3155,8 +3154,6 @@ void setup_regModbus()
 	regBank.add(40047);   
 	regBank.add(40048);     
 	regBank.add(40049); 
-
-
 						 // Текущее время 
 	regBank.add(40050);  // адрес день модуля часов контроллера
 	regBank.add(40051);  // адрес месяц модуля часов контроллера
@@ -3164,7 +3161,6 @@ void setup_regModbus()
 	regBank.add(40053);  // адрес час модуля часов контроллера
 	regBank.add(40054);  // адрес минута модуля часов контроллера
 	regBank.add(40055);  // адрес секунда модуля часов контроллера
- 
 						 // Установка времени в контроллере
 	regBank.add(40056);  // адрес день
 	regBank.add(40057);  // адрес месяц
@@ -3174,7 +3170,7 @@ void setup_regModbus()
 	regBank.add(40061);  // 
 	regBank.add(40062);  // 
 	regBank.add(40063);  // 
-
+	slave._device = &regBank;  
 }
 
 void setup()
