@@ -147,48 +147,50 @@ int but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, butX, butY, but
  //------------------------------------------------------------------------------------------------------------------
  // Назначение переменных для хранения текстов
 
- char  txt_menu1_1[]       = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N1";                                    // Тест кабель N 1
- char  txt_menu1_2[]       = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N2";                                    // Тест кабель N 2
- char  txt_menu1_3[]       = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N3";                                    // Тест кабель N 3
- char  txt_menu1_4[]       = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N4";                                    // Тест кабель N 4
- char  txt_menu2_1[]       = "menu2_1";                                                                // 
- char  txt_menu2_2[]       = "menu2_2";                                                                //
- char  txt_menu2_3[]       = "menu2_3";                                                                //
- char  txt_menu2_4[]       = "menu2_4";                                                                //
- char  txt_menu3_1[]       = "Ta""\x96\xA0\x9D\xA6""a coe""\x99"".";                                   // Таблица соед.
- char  txt_menu3_2[]       = "Pe""\x99""a""\x9F\xA4"". ""\xA4""a""\x96\xA0\x9D\xA6";                   // Редакт. таблиц
- char  txt_menu3_3[]       = "\x85""a""\x98""py""\x9C"". y""\xA1""o""\xA0\xA7"".";                     // Загруз. умолч.
- char  txt_menu3_4[]       = "Bpe""\xA1\xAF"" ""\xA3""poc""\xA4""o""\xAF";                             // Время простоя
- char  txt_menu4_1[]       = "C\x9D\xA2yco\x9D\x99""a";                                                // Синусоида
- char  txt_menu4_2[]       = "\x89\x9D\xA0oo\x96pa\x9C\xA2\xAB\x9E";                                   // Пилообразный
- char  txt_menu4_3[]       = "Tpey\x98o\xA0\xAC\xA2\xAB\x9E";                                          // Треугольный
- char  txt_menu4_4[]       = "\x89p\xAF\xA1oy\x98o\xA0\xAC\xA2\xAB\x9E";                               // Прямоугольный
- char  txt_menu5_1[]       = " ";                                                                      // 
- char  txt_menu5_2[]       = " ";                                                                      //
- char  txt_menu5_3[]       = " ";                                                                      // 
- char  txt_menu5_4[]       = " ";                                                                      // 
- char  txt_pass_ok[]       = "Tec\xA4 Pass!";                                                          // Тест Pass!
- char  txt_pass_no[]       = "Tec\xA4 NO!";                                                            // Тест NO!
- char  txt_info1[]         = "Tec\xA4 ""\x9F""a\x96""e\xA0""e\x9E";                                    // Тест кабелей
- char  txt_info2[]         = "Tec\xA4 \x96\xA0o\x9F""a \x98""ap\xA2\x9D\xA4yp";                        // Тест блока гарнитур
- char  txt_info3[]         = "Hac\xA4po\x9E\x9F""a c\x9D""c\xA4""e\xA1\xAB";                           // Настройка системы
- char  txt_info4[]         = "\x81""e\xA2""epa\xA4op c\x9D\x98\xA2""a\xA0o\x97";                       // Генератор сигналов
- char  txt_info5[]         = "Oc\xA6\x9D\xA0\xA0o\x98pa\xA5";                                          // Осциллограф
- char  txt_botton_clear[]  = "C\x96poc";                                                               // Сброс
- char  txt_botton_otmena[] = "O""\xA4\xA1""e""\xA2""a";                                                // Отмена
- char  txt_system_clear1[] = "B\xA2\x9D\xA1""a\xA2\x9D""e!";                                           // Внимание !  
- char  txt_system_clear2[] = "Bc\xAF \xA1\xA2\xA5op\xA1""a""\xA6\xA1\xAF \x96y\x99""e\xA4";            // Вся информация будет 
- char  txt_system_clear3[] = "\x8A\x82""A""\x88""EHA!";                                                // УДАЛЕНА 
- char  txt9[6]             = "B\x97o\x99";                                                             // Ввод
- char  txt10[8]            = "O""\xA4\xA1""e""\xA2""a";                                                // "Отмена"
- char  txt_time_wait[]     = "\xA1\x9D\xA2"".""\x97""pe""\xA1\xAF"" ""\xA3""poc""\xA4""o""\xAF";       //  мин. время простоя
- char  txt_osc_menu1[]     = "Oc\xA6\x9D\xA0\xA0o\x98pa\xA5";                                          //
- char  txt_osc_menu2[]     = "Oc\xA6\x9D\xA0\xA0.1-18\xA1\x9D\xA2";                                    //
- char  txt_osc_menu3[]     = "O\xA8\x9d\x96\x9F\x9D";                                                  //
- char  txt_osc_menu4[]     = "B\x91XO\x82";           
- char  txt_info29[]        = "Stop->PUSH Disp"; 
- char  txt_info30[]            = "\x89o\x97\xA4op."; 
-
+ char  txt_menu1_1[]            = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N1";                                    // Тест кабель N 1
+ char  txt_menu1_2[]            = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N2";                                    // Тест кабель N 2
+ char  txt_menu1_3[]            = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N3";                                    // Тест кабель N 3
+ char  txt_menu1_4[]            = "Tec\xA4 ""\x9F""a\x96""e\xA0\xAF N4";                                    // Тест кабель N 4
+ char  txt_menu2_1[]            = "menu2_1";                                                                // 
+ char  txt_menu2_2[]            = "menu2_2";                                                                //
+ char  txt_menu2_3[]            = "menu2_3";                                                                //
+ char  txt_menu2_4[]            = "Tec""\xA4"" pa""\x9C\xAA""e""\xA1""o""\x97";                             // Тест разъемов                                   //
+ char  txt_menu3_1[]            = "Ta""\x96\xA0\x9D\xA6""a coe""\x99"".";                                   // Таблица соед.
+ char  txt_menu3_2[]            = "Pe""\x99""a""\x9F\xA4"". ""\xA4""a""\x96\xA0\x9D\xA6";                   // Редакт. таблиц
+ char  txt_menu3_3[]            = "\x85""a""\x98""py""\x9C"". y""\xA1""o""\xA0\xA7"".";                     // Загруз. умолч.
+ char  txt_menu3_4[]            = "Bpe""\xA1\xAF"" ""\xA3""poc""\xA4""o""\xAF";                             // Время простоя
+ char  txt_menu4_1[]            = "C\x9D\xA2yco\x9D\x99""a";                                                // Синусоида
+ char  txt_menu4_2[]            = "\x89\x9D\xA0oo\x96pa\x9C\xA2\xAB\x9E";                                   // Пилообразный
+ char  txt_menu4_3[]            = "Tpey\x98o\xA0\xAC\xA2\xAB\x9E";                                          // Треугольный
+ char  txt_menu4_4[]            = "\x89p\xAF\xA1oy\x98o\xA0\xAC\xA2\xAB\x9E";                               // Прямоугольный
+ char  txt_menu5_1[]            = " ";                                                                      // 
+ char  txt_menu5_2[]            = " ";                                                                      //
+ char  txt_menu5_3[]            = " ";                                                                      // 
+ char  txt_menu5_4[]            = " ";                                                                      // 
+ char  txt_pass_ok[]            = "Tec\xA4 Pass!";                                                          // Тест Pass!
+ char  txt_pass_no[]            = "Tec\xA4 NO!";                                                            // Тест NO!
+ char  txt_info1[]              = "Tec\xA4 ""\x9F""a\x96""e\xA0""e\x9E";                                    // Тест кабелей
+ char  txt_info2[]              = "Tec\xA4 \x96\xA0o\x9F""a \x98""ap\xA2\x9D\xA4yp";                        // Тест блока гарнитур
+ char  txt_info3[]              = "Hac\xA4po\x9E\x9F""a c\x9D""c\xA4""e\xA1\xAB";                           // Настройка системы
+ char  txt_info4[]              = "\x81""e\xA2""epa\xA4op c\x9D\x98\xA2""a\xA0o\x97";                       // Генератор сигналов
+ char  txt_info5[]              = "Oc\xA6\x9D\xA0\xA0o\x98pa\xA5";                                          // Осциллограф
+ char  txt_botton_clear[]       = "C\x96poc";                                                               // Сброс
+ char  txt_botton_otmena[]      = "O""\xA4\xA1""e""\xA2""a";                                                // Отмена
+ char  txt_system_clear1[]      = "B\xA2\x9D\xA1""a\xA2\x9D""e!";                                           // Внимание !  
+ char  txt_system_clear2[]      = "Bc\xAF \xA1\xA2\xA5op\xA1""a""\xA6\xA1\xAF \x96y\x99""e\xA4";            // Вся информация будет 
+ char  txt_system_clear3[]      = "\x8A\x82""A""\x88""EHA!";                                                // УДАЛЕНА 
+ char  txt9[6]                  = "B\x97o\x99";                                                             // Ввод
+ char  txt10[8]                 = "O""\xA4\xA1""e""\xA2""a";                                                // "Отмена"
+ char  txt_time_wait[]          = "\xA1\x9D\xA2"".""\x97""pe""\xA1\xAF"" ""\xA3""poc""\xA4""o""\xAF";       //  мин. время простоя
+ char  txt_osc_menu1[]          = "Oc\xA6\x9D\xA0\xA0o\x98pa\xA5";                                          //
+ char  txt_osc_menu2[]          = "";                                    //
+ char  txt_osc_menu3[]          = "";                                                  //
+ char  txt_osc_menu4[]          = "";           
+ char  txt_info29[]             = "Stop->PUSH Disp"; 
+ char  txt_info30[]             = "\x89o\x97\xA4op."; 
+ char  txt_test_all[]           = "Tec""\xA4"" ""\x97""cex pa""\x9C\xAA""e""\xA1""o""\x97";                 // Тест всех разъемов
+ char  txt_test_all_exit1[]     = "\x82\xA0\xAF"" ""\x97\xAB""xo""\x99""a";                                 // Для выхода
+ char  txt_test_all_exit2[]     = "\xA3""p""\x9D\x9F""oc""\xA2\x9D""c""\xAC"" ""\x9F"" ""\xAD\x9F""pa""\xA2""y";  // прикоснись к экрану
 
  byte   temp_buffer[40] ;                                                                                                // Буфер хранения временной информации
  
@@ -590,19 +592,14 @@ void AnalogClock()
 			setClock();
 		  }
 
-		 //  if (((y>=140) && (y<=180)) && ((x>=260) && (x<=319))) //Возврат
 		  if (((y>=1) && (y<=239)) && ((x>=1) && (x<=260))) //Возврат
 		  {
-			//myGLCD.setColor (255, 0, 0);
-			//myGLCD.drawRoundRect(260, 140, 319, 180);
 			myGLCD.clrScr();
 			myGLCD.setFont(BigFont);
 			break;
 		  }
 		 if (((y>=1) && (y<=180)) && ((x>=260) && (x<=319))) //Возврат
 		  {
-			//myGLCD.setColor (255, 0, 0);
-			//myGLCD.drawRoundRect(260, 140, 319, 180);
 			myGLCD.clrScr();
 			myGLCD.setFont(BigFont);
 			break;
@@ -1003,7 +1000,6 @@ void control_command()
 
 void draw_Glav_Menu()
 {
-
   but1   = myButtons.addButton( 10,  20, 250,  35, txt_menu1_1);
   but2   = myButtons.addButton( 10,  65, 250,  35, txt_menu1_2);
   but3   = myButtons.addButton( 10, 110, 250,  35, txt_menu1_3);
@@ -1039,8 +1035,6 @@ void draw_Glav_Menu()
 					      myGLCD.print(txt_info5, CENTER, 0);
 					      break;
 					 }
-  myButtons.drawButtons();
-
 }
 
 void swichMenu() // Тексты меню в строках "txt....."
@@ -1142,10 +1136,10 @@ void swichMenu() // Тексты меню в строках "txt....."
 							  myButtons.drawButtons();
 							  default_colors=false;
 							  m2=5;
-							  myButtons.relabelButton(but1, txt_menu5_1 , m2 == 5);
-							  myButtons.relabelButton(but2, txt_menu5_2 , m2 == 5);
-							  myButtons.relabelButton(but3, txt_menu5_3 , m2 == 5);
-							  myButtons.relabelButton(but4, txt_menu5_4 , m2 == 5);
+							  myButtons.relabelButton(but1, txt_osc_menu1 , m2 == 5);
+							  myButtons.relabelButton(but2, txt_osc_menu2 , m2 == 5);
+							  myButtons.relabelButton(but3, txt_osc_menu3 , m2 == 5);
+							  myButtons.relabelButton(but4, txt_osc_menu4 , m2 == 5);
 							  myGLCD.setColor(0, 255, 0);
 							  myGLCD.setBackColor(0, 0, 0);
 							  myGLCD.print("                      ", CENTER, 0); 
@@ -1154,41 +1148,41 @@ void swichMenu() // Тексты меню в строках "txt....."
 	
 	               //*****************  Меню №1  **************
 
-		           if (pressed_button==but1 && m2 == 1)
-			           {
-						
+					if (pressed_button==but1 && m2 == 1)
+						{
+							// Тест кабеля №1
 							myGLCD.clrScr();   // Очистить экран
-//							delay (500);
-		    				test_cabel_N1();
-			   				myGLCD.clrScr();
+							//							delay (500);
+							test_cabel_N1();
+							myGLCD.clrScr();
 							myButtons.drawButtons();
 							print_up();
-			           }
+						}
 	  
-		           if (pressed_button==but2 && m2 == 1)
-					   {
-						
+					if (pressed_button==but2 && m2 == 1)
+						{
+							// Тест кабеля №2
 							myGLCD.clrScr();   // Очистить экран
-		                    test_cabel_N2();
-			   				myGLCD.clrScr();
+							test_cabel_N2();
+							myGLCD.clrScr();
 							myButtons.drawButtons();
 							print_up();
-					   }
+						}
 	  
-		           if (pressed_button==but3 && m2 == 1)
+					if (pressed_button==but3 && m2 == 1)
 					   {
-						
+							// Тест кабеля №3
 							myGLCD.clrScr();   // Очистить экран
-                        	test_cabel_N3();
+							test_cabel_N3();
 			   				myGLCD.clrScr();
 							myButtons.drawButtons();
 							print_up();
 					   }
 		           if (pressed_button==but4 && m2 == 1)
 					   {
-					
+							// Тест кабеля №4
 							myGLCD.clrScr();   // Очистить экран
-	                        test_cabel_N4();
+							test_cabel_N4();
 			   				myGLCD.clrScr();
 							myButtons.drawButtons();
 							print_up();
@@ -1199,45 +1193,44 @@ void swichMenu() // Тексты меню в строках "txt....."
 
 		           if (pressed_button==but1 && m2 == 2)
 					  {
+							// Тест блока гарнитур
 	        				myGLCD.clrScr();
 							myButtons.drawButtons();
 							print_up();
 				      }
 
-				  if (pressed_button==but2 && m2 == 2)
-					  {
+				   if (pressed_button==but2 && m2 == 2)
+				  	  {
  
-				  			myGLCD.clrScr();
-							myButtons.drawButtons();
-							print_up();
-					  }
-	  
-				  if (pressed_button==but3 && m2 == 2)
-					  {
-
 							myGLCD.clrScr();
 							myButtons.drawButtons();
 							print_up();
 					  }
-				  if (pressed_button==but4 && m2 == 2)
+	  
+				   if (pressed_button==but3 && m2 == 2)
 					  {
-						 
-	     				    myGLCD.clrScr();
+							myGLCD.clrScr();
+							myButtons.drawButtons();
+							print_up();
+					  }
+				   if (pressed_button==but4 && m2 == 2)
+					  {
+							// Тест входов всех разъемов
+						    // myGLCD.print(txt_pass_ok, RIGHT, 208); 
+							test_all_pin();
+	     					myGLCD.clrScr();
 							myButtons.drawButtons();
 							print_up();
 				      }
 		
 		        //*****************  Меню №3  **************
-		           if (pressed_button==but1 && m2 == 3) // Первый пункт меню 3
-					{
-						    myGLCD.clrScr();   // Очистить экран
+				   if (pressed_button==but1 && m2 == 3) // Первый пункт меню 3
+				 	  {
+							myGLCD.clrScr();   // Очистить экран
 	/*						myGLCD.print(txt_pass_ok, RIGHT, 208); 
 							delay (500);*/
-							//eeprom_clear == 0;
-		    		//			system_clear_start(); // если верно - выполнить пункт меню
-							 myGLCD.clrScr();
-							 myButtons.drawButtons();
-							 print_up();
+							myButtons.drawButtons();
+							print_up();
 					  }
 
 			 //--------------------------------------------------------------
@@ -1245,11 +1238,9 @@ void swichMenu() // Тексты меню в строках "txt....."
 				      {
 							myGLCD.clrScr();
 						//	myGLCD.print(txt_pass_ok, RIGHT, 208);
-						//	set_n_telef();
 							myGLCD.clrScr();
 							myButtons.drawButtons();
 							print_up();
-				   
 					  }
 
 			   //------------------------------------------------------------------
@@ -1272,7 +1263,7 @@ void swichMenu() // Тексты меню в строках "txt....."
 							myGLCD.clrScr();
 							drawButtons1();                            // Нарисовать цифровую клавиатуру
 							myGLCD.printNumI(time_minute, LEFT, 208);
-							myGLCD.print(txt_time_wait, 35, 208);   //
+							myGLCD.print(txt_time_wait, 35, 208);      //
 							klav123();                                 // Считать информацию с клавиатуры
 							if (ret == 1)                              // Если "Возврат" - закончить
 								 {
@@ -1353,43 +1344,36 @@ void swichMenu() // Тексты меню в строках "txt....."
 
                    if (pressed_button==but1 && m2 == 5) // Сброс данных
 					  {
-						    Draw_menu_Osc();
-							menu_Oscilloscope();
+							oscilloscope();
 							myGLCD.clrScr();
 							myButtons.drawButtons();
 							print_up();
 					  }
 				   if (pressed_button==but2 && m2 == 5)
 					  {
-							  myGLCD.clrScr();   // Очистить экран
+							myGLCD.clrScr();   // Очистить экран
 							//  myGLCD.print(txt_pass_ok, RIGHT, 208); 
-							  delay (500);
-		    				 // ZigBee_SetH(); // если верно - выполнить пункт меню
-		
+							delay (500);
+
 							myButtons.drawButtons();
 							print_up();
 					  }
 
 				   if (pressed_button==but3 && m2 == 5) // Ввод пароля пользователя
 					  {
-							  myGLCD.clrScr();   // Очистить экран
-						//	  myGLCD.print(txt_pass_ok, RIGHT, 208); 
-							  delay (500);
-		    				 // ZigBee_SetL(); // если верно - выполнить пункт меню
-					
+							myGLCD.clrScr();   // Очистить экран
+							//	  myGLCD.print(txt_pass_ok, RIGHT, 208); 
+
 							myButtons.drawButtons();
 							print_up();
 					  }
 
 			       if (pressed_button==but4 && m2 == 5) // 
 			          {
-				   
-					
-								myGLCD.clrScr();   // Очистить экран
+							myGLCD.clrScr();   // Очистить экран
 							//	myGLCD.print(txt_pass_ok, RIGHT, 208); 
-								delay (500);
-		    			//		break;
-						
+							delay (500);
+
 							myButtons.drawButtons();
 							print_up();
 				      }
@@ -1690,6 +1674,7 @@ void set_komm_mcp(char chanal_a_b, int chanal_n, char chanal_in_out )   // Прогр
 			}
 
 		}
+			//delay(10);
 	}
 	else if(_chanal_a_b == 'B')                                       // Установка каналов В 
 	{
@@ -1737,6 +1722,7 @@ void set_komm_mcp(char chanal_a_b, int chanal_n, char chanal_in_out )   // Прогр
 			}
 		}
 	}
+	//delay(10);
 }
 void set_mcp_byte_1a(int set_byte)
 {
@@ -1905,52 +1891,51 @@ void set_mcp_byte_2b(int set_byte)
 }
 void mem_byte_trans_readPC()                                      //  Чтение таблиц из EEPROM для передачи в ПК
 {
-	unsigned int _adr_reg = regBank.get(40005)+40000;           //  Адрес блока регистров для передачи в ПК таблиц.
-	unsigned int _adr_mem = regBank.get(40006);                 //  Адрес блока памяти для передачи в ПК таблиц.
-	unsigned int _size_block = regBank.get(40007);              //  Адрес длины блока таблиц
+	unsigned int _adr_reg = regBank.get(40005)+40000;             //  Адрес блока регистров для передачи в ПК таблиц.
+	unsigned int _adr_mem = regBank.get(40006);                   //  Адрес блока памяти для передачи в ПК таблиц.
+	unsigned int _size_block = regBank.get(40007);                //  Адрес длины блока таблиц
 
 	for (unsigned int x_mem = 0;x_mem < _size_block;x_mem++)
 	{
 		regBank.set(_adr_reg+x_mem,i2c_eeprom_read_byte(deviceaddress,_adr_mem + x_mem));
 	}
-	regBank.set(adr_control_command,0);                         // Завершить программу    
+	regBank.set(adr_control_command,0);                           // Завершить программу    
 	delay(200);
 }
 void mem_byte_trans_savePC()                                      //  Получить таблицу из ПK и записать в EEPROM
 {
-	unsigned int _adr_reg = regBank.get(40005);                 //  Адрес блока регистров для передачи в ПК таблиц.
-	unsigned int _adr_mem = regBank.get(40006);                 //  Адрес блока памяти для передачи в ПК таблиц.
-	unsigned int _size_block = regBank.get(40007);              //  Адрес длины блока таблиц
+	unsigned int _adr_reg = regBank.get(40005);                   //  Адрес блока регистров для передачи в ПК таблиц.
+	unsigned int _adr_mem = regBank.get(40006);                   //  Адрес блока памяти для передачи в ПК таблиц.
+	unsigned int _size_block = regBank.get(40007);                //  Адрес длины блока таблиц
 
 	for (unsigned int x_mem = 0;x_mem < _size_block;x_mem++)
 	{
 		i2c_eeprom_write_byte(deviceaddress, _adr_mem + x_mem, regBank.get(_adr_reg+x_mem));
 	}
-	regBank.set(adr_control_command,0);                         // Завершить программу    
+	regBank.set(adr_control_command,0);                           // Завершить программу    
 	delay(200);
 }
 
 void test_cabel_N1()
 {
-	byte  _size_block = i2c_eeprom_read_byte(deviceaddress,adr_memN1_1);
+	byte  _size_block = i2c_eeprom_read_byte(deviceaddress,adr_memN1_1);        // Получить количество выводов проверяемого разъема 
 	byte canal_N = 0;
-  //  Serial.println(_size_block);
-	//pinMode(46, OUTPUT);                                   // Выход коммутаторов блока А
-	pinMode(47, INPUT);       
-	pinMode(46, INPUT); 
-	digitalWrite(47, HIGH);      
-	digitalWrite(46, HIGH);      
-	for (unsigned int x_mem = 1;x_mem < _size_block+1;x_mem++)
+	pinMode(47, INPUT);                                                         // Установить на вход  выход коммутаторов U15,U18,U22 (разъемы серии А на передней панели)
+	pinMode(46, INPUT);                                                         // Установить на вход  выход коммутаторов U13,U17,U23 (разъемы серии В на задней панели)
+	digitalWrite(47, HIGH);                                                     // Установить высокий уровень на выводе 47
+	digitalWrite(46, HIGH);                                                     // Установить высокий уровень на выводе 46
+
+	for (unsigned int x_mem = 1;x_mem < _size_block+1;x_mem++)                  // Проверить состояние выводов проверяемого разъема
 	{
-		 canal_N = i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem);
-		 if (canal_N == 1) canal_N = 40;
-		 set_komm_mcp('A', canal_N,'O');
+		 canal_N = i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem);     // Получить номер канала из таблицы в памяти
+		 if (canal_N == 1) canal_N = 40;                                        // 40 канал для проверки номера проверяемого разъема
+		 set_komm_mcp('A', canal_N,'O');                                        // Переключить коммутатор разъемов серии "А" на вход
 		//// digitalWrite(46, HIGH);      
 		// // digitalWrite(46, LOW);    // 
 		// for (unsigned int x_mem1 = 1;x_mem1 < _size_block+1;x_mem1++)
 	 //    {
 		//	 canal_N = i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem1 + _size_block);
-			 set_komm_mcp('B', canal_N,'O');
+			 set_komm_mcp('B', canal_N,'O');                                    // Переключить коммутатор разъемов серии "В" на вход
 		//	 if (digitalRead(47) == LOW)
 		//	 {
 		//		 Serial.print(" - ");
@@ -1985,7 +1970,6 @@ void test_cabel_N1()
 		 Serial.println(i2c_eeprom_read_byte(deviceaddress,adr_memN1_1 + x_mem+_size_block));*/
 	}
 
-//	pinMode(46, INPUT);                                   // Выход коммутаторов блока А
 }
 void test_cabel_N2()
 {
@@ -2043,68 +2027,71 @@ void test_panel_N1()
 
 }
 
-//+++++++++++++++++++++ Осциллограф +++++++++++++++++++++++++++++
-void Draw_menu_Osc()
+void test_all_pin()
 {
 	myGLCD.clrScr();
-	myGLCD.setFont( BigFont);
-	myGLCD.setBackColor(0, 0, 255);
-	for (int x=0; x<4; x++)
-		{
-			myGLCD.setColor(0, 0, 255);
-			myGLCD.fillRoundRect (30, 20+(50*x), 290,60+(50*x));
-			myGLCD.setColor(255, 255, 255);
-			myGLCD.drawRoundRect (30, 20+(50*x), 290,60+(50*x));
-		}
-	myGLCD.print( txt_osc_menu1, CENTER, 30);     // 
-	myGLCD.print( txt_osc_menu2, CENTER, 80);   
-	myGLCD.print( txt_osc_menu3, CENTER, 130);   
-	myGLCD.print( txt_osc_menu4, CENTER, 180);      
-}
-void menu_Oscilloscope()   // Меню "Осциллоскопа", вызывается из меню "Самописец"
-{
-	while (true)
-		{
-		delay(10);
-		if (myTouch.dataAvailable())
-			{
-				myTouch.read();
-				int	x=myTouch.getX();
-				int	y=myTouch.getY();
+	myGLCD.print(txt_test_all, CENTER, 20); 
+	myGLCD.print( txt_test_all_exit1, CENTER, 180); 
+	myGLCD.print( txt_test_all_exit2, CENTER, 200); 
+	byte canal_N = 0;
+	pinMode(47, INPUT);                                                         // Установить на вход  выход коммутаторов U15,U18,U22 (разъемы серии А на передней панели)
+	pinMode(46, INPUT);                                                         // Установить на вход  выход коммутаторов U13,U17,U23 (разъемы серии В на задней панели)
+	digitalWrite(47, HIGH);                                                     // Установить высокий уровень на выводе 47
+	digitalWrite(46, HIGH);                                                     // Установить высокий уровень на выводе 46
+	int i_step = 1;
 
-				if ((x>=30) && (x<=290))       // 
+	while (true)
+	  {
+		if (myTouch.dataAvailable())
+		{
+		  myTouch.read();
+		  x=myTouch.getX();
+		  y=myTouch.getY();
+		
+		if (((y>=1) && (y<=150)) && ((x>=10) && (x<=319))) //Возврат
+		  {
+			myGLCD.setFont(BigFont);
+			break;
+		  }
+		}
+	     set_komm_mcp('A', i_step,'O');                                          // Переключить коммутатор разъемов серии "А" на вход
+		 set_komm_mcp('B', i_step,'O');                                          // Переключить коммутатор разъемов серии "В" на вход
+		  delay(10);
+		  if (digitalRead(47) == LOW) 
+			 {
+				 myGLCD.print("A", CENTER, 80);
+				 myGLCD.print("  ", CENTER, 105);
+				 if (i_step == 39 ||i_step == 40 ||  i_step == 42)
 					{
-					if ((y>=20) && (y<=60))    // Button: 1  "Oscilloscope"
-						{
-							waitForIt(30, 20, 290, 60);
-							myGLCD.clrScr();
-							oscilloscope();
-							Draw_menu_Osc();
-						}
-					if ((y>=70) && (y<=110))   // Button: 2 "Oscill_Time"
-						{
-							waitForIt(30, 70, 290, 110);
-							myGLCD.clrScr();
-						//	oscilloscope_time();
-							Draw_menu_Osc();
-						}
-					if ((y>=120) && (y<=160))  // Button: 3 "checkOverrun"  Проверка ошибок
-						{
-							waitForIt(30, 120, 290, 160);
-							myGLCD.clrScr();
-						//	checkOverrun();
-							Draw_menu_Osc();
-						}
-					if ((y>=170) && (y<=220))  // Button: 4 "EXIT" Выход
-						{
-							waitForIt(30, 170, 290, 210);
-							break;
-						}
-				}
-			}
-	   }
-	
+					  myGLCD.print("1", CENTER, 105);
+					}
+				 else
+					{
+					  myGLCD.printNumI(i_step, CENTER, 105);
+					}
+			 }
+		  else if (digitalRead(46) == LOW) 
+			 {
+				 myGLCD.print("B", CENTER, 80);
+				 myGLCD.print("  ", CENTER, 105);
+				 if (i_step == 39 ||i_step == 40 ||  i_step == 42)
+					{
+					  myGLCD.print("1", CENTER, 105);
+					}
+				 else
+					{
+					  myGLCD.printNumI(i_step, CENTER, 105);
+					}
+			 }
+
+		  i_step++;
+		  if (i_step == 42) i_step = 1;
+	  }
+
 }
+
+//+++++++++++++++++++++ Осциллограф +++++++++++++++++++++++++++++
+
 void trigger()
 {
 	/*
@@ -2175,7 +2162,6 @@ void oscilloscope()  // просмотр в реальном времени на большой скорости
 	int xpos;
 	int ypos1;
 	int ypos2;
-
 
 	int ypos_osc1_0;
 	int ypos_osc1_1;
@@ -2431,8 +2417,6 @@ void oscilloscope()  // просмотр в реальном времени на большой скорости
 								osc_line_off1 = false;
 							}
 					}
-			
-		
 
 					if (xpos == 0)
 						{
@@ -2442,7 +2426,6 @@ void oscilloscope()  // просмотр в реальном времени на большой скорости
 					
 				if (Channel0)
 					{
-
 						myGLCD.setColor( 255, 255, 255);
 						ypos_osc1_0 = 255-(Sample_osc[ xpos][0]/koeff_h) - hpos;
 						ypos_osc2_0 = 255-(Sample_osc[ xpos + 1][0]/koeff_h)- hpos;
@@ -2466,8 +2449,6 @@ void oscilloscope()  // просмотр в реальном времени на большой скорости
 						myGLCD.drawLine (xpos, ypos_osc1_1, xpos + 1, ypos_osc2_1);
 						myGLCD.drawLine (xpos+1, ypos_osc1_1+1, xpos + 2, ypos_osc2_1+1);
 					}
-				
-		
 
 					OldSample_osc[xpos][0] = Sample_osc[xpos][0];
 					OldSample_osc[xpos][1] = Sample_osc[xpos][1];
@@ -2480,8 +2461,6 @@ Trigger = 0;
 StartSample = millis();
 myGLCD.setFont( BigFont);
 while (myTouch.dataAvailable()){}
-
-
 }
 void buttons_right()  //  Правые кнопки  oscilloscope
 {
@@ -2681,7 +2660,6 @@ void buttons_channel()  // Нижние кнопки переключения входов
 }
 void chench_Channel()
 {
-	
 	//Подготовка номера аналогового сигнала, количества каналов и кода настройки АЦП
 		   Channel_x = 0;
 		//   ADC_CHER = Channel_x;
@@ -2701,7 +2679,6 @@ void chench_Channel()
 	
 		// ADC_CHER = Channel_x;
 		// SAMPLES_PER_BLOCK = DATA_DIM16/count_pin;
-		
 }
 void DrawGrid()
 {
@@ -2976,17 +2953,6 @@ void set_adr_EEPROM()
  //adr_memN2_3 = adr_memN1_1+sizeof(connektN1_default)+1;                       // Начальный адрес памяти таблицы соответствия контактов разъемов №3А, №3В
  //adr_memN2_4 = adr_memN1_1+sizeof(connektN1_default)+1;                       // Начальный адрес памяти таблицы соответствия контактов разъемов №4А, №4В
 
- 
- 	Serial.println(adr_memN1_4+sizeof(connektN4_default)+1); 
-	/*
-	Serial.println(adr_memN1_2); 
-	Serial.println(adr_memN1_3); 
-	Serial.println(adr_memN1_4); 
-*/
-
-	
-
-
 }
 void setup_pin()
 {
@@ -3217,7 +3183,7 @@ void setup()
 	// PS_16, PS_32, PS_64 or PS_128
 	ADCSRA |= PS_128;    // set our own prescaler 
 
-	draw_Glav_Menu();
+	//draw_Glav_Menu();
 	wait_time_Old =  millis();
 	digitalWrite(ledPin13, HIGH);                          // 
 	digitalWrite(ledPin12, LOW);                           // 
@@ -3229,8 +3195,9 @@ void setup()
 
 void loop()
 {
-	//draw_Glav_Menu();
-//	swichMenu();
-	 test_cabel_N1();
-	delay(100);
+	draw_Glav_Menu();
+	swichMenu();
+	//test_all_pin();
+	// test_cabel_N1();
+	//delay(100);
 }
