@@ -3204,6 +3204,15 @@ void setup_regModbus()
 
 void setup()
 {
+	myGLCD.InitLCD();
+	myGLCD.clrScr();
+	myGLCD.setFont(BigFont);
+	myTouch.InitTouch();
+	//myTouch.setPrecision(PREC_MEDIUM);
+	myTouch.setPrecision(PREC_HI);
+	//myTouch.setPrecision(PREC_EXTREME);
+	myButtons.setTextFont(BigFont);
+	myButtons.setSymbolFont(Dingbats1_XL);
 	Serial.begin(9600);                                    // Подключение к USB ПК
 	Serial1.begin(115200);                                 // Подключение к 
 	slave.setSerial(3,57600);                              // Подключение к протоколу MODBUS компьютера Serial3 
@@ -3229,15 +3238,15 @@ void setup()
 	resistor(1, 200);                                     // Установить уровень сигнала
 	resistor(2, 200);                                     // Установить уровень сигнала
 	setup_regModbus();
-	myGLCD.InitLCD();
-	myGLCD.clrScr();
-	myGLCD.setFont(BigFont);
-	myTouch.InitTouch();
-	//myTouch.setPrecision(PREC_MEDIUM);
-	myTouch.setPrecision(PREC_HI);
-	//myTouch.setPrecision(PREC_EXTREME);
-	myButtons.setTextFont(BigFont);
-	myButtons.setSymbolFont(Dingbats1_XL);
+	//myGLCD.InitLCD();
+	//myGLCD.clrScr();
+	//myGLCD.setFont(BigFont);
+	//myTouch.InitTouch();
+	////myTouch.setPrecision(PREC_MEDIUM);
+	//myTouch.setPrecision(PREC_HI);
+	////myTouch.setPrecision(PREC_EXTREME);
+	//myButtons.setTextFont(BigFont);
+	//myButtons.setSymbolFont(Dingbats1_XL);
 	// ++++++++++++++++++ Настройка АЦП +++++++++++++++++++++++++++++++++++++++++++++++++++
 	// set up the ADC
 	ADCSRA &= ~PS_128;  // remove bits set by Arduino library
