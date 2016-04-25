@@ -1,3 +1,53 @@
+
+/* Режимы меню
+ *
+ *
+ *
+ *
+ * Команды внешнего управления
+ * incomingByte = 97                  // убавляем напряжение
+ * incomingByte = 98                  // counter < umax)       counter = counter + 0.1;   //добавляем
+ * incomingByte = 99                  // валкодер -
+ * incomingByte = 100                 // валкодер +
+ * incomingByte = 101 mode = 0;       // ("standart");            // Шим 1
+ * incomingByte = 102 mode = 1;       // ("shutdown");            // Защита
+ * incomingByte = 103 mode = 2;       // ("    drop");            // Шим 2
+ * incomingByte = 104 save();         // сохранить настройки
+ * incomingByte = 105                 // включаем реле если оно было выключено и гасим красный светодиод
+ * incomingByte = 106  off = true;    // "[   OVERLOAD   ]" 
+ * incomingByte = 107  ah = 0;        // Cчетчик Ампер*часов обнулить
+ * 
+ *
+ * Функции валкодера +
+ * set = 0   // обычный режим - добавляем напряжение
+ * set = 1   // переключаем режим работы вперед
+ * set = 2   // настройка тока, добавляем ток
+ * set = 3   // сброс счетчика А*ч
+ * set = 4   //сохранение текущих настроек в память
+ * 
+ * Функции валкодера -
+ * set = 0   // обычный режим - уменьшаем напряжение
+ * set = 1   // переключаем режим работы назад
+ * set = 2   // настройка тока, уменьшаем ток
+ * 
+ * Отображение на дисплее
+ * disp = 0  // ничего
+ * disp = 1  // мощность
+ * disp = 2  // режим БП
+ * disp = 3  // максимальный ток
+ * disp = 4  // значение ШИМ
+ * disp = 5  // значение тока ????
+ * 
+ * 
+ * 
+ * 
+ */
+
+
+
+
+
+
 #include <LiquidCrystal.h>;
 #include <EEPROM.h>
 
@@ -56,9 +106,9 @@ float EEPROM_float_read(int addr)                         // Программа 
   return y[0];
 }
 
-void setup() 
+void setup()
 {
-  
+
   cli();                                 // Настройка портов микроконтроллера
   DDRB |= 1 << 1 | 1 << 2;
   PORTB &= ~(1 << 1 | 1 << 2);
@@ -68,11 +118,11 @@ void setup()
   ICR1H = 255;
   ICR1L = 255;
   sei();
-  
-  int pwm_rez = 13; 
+
+  int pwm_rez = 13;
   pwm_rez = pow(2, pwm_rez);               // Вычисляет значение возведенное в заданную степень
   ICR1H   = highByte(pwm_rez);             // Запись старшего байта в Input Capture Register 1 H
-  ICR1L   = lowByte(pwm_rez);              // Запись младшего байта в Input Capture Register 1 L 
+  ICR1L   = lowByte(pwm_rez);              // Запись младшего байта в Input Capture Register 1 L
 
   Serial.begin(9600);                      // Установить скорость серийного порта 9600
 
@@ -93,10 +143,10 @@ void setup()
   digitalWrite(kn_menu, HIGH);
   digitalWrite(kn_selection, HIGH);
   digitalWrite(kn_pwm, HIGH);
-  
+
   //запуск дисплея
-  lcd.begin(16, 2);                        // Дисплей 16 символов, 2 строки
-  lcd.print("    WELCOME!    ");             
+  lcd.begin(16, 2);                                     // Дисплей 16 символов, 2 строки
+  lcd.print("    WELCOME!    ");
 
   //загружаем настройки из памяти МК
   counter = EEPROM_float_read(0);
@@ -104,67 +154,66 @@ void setup()
   mode    = EEPROM_float_read(12);
   disp    = EEPROM_float_read(10);
   //Если в памяти еще нет настроек - задаем что нибудь кроме нулей
-  if (counter == 0) counter = 5;             //5 вольт
-  if (Ioutmax == 0) Ioutmax = 2;             //2 ампера
+  if (counter == 0) counter = 5;                         //5 вольт
+  if (Ioutmax == 0) Ioutmax = 2;                         //2 ампера
 
-  //включаем реле
-  digitalWrite(power, 1);
-  
+  digitalWrite(power, HIGH);                             //включаем реле
+
 }
 
 
 
 //функции при вращении енкодера
-void uup()                                   //енкодер +
-{                              
-  if (set == 0) 
-  {                                         //обычный режим - добавляем напряжения
-    if (counter < umax) 
+void uup()                                           //энкодер +
+{
+  if (set == 0)                                      //обычный режим - добавляем напряжение
+  {
+    if (counter < umax)
     {
-      counter = counter + 0.1;              //добавляем
+      counter = counter + 0.1;                       //добавляем
     }
   }
-  if (set == 1) 
-  {                                        //переключаем режим работы вперед
-    mode = mode + 1;
+  if (set == 1)                                      //переключаем режим работы вперед
+  { 
+    mode++;
     if (mode > 2) mode = 2;
   }
-  if (set == 2) 
-  {                                         //настройка тока, добавляем ток
+  if (set == 2)                                     //настройка тока, добавляем ток
+  { 
     iplus();
   }
 
-  if (set == 3) 
-  {                                                   //сброс счетчика А*ч
+  if (set == 3)                                      //сброс счетчика А*ч
+  { 
     ah = 0;
     set = 0;
     disp = 5;
   }
 
-  if (set == 4) 
-  {                                                    //сохранение текущих настроек в память
+  if (set == 4)                                     //сохранение текущих настроек в память
+  { 
     save();
   }
 }
 
-void udn() 
-{                                                      //валкодер -
+void udn()                                              //валкодер -
+{ 
   if (set == 0)
   {
-    if (counter > umin + 0.1)counter = counter - 0.1;  //убавляем напнряжение
+    if (counter > umin + 0.1)counter = counter - 0.1;  // убавляем напряжение
   }
-  if (set == 1) 
+  if (set == 1)
   {
-    mode = mode - 1;                                   //переключаем режим работы назад
+    mode = mode--;                                    // переключаем режим работы назад
     if (mode < 0) mode = 0;
   }
-  if (set == 2)
-  {                                                   //убавляем ток
-    iminus();    
+  if (set == 2)                                        // убавляем ток
+  { 
+    iminus();
   }
 }
 
-void iplus() 
+void iplus()
 {
   Ioutmax = Ioutmax + 0.01;
   if (Ioutmax > 0.2) Ioutmax = Ioutmax + 0.04;
@@ -172,7 +221,7 @@ void iplus()
   if (Ioutmax > 10.00) Ioutmax = 10.00;
 }
 
-void iminus() 
+void iminus()
 {
   Ioutmax = Ioutmax - 0.01;
   if (Ioutmax > 0.2) Ioutmax = Ioutmax - 0.04;
@@ -180,7 +229,7 @@ void iminus()
   if (Ioutmax < 0.03) Ioutmax = 0.03;
 }
 
-void save() 
+void save()
 {
   lcd.clear();                                             // Очистить дисплей
   lcd.setCursor (0, 0);                                    // Установить курсор в начало
@@ -191,11 +240,11 @@ void save()
   EEPROM_float_write(12, mode);
   EEPROM_float_write(10, disp);
   //мигаем светодиодами
-  digitalWrite(led_red, HIGH);                             // Включить красный светодиод                
-  digitalWrite(led_blue, HIGH);                            // Включить синий светодиод     
+  digitalWrite(led_red, HIGH);                             // Включить красный светодиод
+  digitalWrite(led_blue, HIGH);                            // Включить синий светодиод
   delay(500);                                              // Ждем 0,5 секунды
-  digitalWrite(led_red, LOW);                              // Отключить красный светодиод 
-  digitalWrite(led_blue, LOW);                             // Отключить синий светодиод 
+  digitalWrite(led_red, LOW);                              // Отключить красный светодиод
+  digitalWrite(led_blue, LOW);                             // Отключить синий светодиод
   set = 0;                                                 //выходим из меню
 }
 
@@ -204,20 +253,20 @@ void loop()                                                //основной ц
 
   unsigned long currentMillis = millis();
 
-  // Внешнее управление 
+  // Внешнее управление
 
 
-  
-  if (Serial.available() > 0) 
-  {                           //если есть доступные данные  считываем байт
+
+  if (Serial.available() > 0)
+  { //если есть доступные данные  считываем байт
     incomingByte = Serial.read();
   }
-  else 
+  else
   {
     incomingByte = 0;
   }
 
-  if (incomingByte == 97) 
+  if (incomingByte == 97)
   { //a
     if (counter > umin + 0.1)counter = counter - 0.1;    //убавляем напнряжение
 
@@ -240,7 +289,7 @@ void loop()                                                //основной ц
   if (incomingByte == 102) mode = 1;
   if (incomingByte == 103) mode = 2;
   if (incomingByte == 104) save();
-  if (incomingByte == 105) 
+  if (incomingByte == 105)
   {
     digitalWrite(power, HIGH);                              // врубаем реле если оно было выключено
     delay(100);
@@ -255,7 +304,7 @@ void loop()                                                //основной ц
   if (incomingByte == 106) off = true;
   if (incomingByte == 107) ah = 0;
 
-  // конец внешнего управления 
+  // конец внешнего управления
 
 
 
@@ -269,7 +318,7 @@ void loop()                                                //основной ц
   //if(Iout>=1)Iout = Iout * 1.02;
 
 
-  // ЗАЩИТА и выключение 
+  // ЗАЩИТА и выключение
 
   if (((Iout > (counter + 0.3) * 2.0) | Iout > 10.1  | off) & set<4 & millis()>100 )  // условия защиты
 
@@ -305,7 +354,7 @@ void loop()                                                //основной ц
   }
 
 
-  // ЗАЩИТА КОНЕЦ 
+  // ЗАЩИТА КОНЕЦ
 
 
   // считываем значения с входа валкодера
@@ -358,9 +407,9 @@ void loop()                                                //основной ц
       set = 5;                                                      // режим ухода в защиту...
     }
 
-  } 
-  else 
-  {                                                                // режим стабилизации тока
+  }
+  else
+  { // режим стабилизации тока
 
     if (Iout >= Ioutmax)
     {
@@ -410,11 +459,11 @@ void loop()                                                //основной ц
   if (off) level = 8190;
   if (level < 0) level = 0;                                             //не опускаем ШИМ ниже нуля
   if (level > 8190) level = 8190;                                       //не поднимаем ШИМ выше 13 бит
-                                                                        //Все проверили, прощитали и собственно отдаем команду для силового транзистора.
+  //Все проверили, прощитали и собственно отдаем команду для силового транзистора.
   if (ceil(level) != 255) analogWrite(pwm1, ceil(level));               //подаем нужный сигнал на ШИМ выход (кроме 255, так как там какая-то лажа)
 
 
-  // УПРАВЛЕНИЕ 
+  // УПРАВЛЕНИЕ
 
   if (digitalRead(kn_menu) == LOW && digitalRead(kn_selection) == LOW && digitalRead(kn_pwm) == LOW && knopka_abc == 0 )
   { // нажата ли кнопка a - б - c  вместе
@@ -426,7 +475,7 @@ void loop()                                                //основной ц
   }
 
   if (digitalRead(kn_pwm) == LOW && knopka_c == 0)                    // нажата ли кнопка C (disp)
-  {                      
+  {
     knopka_c = 1;
     disp = disp + 1;                                                  //поочередно переключаем режим Шим 1 и Шим 2
     if (disp == 6) disp = 0;                                          //дошли до конца, начинаем снова
@@ -442,7 +491,8 @@ void loop()                                                //основной ц
   if (digitalRead(kn_menu) == LOW && knopka_b == 0) {                 // нажата ли кнопка Б (menu)
     knopka_b = 1;
     set = set + 1; //
-    if (set > 4 | off) {                                              // Задействован один из режимов защиты, а этой кнопкой мы его вырубаем. (или мы просто дошли до конца меню)
+    if (set > 4 | off)                                                // Задействован один из режимов защиты, а этой кнопкой мы его вырубаем. (или мы просто дошли до конца меню)
+    {
       off = false;
       digitalWrite(power, HIGH);                                      // врубаем реле если оно было выключено
       delay(100);
@@ -467,7 +517,7 @@ void loop()                                                //основной ц
 
 
 
-  // COM PORT 
+  // COM PORT
 
   if (currentMillis - com2 > com)
   {
@@ -519,13 +569,13 @@ void loop()                                                //основной ц
 
   }
 
-  // ИНДИКАЦИЯ LCD 
+  // ИНДИКАЦИЯ LCD
 
 
 
-  if (set == 0) 
+  if (set == 0)
   {
-                                                 //стандартный экран,  выводим установленное напряжение на дисплей
+    //стандартный экран,  выводим установленное напряжение на дисплей
     lcd.setCursor (0, 1);
     lcd.print("U>");
     if (counter < 10) lcd.print(" ");            // добавляем пробел, если нужно, чтобы не портить картинку
@@ -536,7 +586,7 @@ void loop()                                                //основной ц
     //проверяем не прошел ли нужный интервал, если прошел то
     // выводим реальные значения на дисплей
 
-    if (currentMillis - previousMillis > interval) 
+    if (currentMillis - previousMillis > interval)
     {
       // сохраняем время последнего обновления
       previousMillis = currentMillis;
@@ -551,43 +601,46 @@ void loop()                                                //основной ц
 
       //дополнительная информация
       lcd.setCursor (8, 1);
-      if (disp == 0) 
-      {                                                   //ничего
+      if (disp == 0)                                      // ничего
+      {
         lcd.print("         ");                           // отображение температуры Датчик DHT11 ???
       }
-      if (disp == 1)                                      //мощность
-      {                                    
+      if (disp == 1)                                      // мощность
+      {
         lcd.print(" ");
         lcd.print (Uout * Iout, 2);
         lcd.print("W   ");
       }
       if (disp == 2)                                      //режим БП
-      {                                   
+      {
         if (mode == 0)lcd.print  ("standart");            // Шим 1
         if (mode == 1)lcd.print  ("shutdown");            // Защита
         if (mode == 2)lcd.print  ("    drop");            // Шим 2
       }
-      if (disp == 3)                                      //максимальный ток
-      { 
+      if (disp == 3)                                      // максимальный ток
+      {
         lcd.print (" I>");
         lcd.print (Ioutmax, 2);
         lcd.print ("A ");
       }
       if (disp == 4)                                     // значение ШИМ
-      { 
+      {
         lcd.print ("pwm1:");
         lcd.print (ceil(level), 0);
         lcd.print ("  ");
       }
       if (disp == 5)                                     // значение ШИМ ????
-      { 
-        if (ah < 1) {
+      {
+        if (ah < 1)
+        {
           //if(ah<0.001) lcd.print (" ");
           if (ah <= 0.01) lcd.print (" ");
           if (ah <= 0.1) lcd.print (" ");
           lcd.print (ah * 1000, 1);
           lcd.print ("mAh  ");
-        } else {
+        }
+        else
+        {
           if (ah <= 10) lcd.print (" ");
           lcd.print (ah, 3);
           lcd.print ("Ah  ");
@@ -596,7 +649,8 @@ void loop()                                                //основной ц
     }
   }
 
-  // ИНДИКАЦИЯ МЕНЮ 
+  // ИНДИКАЦИЯ МЕНЮ
+  
   if (set == 1) //выбор режима
   {
     lcd.setCursor (0, 0);
@@ -608,7 +662,8 @@ void loop()                                                //основной ц
     if (mode == 1)  lcd.print("shutdown    ");
     if (mode == 2)  lcd.print("drop        ");
   }
-  if (set == 2) { //настройка тока
+  if (set == 2)                                     //настройка тока
+  { 
     lcd.setCursor (0, 0);
     lcd.print("> MENU 2/4   ");
     lcd.setCursor (0, 1);
@@ -616,21 +671,25 @@ void loop()                                                //основной ц
     lcd.print(Ioutmax);
     lcd.print("A");
   }
-  if (set == 3) { //спрашиваем хочет ли юзер сохранить настройки
+  if (set == 3)                                   //спрашиваем хочет ли юзер сбросить настройки
+  { 
     lcd.setCursor (0, 0);
     lcd.print("> MENU 3/4      ");
     lcd.setCursor (0, 1);
     lcd.print("Reset A*h? ->");
   }
 
-  if (set == 4) { //спрашиваем хочет ли юзер сохранить настройки
+  if (set == 4)                                  //спрашиваем хочет ли юзер сохранить настройки
+  { 
     lcd.setCursor (0, 0);
     lcd.print("> MENU 4/4      ");
     lcd.setCursor (0, 1);
     lcd.print("Save options? ->");
   }
-  // ИНДИКАЦИЯ ЗАЩИТЫ 
-  if (set == 5) { //защита. вывод инфы
+  
+  // ИНДИКАЦИЯ ЗАЩИТЫ
+  if (set == 5)                                 //защита. вывод инфы
+  { 
     lcd.setCursor (0, 0);
     lcd.print("ShutDown!        ");
     lcd.setCursor (0, 1);
@@ -644,21 +703,21 @@ void loop()                                                //основной ц
   }
 
 
-  if (set == 6) 
-  {                 //защита. вывод инфы критическое падение напряжения
+  if (set == 6)                                 //защита. вывод инфы критическое падение напряжения
+  { 
     Serial.print('I0;U0;r1;W0;');
     digitalWrite(led_red, HIGH);
     Serial.println(' ');
     level = 0;
     lcd.setCursor (0, 0);
-    
-    if (off == false) 
+
+    if (off == false)
     {
       lcd.print("[   OVERLOAD   ]");
       lcd.setCursor (0, 1);
       //и обьясняем юзеру что случилось
 
-      if ((Iout > (counter + 0.3) * 2.0) | Iout > 10.0) 
+      if ((Iout > (counter + 0.3) * 2.0) | Iout > 10.0)
       {
         Serial.print('t');
         Serial.print(1);
@@ -667,7 +726,7 @@ void loop()                                                //основной ц
       }
 
     }
-    else 
+    else
     {
 
       lcd.print("[      OFF     ]");
