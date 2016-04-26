@@ -16,7 +16,7 @@
  *
  * Команды внешнего управления
  * incomingByte = 97                  // убавляем напряжение
- * incomingByte = 98                  // counter < umax)       counter = counter + 0.1;   //добавляем
+ * incomingByte = 98                  // counter1 < umax)       counter1 = counter1 + 0.1;   //добавляем
  * incomingByte = 99                  // валкодер -
  * incomingByte = 100                 // валкодер +
  * incomingByte = 101 mode = 0;       // ("standart");            // Шим 1
@@ -92,7 +92,8 @@ boolean off         = false;
 boolean red         = false;
 boolean blue        = false;
 boolean pwm1_2      = false;           // Переключатель ШИМ 1 / ШИМ 2
-float counter       = 5;               // переменная хранит заданное напряжение
+float counter1       = 5;               // переменная хранит заданное напряжение ШИМ1
+float counter2       = 5;               // переменная хранит заданное напряжение ШИМ2
 int disp            = 0;               // режим отображения 0 ничего, 1 мощьность, 2 режим, 3 установленный ток, 4 шим уровень
 float Uout ;                           // напряжение на выходе
 #define kn_menu       12               // Назначение кнопки "Меню"
@@ -161,12 +162,13 @@ void setup()
   lcd.print("    WELCOME!    ");
 
   //загружаем настройки из памяти МК
-  counter = EEPROM_float_read(0);
-  Ioutmax = EEPROM_float_read(4);
-  mode    = EEPROM_float_read(12);
-  disp    = EEPROM_float_read(10);
+  counter1 = EEPROM_float_read(0);
+  Ioutmax  = EEPROM_float_read(4);
+  mode     = EEPROM_float_read(12);
+  disp     = EEPROM_float_read(10);
+  counter2 = EEPROM_float_read(16);
   //Если в памяти еще нет настроек - задаем что нибудь кроме нулей
-  if (counter == 0) counter = 5;                         //5 вольт
+  if (counter1 == 0) counter1 = 5;                         //5 вольт
   if (Ioutmax == 0) Ioutmax = 2;                         //2 ампера
 
   digitalWrite(power, HIGH);                             //включаем реле
@@ -176,43 +178,73 @@ void setup()
 
 
 //функции при вращении енкодера
-void uup()                                           //энкодер +
+void uup()                                                     //энкодер +
 {
-  if (set == 0)                                      //обычный режим - добавляем напряжение
+  if (set == 0)                                                //обычный режим - добавляем напряжение
   {
-    if (counter < umax)
+
+    if (pwm1_2)                                                // Если выбран ШИМ1 - регулируем по старой схеме
     {
-      counter = counter + 0.1;                       //добавляем
+
+      if (counter1 < umax)
+      {
+        counter1 = counter1 + 0.1;                             //добавляем
+      }
     }
+    else                                                       // Иначе выбран ШИМ2 - записываем состояние в счетчик counter2
+    {
+      
+      if (counter2 < umax)
+      {
+        counter2 = counter2 + 0.1;                            //добавляем
+      }
+    }
+
   }
-  if (set == 1)                                      //переключаем режим работы вперед
+  if (set == 1)                                                //переключаем режим работы вперед
   {
     mode++;
     if (mode > 2) mode = 2;
   }
-  if (set == 2)                                     //настройка тока, добавляем ток
+  if (set == 2)                                                //настройка тока, добавляем ток
   {
     iplus();
   }
 
-  if (set == 3)                                      //сброс счетчика А*ч
+  if (set == 3)                                               //сброс счетчика А*ч
   {
     ah = 0;
     set = 0;
     disp = 5;
   }
 
-  if (set == 4)                                     //сохранение текущих настроек в память
+  if (set == 4)                                               //сохранение текущих настроек в память
   {
     save();
   }
 }
 
-void udn()                                              //валкодер -
+void udn()                                                    //валкодер -
 {
   if (set == 0)
   {
-    if (counter > umin + 0.1)counter = counter - 0.1;  // убавляем напряжение
+
+   if (pwm1_2)                                                // Если выбран ШИМ1 - регулируем по старой схеме
+    {
+        if (counter1 > umin + 0.1)counter1 = counter1 - 0.1;  // убавляем напряжение
+    }
+    else                                                      // Иначе выбран ШИМ2 - записываем состояние в счетчик counter2
+    {
+        if (counter2 > umin + 0.1)counter2 = counter2 - 0.1;  // убавляем напряжение
+    }
+
+
+
+
+
+
+    
+    if (counter1 > umin + 0.1)counter1 = counter1 - 0.1;  // убавляем напряжение
   }
   if (set == 1)
   {
@@ -247,10 +279,12 @@ void save()
   lcd.setCursor (0, 0);                                    // Установить курсор в начало
   lcd.print(" S A V E  -  OK ");                           // Вывести сообщение
 
-  EEPROM_float_write(0, counter);
+  EEPROM_float_write(0, counter1);
   EEPROM_float_write(4, Ioutmax);
   EEPROM_float_write(12, mode);
   EEPROM_float_write(10, disp);
+  EEPROM_float_write(16, counter2);
+
   //мигаем светодиодами
   digitalWrite(led_red, HIGH);                             // Включить красный светодиод
   digitalWrite(led_blue, HIGH);                            // Включить синий светодиод
@@ -280,12 +314,12 @@ void loop()                                                //основной ц
 
   if (incomingByte == 97)
   { //a
-    if (counter > umin + 0.1)counter = counter - 0.1;    //убавляем напнряжение
+    if (counter1 > umin + 0.1)counter1 = counter1 - 0.1;    //убавляем напнряжение
 
   }
   if (incomingByte == 98) { //b
 
-    if (counter < umax)       counter = counter + 0.1;   //добавляем
+    if (counter1 < umax)       counter1 = counter1 + 0.1;   //добавляем
 
   }
 
@@ -321,8 +355,8 @@ void loop()                                                //основной ц
 
 
   //получаем значение напряжения и тока в нагрузке
-  float Ucorr = -0.00;                                            //коррекция напряжения, при желании можно подстроить
-  float Uout = analogRead(A1) * ((5.0 + Ucorr) / 1023.0) * 5.0;   //узнаем напряжение на выходе
+  float Ucorr = -0.00;                                            // коррекция напряжения, при желании можно подстроить
+  float Uout = analogRead(A1) * ((5.0 + Ucorr) / 1023.0) * 5.0;   // узнаем напряжение на выходе
   float Iout = analogRead(A0) / 100.00;                           // узнаем ток в нагрузке
 
   if (Iout == 0.01) Iout =  0.03; else if (Iout == 0.02) Iout =  0.04; else if (Iout == 0.03) Iout =  0.05; else if (Iout == 0.04) Iout = 0.06; else if (Iout >= 0.05) Iout = Iout + 0.02;
@@ -332,7 +366,7 @@ void loop()                                                //основной ц
 
   // ЗАЩИТА и выключение
 
-  if (((Iout > (counter + 0.3) * 2.0) | Iout > 10.1  | off) & set<4 & millis()>100 )  // условия защиты
+  if (((Iout > (counter1 + 0.3) * 2.0) | Iout > 10.1  | off) & set<4 & millis()>100 )  // условия защиты
 
   {
     digitalWrite(power, LOW);                                      // вырубаем реле
@@ -386,9 +420,9 @@ void loop()                                                //основной ц
   {
 
     //Сравниваем напряжение на выходе с установленным, и принимаем меры..
-    if (Uout > counter)
+    if (Uout > counter1)
     {
-      float raz = Uout - counter;                                  //на сколько напряжение на выходе больше установленного...
+      float raz = Uout - counter1;                                  //на сколько напряжение на выходе больше установленного...
       if (raz > 0.05)
       {
         level = level - raz * 20;                                  //разница большая управляем грубо и быстро!
@@ -396,9 +430,9 @@ void loop()                                                //основной ц
         if (raz > 0.015)  level = level -  raz * 3 ;               //разница небольшая управляем точно
       }
     }
-    if (Uout < counter)
+    if (Uout < counter1)
     {
-      float raz = counter - Uout;                                  //на сколько напряжение меньше чем мы хотим
+      float raz = counter1 - Uout;                                  //на сколько напряжение меньше чем мы хотим
       if (raz > 0.05)
       {
         level = level + raz * 20; //грубо
@@ -449,9 +483,9 @@ void loop()                                                //основной ц
       digitalWrite(led_blue, LOW);                                // синий светодиод не светится
 
       //Сравниваем напряжение на выходе с установленным, и принимаем меры..
-      if (Uout > counter)
+      if (Uout > counter1)
       {
-        float raz = Uout - counter;                               //на сколько напряжение на выходе больше установленного...
+        float raz = Uout - counter1;                               //на сколько напряжение на выходе больше установленного...
         if (raz > 0.1)
         {
           level = level + raz * 20;                               //разница большая управляем грубо и быстро!
@@ -459,9 +493,9 @@ void loop()                                                //основной ц
           if (raz > 0.015)  level = level + raz * 5;              //разница небольшая управляем точно
         }
       }
-      if (Uout < counter)
+      if (Uout < counter1)
       {
-        float raz = counter - Uout;                              //на сколько напряжение меньше чем мы хотим
+        float raz = counter1 - Uout;                              //на сколько напряжение меньше чем мы хотим
         float iraz = (Ioutmax - Iout); //
         if (raz > 0.1 & iraz > 0.1)
         {
@@ -494,7 +528,7 @@ void loop()                                                //основной ц
   if (digitalRead(kn_pwm) == LOW && set == 5 && knopka_c == 0)          // нажата ли кнопка C (disp)
   {
     pwm1_2 = !pwm1_2;                                                   // Переключить ШИМ 1/2 ( pwm1_2== true -  ШИМ1,   pwm1_2== false -  ШИМ2)
-    while (digitalRead(kn_pwm) == LOW ){}                               // Ожидаем отпускания кнопки ШИМ
+    while (digitalRead(kn_pwm) == LOW ) {}                              // Ожидаем отпускания кнопки ШИМ
   }
 
 
@@ -557,7 +591,7 @@ void loop()                                                //основной ц
     Serial.print(';');
 
     Serial.print('u');
-    Serial.print(counter);
+    Serial.print(counter1);
     Serial.print(';');
 
     Serial.print('W');
@@ -595,8 +629,8 @@ void loop()                                                //основной ц
     //стандартный экран,  выводим установленное напряжение на дисплей
     lcd.setCursor (0, 1);
     lcd.print("U>");
-    if (counter < 10) lcd.print(" ");            // добавляем пробел, если нужно, чтобы не портить картинку
-    lcd.print (counter, 1);                      // выводим установленное значение напряжения
+    if (counter1 < 10) lcd.print(" ");            // добавляем пробел, если нужно, чтобы не портить картинку
+    lcd.print (counter1, 1);                      // выводим установленное значение напряжения
     lcd.print ("V ");                            // пишем что это вольты
 
     //обновление информации
@@ -711,7 +745,7 @@ void loop()                                                //основной ц
     lcd.setCursor (0, 1);
     lcd.print("Select PWM->");
     lcd.setCursor (12, 1);
-    if ( pwm1_2)                                 // Вывод текущего состояния переключателя ШИМ1/2
+    if (pwm1_2)                                 // Вывод текущего состояния переключателя ШИМ1/2
     {
       lcd.print("PWM1");
     }
@@ -752,7 +786,7 @@ void loop()                                                //основной ц
       lcd.setCursor (0, 1);
       //и обьясняем юзеру что случилось
 
-      if ((Iout > (counter + 0.3) * 2.0) | Iout > 10.0)
+      if ((Iout > (counter1 + 0.3) * 2.0) | Iout > 10.0)
       {
         Serial.print('t');
         Serial.print(1);
