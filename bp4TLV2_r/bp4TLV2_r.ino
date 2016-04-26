@@ -78,7 +78,7 @@ long previousMillis = 0;               // храним время последн
 long maxpwm         = 0;               // циклы поддержки максимального ШИМ
 long interval       = 500;             // интервал обновления информации на дисплее, мс
 int mig             = 0;               // Для енкодера (0 стоим 1 плюс 2 минус)
-float level         = 2000;            // "уровень" ШИМ сигнала
+float level1         = 2000;            // "уровень" ШИМ сигнала
 float com           = 100;
 long com2           = 0;
 int mode            = 0;               // режим (0 обычный, спабилизация тока, защита по току)
@@ -238,20 +238,13 @@ void udn()                                                    //валкодер
         if (counter2 > umin + 0.1)counter2 = counter2 - 0.1;  // убавляем напряжение
     }
 
-
-
-
-
-
-    
-    if (counter1 > umin + 0.1)counter1 = counter1 - 0.1;  // убавляем напряжение
   }
   if (set == 1)
   {
-    mode--;                                            // переключаем режим работы назад
+    mode--;                                                   // переключаем режим работы назад
     if (mode < 0) mode = 0;
   }
-  if (set == 2)                                        // убавляем ток
+  if (set == 2)                                               // убавляем ток
   {
     iminus();
   }
@@ -370,7 +363,7 @@ void loop()                                                //основной ц
 
   {
     digitalWrite(power, LOW);                                      // вырубаем реле
-    level = 8190;                                                  // убираем ШИМ сигнал
+    level1 = 8190;                                                  // убираем ШИМ сигнал
     digitalWrite(led_red, HIGH);                                   // Включаем красный светодиод
 
     Serial.print('I0;U0;r1;W0;');
@@ -380,7 +373,7 @@ void loop()                                                //основной ц
 
 
   //Зашита от длительного максимального шим
-  if (level == 0 & off == false)
+  if (level1 == 0 & off == false)
   {
     if (set < 4)                                                        // если уже не сработала защита
     {
@@ -425,9 +418,9 @@ void loop()                                                //основной ц
       float raz = Uout - counter1;                                  //на сколько напряжение на выходе больше установленного...
       if (raz > 0.05)
       {
-        level = level - raz * 20;                                  //разница большая управляем грубо и быстро!
+        level1 = level1 - raz * 20;                                  //разница большая управляем грубо и быстро!
       } else {
-        if (raz > 0.015)  level = level -  raz * 3 ;               //разница небольшая управляем точно
+        if (raz > 0.015)  level1 = level1 -  raz * 3 ;               //разница небольшая управляем точно
       }
     }
     if (Uout < counter1)
@@ -435,9 +428,9 @@ void loop()                                                //основной ц
       float raz = counter1 - Uout;                                  //на сколько напряжение меньше чем мы хотим
       if (raz > 0.05)
       {
-        level = level + raz * 20; //грубо
+        level1 = level1 + raz * 20; //грубо
       } else {
-        if (raz > 0.015)  level = level + raz * 3 ;                // точно
+        if (raz > 0.015)  level1 = level1 + raz * 3 ;                // точно
       }
     }
     // ??+++++++++++++++++++ Новый фрагмент с обработкой ШИМ 2 +++++++++++++++++++++++++++++++++++++++++++
@@ -454,7 +447,7 @@ void loop()                                                //основной ц
       Serial.print(2);
       Serial.print(';');
       digitalWrite(led_red, HIGH);                                  // зажигаем красный светодиод
-      level = 8190;                                                 // убираем ШИМ сигнал
+      level1 = 8190;                                                // убираем ШИМ сигнал
       set = 6;                                                      // режим ухода в защиту...
     }
 
@@ -468,13 +461,13 @@ void loop()                                                //основной ц
       float raz = (Iout - Ioutmax);
       if (raz > 0.3)                                              // очень сильно превышено (ток больше заданного более чем на 0,3А)
       {
-        level = level + raz * 20;                                 // резко понижаем ШИМ
+        level1 = level1 + raz * 20;                               // резко понижаем ШИМ
       } else {
         if (raz > 0.05)                                           // сильно превышено (ток больше заданного более чем на 0,1А)
         {
-          level = level + raz * 5;                                // понижаем ШИМ
+          level1 = level1 + raz * 5;                                // понижаем ШИМ
         } else {
-          if (raz > 0.00) level = level + raz * 2;                // немного превышен (0.1 - 0.01А) понижаем плавно
+          if (raz > 0.00) level1 = level1 + raz * 2;                // немного превышен (0.1 - 0.01А) понижаем плавно
         }
       }
 
@@ -488,9 +481,9 @@ void loop()                                                //основной ц
         float raz = Uout - counter1;                               //на сколько напряжение на выходе больше установленного...
         if (raz > 0.1)
         {
-          level = level + raz * 20;                               //разница большая управляем грубо и быстро!
+          level1 = level1 + raz * 20;                               //разница большая управляем грубо и быстро!
         } else {
-          if (raz > 0.015)  level = level + raz * 5;              //разница небольшая управляем точно
+          if (raz > 0.015)  level1 = level1 + raz * 5;              //разница небольшая управляем точно
         }
       }
       if (Uout < counter1)
@@ -499,19 +492,19 @@ void loop()                                                //основной ц
         float iraz = (Ioutmax - Iout); //
         if (raz > 0.1 & iraz > 0.1)
         {
-          level = level - raz * 20;                              //грубо
+          level1 = level1 - raz * 20;                              //грубо
         } else {
-          if (raz > 0.015)  level = level - raz ; //точно
+          if (raz > 0.015)  level1 = level1 - raz ; //точно
         }
       }
     }
   }//конец режима стабилизации тока
 
-  if (off) level = 8190;
-  if (level < 0) level = 0;                                             //не опускаем ШИМ ниже нуля
-  if (level > 8190) level = 8190;                                       //не поднимаем ШИМ выше 13 бит
+  if (off) level1 = 8190;
+  if (level1 < 0) level1 = 0;                                             //не опускаем ШИМ ниже нуля
+  if (level1 > 8190) level1 = 8190;                                       //не поднимаем ШИМ выше 13 бит
   //Все проверили, прощитали и собственно отдаем команду для силового транзистора.
-  if (ceil(level) != 255) analogWrite(pwm1, ceil(level));               //подаем нужный сигнал на ШИМ выход (кроме 255, так как там какая-то лажа)
+  if (ceil(level1) != 255) analogWrite(pwm1, ceil(level1));               //подаем нужный сигнал на ШИМ выход (кроме 255, так как там какая-то лажа)
 
 
   // УПРАВЛЕНИЕ
@@ -595,7 +588,7 @@ void loop()                                                //основной ц
     Serial.print(';');
 
     Serial.print('W');
-    Serial.print(level);
+    Serial.print(level1);
     Serial.print(';');
 
     Serial.print('c');
@@ -631,7 +624,7 @@ void loop()                                                //основной ц
     lcd.print("U>");
     if (counter1 < 10) lcd.print(" ");            // добавляем пробел, если нужно, чтобы не портить картинку
     lcd.print (counter1, 1);                      // выводим установленное значение напряжения
-    lcd.print ("V ");                            // пишем что это вольты
+    lcd.print ("V ");                             // пишем что это вольты
 
     //обновление информации
     //проверяем не прошел ли нужный интервал, если прошел то
@@ -677,7 +670,7 @@ void loop()                                                //основной ц
       if (disp == 4)                                     // значение ШИМ
       {
         lcd.print ("pwm1:");
-        lcd.print (ceil(level), 0);
+        lcd.print (ceil(level1), 0);
         lcd.print ("  ");
       }
       if (disp == 5)                                     // значение ШИМ ????
@@ -766,7 +759,7 @@ void loop()                                                //основной ц
     lcd.print(">Imax(");
     lcd.print(Ioutmax);
     lcd.print("A)");
-    level = 0;
+    level1 = 0;
     Serial.print('I0;U0;r1;W0;');
     Serial.println(' ');
   }
@@ -777,7 +770,7 @@ void loop()                                                //основной ц
     Serial.print('I0;U0;r1;W0;');
     digitalWrite(led_red, HIGH);
     Serial.println(' ');
-    level = 0;
+    level1 = 0;
     lcd.setCursor (0, 0);
 
     if (off == false)
