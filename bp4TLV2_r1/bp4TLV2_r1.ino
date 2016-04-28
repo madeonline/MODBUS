@@ -95,11 +95,11 @@ int disp                    = 0;               // режим отображения 0 ничего, 1 
 float Uout                  = 0;               // напряжение на выходе
 float Ucorr                 = 0;               // коррекция напряжения, при желании можно подстроить
 float Iout                  = 0;               // узнаем ток в нагрузке
-#define kn_menu       12                // Назначение кнопки "Меню"
-#define kn_selection  13                // Назначение кнопки "Выбор"
-#define kn_pwm        A4                // Назначение кнопки "ШИМ"
-#define led_red       A2                // Назначение светодиода "RED"
-#define led_blue      A3                // Назначение светодиода "BLUE"
+#define kn_menu       12                       // Назначение кнопки "Меню"
+#define kn_selection  13                       // Назначение кнопки "Выбор"
+#define kn_pwm        A4                       // Назначение кнопки "ШИМ"
+#define led_red       A2                       // Назначение светодиода "RED"
+#define led_blue      A3                       // Назначение светодиода "BLUE"
 
 int incomingByte;
 
@@ -707,8 +707,7 @@ void display_print()
 
 void setup()
 {
-
-  cli();                                 // Настройка портов микроконтроллера
+  cli();                                   // Настройка портов микроконтроллера
   DDRB |= 1 << 1 | 1 << 2;
   PORTB &= ~(1 << 1 | 1 << 2);
   TCCR1A = 0b00000010;
@@ -735,43 +734,38 @@ void setup()
   pinMode(power, OUTPUT);
   pinMode(led_red, OUTPUT);
   pinMode(led_blue, OUTPUT);
-  // поддерживаем высокий уровень на входах от валкодера
-  digitalWrite(up, HIGH);
+  digitalWrite(up, HIGH);                  // поддерживаем высокий уровень на входах от валкодера
   digitalWrite(down, HIGH);
-  //поддерживаем высокий уровень на контактах кнопок
-  digitalWrite(kn_menu, HIGH);
+  digitalWrite(kn_menu, HIGH);             //поддерживаем высокий уровень на контактах кнопок
   digitalWrite(kn_selection, HIGH);
   digitalWrite(kn_pwm, HIGH);
 
   //запуск дисплея
-  lcd.begin(16, 2);                                     // Дисплей 16 символов, 2 строки
+  lcd.begin(16, 2);                        // Дисплей 16 символов, 2 строки
   lcd.print("    WELCOME!    ");
-
-  //загружаем настройки из памяти МК
-  counter1 = EEPROM_float_read(0);
+  counter1 = EEPROM_float_read(0);         //загружаем настройки из памяти МК
   Ioutmax  = EEPROM_float_read(4);
   mode     = EEPROM_float_read(12);
   disp     = EEPROM_float_read(10);
   counter2 = EEPROM_float_read(16);
-  //Если в памяти еще нет настроек - задаем что нибудь кроме нулей
-  if (counter1 == 0) counter1 = 5;                         //5 вольт
-  if (Ioutmax == 0) Ioutmax = 2;                         //2 ампера
+                                           // Если в памяти еще нет настроек - задаем что нибудь кроме нулей
+  if (counter1 == 0) counter1 = 5;         // 5 вольт
+  if (Ioutmax == 0) Ioutmax = 2;           // 2 ампера
 
-  digitalWrite(power, HIGH);                             //включаем реле
-
+  digitalWrite(power, HIGH);               // включаем реле
 }
-void loop()                                          //основной цикл работы МК
+void loop()                                //основной цикл работы МК
 {
-  currentMillis = millis();                          // Текущее значение времени
-  serial_control();                                  // Внешнее управление
-  AV_protection();                                   // ЗАЩИТА 
-  valcoder_set();                                    // считываем значения с входа валкодера
-  control_system();                                  // Управление
+  currentMillis = millis();                // Текущее значение времени
+  serial_control();                        // Внешнее управление
+  AV_protection();                         // ЗАЩИТА 
+  valcoder_set();                          // считываем значения с входа валкодера
+  control_system();                        // Управление
   if (currentMillis - com2 > com)
 	  {
-		 com2 = currentMillis;                       // сохраняем время последнего обновления
-		 serial_print();                             // Отправляем данные в СОМ порт
+		 com2 = currentMillis;             // сохраняем время последнего обновления
+		 serial_print();                   // Отправляем данные в СОМ порт
 	  }
-  control_buttons();                                 // Контроль клавиш                                       
-  display_print();                                   // ИНДИКАЦИЯ LCD
+  control_buttons();                       // Контроль клавиш                                       
+  display_print();                         // ИНДИКАЦИЯ LCD
 }
