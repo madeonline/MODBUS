@@ -61,42 +61,45 @@ LiquidCrystal lcd(8, 7, 5, 4, 3, 2); //rs, e, d4, d5, d6, d7
 
 // задаем константы
 
-float umax          = 20.00;           // максимальное напряжение
-float umin          = 0.00;            // минимальное напряжение
-float ah            = 0.0000;          // Cчетчик Ампер*часов
-const int down      = 10;              // выход валкодера 1/2 В
-const int up        = 11;              // выход валкодера 2/2 А
-const int pwm1      = 9;               // выход ШИМ1
-const int pwm2      = 6;               // выход ШИМ2
-const int power     = A5;              // управление релюхой
-long previousMillis = 0;               // храним время последнего обновления дисплея
-long maxpwm         = 0;               // циклы поддержки максимального ШИМ
-long interval       = 500;             // интервал обновления информации на дисплее, мс
-int mig             = 0;               // Для енкодера (0 стоим 1 плюс 2 минус)
-float level1        = 2000;            // "уровень" ШИМ1 сигнала
-float level2        = 2000;            // "уровень" ШИМ2 сигнала
-float com           = 100;
-long com2           = 0;
-int mode            = 0;               // режим (0 обычный, спабилизация тока, защита по току)
-float Ioutmax       = 1.0;             // заданный ток
-int set             = 0;               // пункты меню, отображение защиты...
-int knopka_a        = 0;               // состояние кнопок
-int knopka_b        = 0;
-int knopka_c        = 0;
-int knopka_abc      = 0;
-boolean off         = false;
-boolean red         = false;
-boolean blue        = false;
-boolean pwm1_2      = false;           // Переключатель ШИМ 1 / ШИМ 2
-float counter1       = 5;              // переменная хранит заданное напряжение ШИМ1
-float counter2       = 5;              // переменная хранит заданное напряжение ШИМ2
-int disp            = 0;               // режим отображения 0 ничего, 1 мощьность, 2 режим, 3 установленный ток, 4 шим уровень
-float Uout ;                           // напряжение на выходе
-#define kn_menu       12               // Назначение кнопки "Меню"
-#define kn_selection  13               // Назначение кнопки "Выбор"
-#define kn_pwm        A4               // Назначение кнопки "ШИМ"
-#define led_red       A2               // Назначение светодиода "RED"
-#define led_blue      A3               // Назначение светодиода "BLUE"
+float umax                  = 20.00;           // максимальное напряжение
+float umin                  = 0.00;            // минимальное напряжение
+float ah                    = 0.0000;          // Cчетчик Ампер*часов
+const int down              = 10;              // выход валкодера 1/2 В
+const int up                = 11;              // выход валкодера 2/2 А
+const int pwm1              = 9;               // выход ШИМ1
+const int pwm2              = 6;               // выход ШИМ2
+const int power             = A5;              // управление релюхой
+long previousMillis         = 0;               // храним время последнего обновления дисплея
+unsigned long currentMillis = 0;               
+long maxpwm                 = 0;               // циклы поддержки максимального ШИМ
+long interval               = 500;             // интервал обновления информации на дисплее, мс
+int mig                     = 0;               // Для енкодера (0 стоим 1 плюс 2 минус)
+float level1                = 2000;            // "уровень" ШИМ1 сигнала
+float level2                = 2000;            // "уровень" ШИМ2 сигнала
+float com                   = 100;
+long com2                   = 0;
+int mode                    = 0;               // режим (0 обычный, спабилизация тока, защита по току)
+float Ioutmax               = 1.0;             // заданный ток
+int set                     = 0;               // пункты меню, отображение защиты...
+int knopka_a                = 0;               // состояние кнопок
+int knopka_b                = 0;
+int knopka_c                = 0;
+int knopka_abc              = 0;
+boolean off                 = false;
+boolean red                 = false;
+boolean blue                = false;
+boolean pwm1_2              = false;           // Переключатель ШИМ 1 / ШИМ 2
+float counter1              = 5;               // переменная хранит заданное напряжение ШИМ1
+float counter2              = 5;               // переменная хранит заданное напряжение ШИМ2
+int disp                    = 0;               // режим отображения 0 ничего, 1 мощьность, 2 режим, 3 установленный ток, 4 шим уровень
+float Uout                  = 0;               // напряжение на выходе
+float Ucorr                 = 0;               // коррекция напряжения, при желании можно подстроить
+float Iout                  = 0;               // узнаем ток в нагрузке
+#define kn_menu       12                // Назначение кнопки "Меню"
+#define kn_selection  13                // Назначение кнопки "Выбор"
+#define kn_pwm        A4                // Назначение кнопки "ШИМ"
+#define led_red       A2                // Назначение светодиода "RED"
+#define led_blue      A3                // Назначение светодиода "BLUE"
 
 int incomingByte;
 
@@ -114,63 +117,6 @@ float EEPROM_float_read(int addr)                         // Программа чтения из
   float *y = (float *)&x;
   return y[0];
 }
-
-void setup()
-{
-
-  cli();                                 // Настройка портов микроконтроллера
-  DDRB |= 1 << 1 | 1 << 2;
-  PORTB &= ~(1 << 1 | 1 << 2);
-  TCCR1A = 0b00000010;
-  //TCCR1A = 0b10100010;
-  TCCR1B = 0b00011001;
-  ICR1H = 255;
-  ICR1L = 255;
-  sei();
-
-  int pwm_rez = 13;
-  pwm_rez = pow(2, pwm_rez);               // Вычисляет значение возведенное в заданную степень
-  ICR1H   = highByte(pwm_rez);             // Запись старшего байта в Input Capture Register 1 H
-  ICR1L   = lowByte(pwm_rez);              // Запись младшего байта в Input Capture Register 1 L
-
-  Serial.begin(9600);                      // Установить скорость серийного порта 9600
-
-  pinMode(pwm1, OUTPUT);                   // На выход 9
-  pinMode(pwm2, OUTPUT);                   // На выход 6
-  pinMode(down, INPUT);
-  pinMode(up, INPUT);
-  pinMode(kn_menu, INPUT);
-  pinMode(kn_selection, INPUT);
-  pinMode(kn_pwm, INPUT);
-  pinMode(power, OUTPUT);
-  pinMode(led_red, OUTPUT);
-  pinMode(led_blue, OUTPUT);
-  // поддерживаем высокий уровень на входах от валкодера
-  digitalWrite(up, HIGH);
-  digitalWrite(down, HIGH);
-  //поддерживаем высокий уровень на контактах кнопок
-  digitalWrite(kn_menu, HIGH);
-  digitalWrite(kn_selection, HIGH);
-  digitalWrite(kn_pwm, HIGH);
-
-  //запуск дисплея
-  lcd.begin(16, 2);                                     // Дисплей 16 символов, 2 строки
-  lcd.print("    WELCOME!    ");
-
-  //загружаем настройки из памяти МК
-  counter1 = EEPROM_float_read(0);
-  Ioutmax  = EEPROM_float_read(4);
-  mode     = EEPROM_float_read(12);
-  disp     = EEPROM_float_read(10);
-  counter2 = EEPROM_float_read(16);
-  //Если в памяти еще нет настроек - задаем что нибудь кроме нулей
-  if (counter1 == 0) counter1 = 5;                         //5 вольт
-  if (Ioutmax == 0) Ioutmax = 2;                         //2 ампера
-
-  digitalWrite(power, HIGH);                             //включаем реле
-
-}
-
 
 
 //функции при вращении енкодера
@@ -283,17 +229,10 @@ void save()
   set = 0;                                                 //выходим из меню
 }
 
-void loop()                                                //основной цикл работы МК
+void serial_control()              // Внешнее управление
 {
-
-  unsigned long currentMillis = millis();
-
-  // Внешнее управление
-
-
-
-  if (Serial.available() > 0)
-  { //если есть доступные данные  считываем байт
+  if (Serial.available() > 0)      //если есть доступные данные  считываем байт
+  { 
     incomingByte = Serial.read();
   }
   else
@@ -301,22 +240,22 @@ void loop()                                                //основной цикл работ
     incomingByte = 0;
   }
 
-  if (incomingByte == 97)
-  { //a
+  if (incomingByte == 97)        // a
+  { 
     if (counter1 > umin + 0.1)counter1 = counter1 - 0.1;    //убавляем напнряжение
-
   }
-  if (incomingByte == 98) { //b
-
+  if (incomingByte == 98)        // b
+  { 
     if (counter1 < umax)       counter1 = counter1 + 0.1;   //добавляем
-
   }
 
-  if (incomingByte == 99) { //c
+  if (incomingByte == 99)        // c
+  { 
     iminus();
   }
 
-  if (incomingByte == 100) { //d
+  if (incomingByte == 100)       // d
+  {
     iplus();
   }
 
@@ -340,12 +279,13 @@ void loop()                                                //основной цикл работ
   if (incomingByte == 107) ah = 0;
 
   // конец внешнего управления
-
-
+}
+void AV_protection()
+{
   //получаем значение напряжения и тока в нагрузке
-  float Ucorr = -0.00;                                            // коррекция напряжения, при желании можно подстроить
-  float Uout = analogRead(A1) * ((5.0 + Ucorr) / 1023.0) * 5.0;   // узнаем напряжение на выходе
-  float Iout = analogRead(A0) / 100.00;                           // узнаем ток в нагрузке
+  Ucorr = -0.00;                                            // коррекция напряжения, при желании можно подстроить
+  Uout = analogRead(A1) * ((5.0 + Ucorr) / 1023.0) * 5.0;   // узнаем напряжение на выходе
+  Iout = analogRead(A0) / 100.00;                           // узнаем ток в нагрузке
 
   if (Iout == 0.01) Iout =  0.03; else if (Iout == 0.02) Iout =  0.04; else if (Iout == 0.03) Iout =  0.05; else if (Iout == 0.04) Iout = 0.06; else if (Iout >= 0.05) Iout = Iout + 0.02;
   if (Iout >= 0.25)Iout = Iout + 0.01;
@@ -358,14 +298,13 @@ void loop()                                                //основной цикл работ
 
   {
     digitalWrite(power, LOW);                                      // вырубаем реле
-    level1 = 8190;                                                  // убираем ШИМ сигнал
+    level1 = 8190;                                                 // убираем ШИМ сигнал
     digitalWrite(led_red, HIGH);                                   // Включаем красный светодиод
 
     Serial.print('I0;U0;r1;W0;');
     Serial.println(' ');
     set = 7;
   }
-
 
   //Зашита от длительного максимального шим
   if (level1 == 0 & off == false)
@@ -385,47 +324,44 @@ void loop()                                                //основной цикл работ
       if (set < 4) digitalWrite(led_red, LOW);                          // гасим красный светодиод. Перегрузки нет.
     }
   }
-
-
   // ЗАЩИТА КОНЕЦ
-
-
-  // считываем значения с входа валкодера
+}
+void valcoder_set()
+{
   boolean regup   = digitalRead(up);
   boolean regdown = digitalRead(down);
 
-  if (regup < regdown) mig = 1;                                      // крутится в сторону увеличения
-  if (regup > regdown) mig = 2;                                      // крутится в сторону уменшения
-  if (!regup & !regdown)                                             // момент для переключения
+  if (regup < regdown) mig = 1;                            // крутится в сторону увеличения
+  if (regup > regdown) mig = 2;                            // крутится в сторону уменшения
+  if (!regup & !regdown)                                   // момент для переключения
   {
-    if (mig == 1) uup(); //+
-    if (mig == 2) udn(); //-
-    mig = 0;                                                        // сбрасываем указатель направления
+    if (mig == 1) uup();                                   //+
+    if (mig == 2) udn();                                   //-
+    mig = 0;                                               // сбрасываем указатель направления
   }
-
-
-  if (mode == 0 | mode == 1)                                        // если управляем только напряжением (не режим стабилизации тока)
+}
+void control_system()                                           // УПРАВЛЕНИЕ
+{
+	  if (mode == 0 | mode == 1)                                // если управляем только напряжением (не режим стабилизации тока)
   {
-
-    //Сравниваем напряжение на выходе с установленным, и принимаем меры..
-    if (Uout > counter1)
+    if (Uout > counter1)                                        //Сравниваем напряжение на выходе с установленным, и принимаем меры..
     {
-      float raz = Uout - counter1;                                  //на сколько напряжение на выходе больше установленного...
+      float raz = Uout - counter1;                              //на сколько напряжение на выходе больше установленного...
       if (raz > 0.05)
       {
-        level1 = level1 - raz * 20;                                  //разница большая управляем грубо и быстро!
+        level1 = level1 - raz * 20;                             //разница большая управляем грубо и быстро!
       } else {
-        if (raz > 0.015)  level1 = level1 -  raz * 3 ;               //разница небольшая управляем точно
+        if (raz > 0.015)  level1 = level1 -  raz * 3 ;          //разница небольшая управляем точно
       }
     }
     if (Uout < counter1)
     {
-      float raz = counter1 - Uout;                                  //на сколько напряжение меньше чем мы хотим
+      float raz = counter1 - Uout;                              //на сколько напряжение меньше чем мы хотим
       if (raz > 0.05)
       {
         level1 = level1 + raz * 20; //грубо
       } else {
-        if (raz > 0.015)  level1 = level1 + raz * 3 ;                // точно
+        if (raz > 0.015)  level1 = level1 + raz * 3 ;           // точно
       }
     }
     // ??+++++++++++++++++++ Новый фрагмент с обработкой ШИМ 2 +++++++++++++++++++++++++++++++++++++++++++
@@ -447,28 +383,27 @@ void loop()                                                //основной цикл работ
     }
 
   }
-  else
-  { // режим стабилизации тока
+  else                                                             // режим стабилизации тока
+  { 
 
     if (Iout >= Ioutmax)
     {
-      //узнаем запас разницу между током в нагрузке и установленным током
-      float raz = (Iout - Ioutmax);
-      if (raz > 0.3)                                              // очень сильно превышено (ток больше заданного более чем на 0,3А)
+      float raz = (Iout - Ioutmax);                                //узнаем запас разницу между током в нагрузке и установленным током
+      if (raz > 0.3)                                               // очень сильно превышено (ток больше заданного более чем на 0,3А)
       {
-        level1 = level1 + raz * 20;                               // резко понижаем ШИМ
+        level1 = level1 + raz * 20;                                // резко понижаем ШИМ
       } else {
-        if (raz > 0.05)                                           // сильно превышено (ток больше заданного более чем на 0,1А)
+        if (raz > 0.05)                                            // сильно превышено (ток больше заданного более чем на 0,1А)
         {
-          level1 = level1 + raz * 5;                                // понижаем ШИМ
+          level1 = level1 + raz * 5;                               // понижаем ШИМ
         } else {
-          if (raz > 0.00) level1 = level1 + raz * 2;                // немного превышен (0.1 - 0.01А) понижаем плавно
+          if (raz > 0.00) level1 = level1 + raz * 2;               // немного превышен (0.1 - 0.01А) понижаем плавно
         }
       }
 
-      digitalWrite(led_blue, HIGH);                               // зажигаем синий светодиод
-    } else {                                                      // режим стабилизации тока, но ток у нас в пределах нормы, а значит занимаемся регулировкой напряжения
-      digitalWrite(led_blue, LOW);                                // синий светодиод не светится
+      digitalWrite(led_blue, HIGH);                                // зажигаем синий светодиод
+    } else {                                                       // режим стабилизации тока, но ток у нас в пределах нормы, а значит занимаемся регулировкой напряжения
+      digitalWrite(led_blue, LOW);                                 // синий светодиод не светится
 
       //Сравниваем напряжение на выходе с установленным, и принимаем меры..
       if (Uout > counter1)
@@ -476,9 +411,9 @@ void loop()                                                //основной цикл работ
         float raz = Uout - counter1;                               //на сколько напряжение на выходе больше установленного...
         if (raz > 0.1)
         {
-          level1 = level1 + raz * 20;                               //разница большая управляем грубо и быстро!
+          level1 = level1 + raz * 20;                              //разница большая управляем грубо и быстро!
         } else {
-          if (raz > 0.015)  level1 = level1 + raz * 5;              //разница небольшая управляем точно
+          if (raz > 0.015)  level1 = level1 + raz * 5;             //разница небольшая управляем точно
         }
       }
       if (Uout < counter1)
@@ -498,18 +433,15 @@ void loop()                                                //основной цикл работ
   if (off) level1 = 8190;
   if (level1 < 0) level1 = 0;                                             //не опускаем ШИМ ниже нуля
   if (level1 > 8190) level1 = 8190;                                       //не поднимаем ШИМ выше 13 бит
-  //Все проверили, прощитали и собственно отдаем команду для силового транзистора.
+                                                                      //Все проверили, прощитали и собственно отдаем команду для силового транзистора.
   if (ceil(level1) != 255) analogWrite(pwm1, ceil(level1));               //подаем нужный сигнал на ШИМ выход (кроме 255, так как там какая-то лажа)
-
-
-  // УПРАВЛЕНИЕ
-
+}                               // УПРАВЛЕНИЕ                            
+void control_buttons()
+{
   if (digitalRead(kn_menu) == LOW && digitalRead(kn_selection) == LOW && digitalRead(kn_pwm) == LOW && knopka_abc == 0 )
   { // нажата ли кнопка a - б - c  вместе
     knopka_abc = 1;
-
     //ah = 0.000;
-
     knopka_abc = 0;
   }
 
@@ -518,7 +450,6 @@ void loop()                                                //основной цикл работ
     pwm1_2 = !pwm1_2;                                                   // Переключить ШИМ 1/2 ( pwm1_2== true -  ШИМ1,   pwm1_2== false -  ШИМ2)
     while (digitalRead(kn_pwm) == LOW ) {}                              // Ожидаем отпускания кнопки ШИМ
   }
-
 
   if (digitalRead(kn_selection) == LOW && knopka_a == 0) {            // нажата ли кнопка А (disp)
     knopka_a = 1;
@@ -553,16 +484,9 @@ void loop()                                                //основной цикл работ
   if (digitalRead(kn_selection) == HIGH && knopka_a == 1) knopka_a = 0;
   if (digitalRead(kn_pwm)       == HIGH && knopka_c == 1) knopka_c = 0;
 
-
-
-
-  // COM PORT
-
-  if (currentMillis - com2 > com)
-  {
-    // сохраняем время последнего обновления
-    com2 = currentMillis;
-
+}
+void serial_print()
+{
     //Считаем Ампер*часы
     ah = ah + (Iout / 36000);
 
@@ -601,17 +525,10 @@ void loop()                                                //основной цикл работ
     Serial.print('b');
     Serial.print(digitalRead(led_blue));
     Serial.print(';');
-
-
-
     Serial.println(' ');
-
-  }
-
-  // ИНДИКАЦИЯ LCD
-
-
-
+}
+void display_print()
+{
   if (set == 0)
   {
     //стандартный экран,  выводим установленное напряжение на дисплей
@@ -793,5 +710,75 @@ void loop()                                                //основной цикл работ
       Serial.print(';');
     }
   }
+}
 
+void setup()
+{
+
+  cli();                                 // Настройка портов микроконтроллера
+  DDRB |= 1 << 1 | 1 << 2;
+  PORTB &= ~(1 << 1 | 1 << 2);
+  TCCR1A = 0b00000010;
+  //TCCR1A = 0b10100010;
+  TCCR1B = 0b00011001;
+  ICR1H = 255;
+  ICR1L = 255;
+  sei();
+
+  int pwm_rez = 13;
+  pwm_rez = pow(2, pwm_rez);               // Вычисляет значение возведенное в заданную степень
+  ICR1H   = highByte(pwm_rez);             // Запись старшего байта в Input Capture Register 1 H
+  ICR1L   = lowByte(pwm_rez);              // Запись младшего байта в Input Capture Register 1 L
+
+  Serial.begin(9600);                      // Установить скорость серийного порта 9600
+
+  pinMode(pwm1, OUTPUT);                   // На выход 9
+  pinMode(pwm2, OUTPUT);                   // На выход 6
+  pinMode(down, INPUT);
+  pinMode(up, INPUT);
+  pinMode(kn_menu, INPUT);
+  pinMode(kn_selection, INPUT);
+  pinMode(kn_pwm, INPUT);
+  pinMode(power, OUTPUT);
+  pinMode(led_red, OUTPUT);
+  pinMode(led_blue, OUTPUT);
+  // поддерживаем высокий уровень на входах от валкодера
+  digitalWrite(up, HIGH);
+  digitalWrite(down, HIGH);
+  //поддерживаем высокий уровень на контактах кнопок
+  digitalWrite(kn_menu, HIGH);
+  digitalWrite(kn_selection, HIGH);
+  digitalWrite(kn_pwm, HIGH);
+
+  //запуск дисплея
+  lcd.begin(16, 2);                                     // Дисплей 16 символов, 2 строки
+  lcd.print("    WELCOME!    ");
+
+  //загружаем настройки из памяти МК
+  counter1 = EEPROM_float_read(0);
+  Ioutmax  = EEPROM_float_read(4);
+  mode     = EEPROM_float_read(12);
+  disp     = EEPROM_float_read(10);
+  counter2 = EEPROM_float_read(16);
+  //Если в памяти еще нет настроек - задаем что нибудь кроме нулей
+  if (counter1 == 0) counter1 = 5;                         //5 вольт
+  if (Ioutmax == 0) Ioutmax = 2;                         //2 ампера
+
+  digitalWrite(power, HIGH);                             //включаем реле
+
+}
+void loop()                                          //основной цикл работы МК
+{
+  currentMillis = millis();                          // Текущее значение времени
+  serial_control();                                  // Внешнее управление
+  AV_protection();                                   // ЗАЩИТА 
+  valcoder_set();                                    // считываем значения с входа валкодера
+  control_system();                                  // Управление
+  if (currentMillis - com2 > com)
+	  {
+		 com2 = currentMillis;                       // сохраняем время последнего обновления
+		 serial_print();                             // Отправляем данные в СОМ порт
+	  }
+  control_buttons();                                 // Контроль клавиш                                       
+  display_print();                                   // ИНДИКАЦИЯ LCD
 }
