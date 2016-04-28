@@ -103,13 +103,11 @@ float Iout                  = 0;               // узнаем ток в нагрузке
 
 int incomingByte;
 
-
 void EEPROM_float_write(int addr, float val)              // Программа записи в ЕЕPROM
 {
   byte *x = (byte *)&val;
   for (byte i = 0; i < 4; i++) EEPROM.write(i + addr, x[i]);
 }
-
 float EEPROM_float_read(int addr)                         // Программа чтения из ЕЕPROM
 {
   byte x[4];
@@ -117,7 +115,6 @@ float EEPROM_float_read(int addr)                         // Программа чтения из
   float *y = (float *)&x;
   return y[0];
 }
-
 
 //функции при вращении енкодера
 void uup()                                                     //энкодер +
@@ -165,7 +162,6 @@ void uup()                                                     //энкодер +
     save();
   }
 }
-
 void udn()                                                    //валкодер -
 {
   if (set == 0)
@@ -191,7 +187,6 @@ void udn()                                                    //валкодер -
     iminus();
   }
 }
-
 void iplus()
 {
   Ioutmax = Ioutmax + 0.01;
@@ -199,7 +194,6 @@ void iplus()
   if (Ioutmax > 1) Ioutmax = Ioutmax + 0.05;
   if (Ioutmax > 10.00) Ioutmax = 10.00;
 }
-
 void iminus()
 {
   Ioutmax = Ioutmax - 0.01;
@@ -207,7 +201,6 @@ void iminus()
   if (Ioutmax > 1) Ioutmax = Ioutmax - 0.05;
   if (Ioutmax < 0.03) Ioutmax = 0.03;
 }
-
 void save()
 {
   lcd.clear();                                             // Очистить дисплей
