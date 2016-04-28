@@ -731,23 +731,23 @@ void loop()                                                //основной ц
     lcd.print("Save options? ->");
   }
 
-  if (set == 5)                                  //Выбор ШИМ1 / ШИМ2 кнопкой ШИМ
-  {
-    lcd.setCursor (0, 0);
-    lcd.print("> MENU 5/5      ");
-    lcd.setCursor (0, 1);
-    lcd.print("Select PWM->");
-    lcd.setCursor (12, 1);
-    if (pwm1_2)                                 // Вывод текущего состояния переключателя ШИМ1/2
-    {
-      lcd.print("PWM1");
-    }
-    else
-    {
-      lcd.print("PWM2");
-    }
-
-  }
+//  if (set == 5)                                  //Выбор ШИМ1 / ШИМ2 кнопкой ШИМ
+//  {
+//    lcd.setCursor (0, 0);
+//    lcd.print("> MENU 5/5      ");
+//    lcd.setCursor (0, 1);
+//    lcd.print("Select PWM->");
+//    lcd.setCursor (12, 1);
+//    if (pwm1_2)                                 // Вывод текущего состояния переключателя ШИМ1/2
+//    {
+//      lcd.print("PWM1");
+//    }
+//    else
+//    {
+//      lcd.print("PWM2");
+//    }
+//
+//  }
 
   // ИНДИКАЦИЯ ЗАЩИТЫ
   if (set == 6)                                 //защита. вывод инфы
