@@ -72,7 +72,7 @@ void control_buttons()
 	  {
 		while (digitalRead(kn_menu) == LOW ) {}            // Ожидаем отпускания кнопки "меню"
 		set++;                                             // Следующий пункт меню 
-		if (set > 3)  set = 3;                             // Максимальный пункт меню
+		if (set > 3)  set = 0;                             // Максимальный пункт меню
 	  }
 	 if (digitalRead(kn_pwm) == LOW && set == 1)           // Установить канал ШИМ если выбран второй пункт меню
 	  {
@@ -96,13 +96,13 @@ void display_print()
 		if (pwm1_2)                                                // Если выбран ШИМ1 - регулируем по старой схеме
 		{
 			lcd.print ("pwm1:");
-			lcd.print (counter1, 0);
+			lcd.print (counter1, 1);
 			lcd.print ("  ");
 		}
 		else
 		{
 			lcd.print ("pwm2:");
-			lcd.print (counter2, 0);
+			lcd.print (counter2, 1);
 			lcd.print ("  ");
 		}
 	}
