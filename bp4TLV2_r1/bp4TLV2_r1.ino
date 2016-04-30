@@ -461,12 +461,12 @@ void control_system()                                           // УПРАВЛЕНИЕ
 }                               // УПРАВЛЕНИЕ                            
 void control_buttons()
 {
-  if (digitalRead(kn_menu) == LOW && digitalRead(kn_selection) == LOW && digitalRead(kn_pwm) == LOW && knopka_abc == 0 )
-  { // нажата ли кнопка a - б - c  вместе
-    knopka_abc = 1;
-    //ah = 0.000;
-    knopka_abc = 0;
-  }
+  //if (digitalRead(kn_menu) == LOW && digitalRead(kn_selection) == LOW && digitalRead(kn_pwm) == LOW && knopka_abc == 0 )
+  //{ // нажата ли кнопка a - б - c  вместе
+  //  knopka_abc = 1;
+  //  //ah = 0.000;
+  //  knopka_abc = 0;
+  //}
 
   if (digitalRead(kn_menu) == LOW && knopka_b == 0)                       // Переключение режимов меню кнопкой "меню"
 	  {
@@ -509,7 +509,6 @@ void control_buttons()
   if (digitalRead(kn_menu)      == HIGH && knopka_b == 1) knopka_b = 0;
   if (digitalRead(kn_selection) == HIGH && knopka_a == 1) knopka_a = 0;
   if (digitalRead(kn_pwm)       == HIGH && knopka_c == 1) knopka_c = 0;
-
 }
 void serial_print()
 {
@@ -562,7 +561,6 @@ void display_print()
     if (counter1 < 10) lcd.print(" ");                  // добавляем пробел, если нужно, чтобы не портить картинку
     lcd.print (counter1, 1);                            // выводим установленное значение напряжения
     lcd.print ("V ");                                   // пишем что это вольты
-
 														//обновление информации
 														//проверяем не прошел ли нужный интервал, если прошел то
 														// выводим реальные значения на дисплей
@@ -577,7 +575,7 @@ void display_print()
       lcd.print(Uout, 2);
       lcd.print("V I=");
       lcd.print(Iout, 2);
-      lcd.print("A ");
+      lcd.print("A "); 
 
       //дополнительная информация
       lcd.setCursor (8, 1);
@@ -781,15 +779,15 @@ void setup()
 void loop()                                //основной цикл работы МК
 {
   currentMillis = millis();                // Текущее значение времени
-  serial_control();                        // Внешнее управление
-  AV_protection();                         // ЗАЩИТА 
+ // serial_control();                        // Внешнее управление
+ // AV_protection();                         // ЗАЩИТА 
   valcoder_set();                          // считываем значения с входа валкодера
-  control_system();                        // Управление
-  if (currentMillis - com2 > com)
-	  {
-		 com2 = currentMillis;             // сохраняем время последнего обновления
-		 serial_print();                   // Отправляем данные в СОМ порт
-	  }
+//  control_system();                        // Управление
+  //if (currentMillis - com2 > com)
+	 // {
+		// com2 = currentMillis;             // сохраняем время последнего обновления
+		// serial_print();                   // Отправляем данные в СОМ порт
+	 // }
   control_buttons();                       // Контроль клавиш                                       
   display_print();                         // ИНДИКАЦИЯ LCD
 }
