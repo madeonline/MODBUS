@@ -73,6 +73,8 @@ void control_buttons()
 		while (digitalRead(kn_menu) == LOW ) {}            // Ожидаем отпускания кнопки "меню"
 		set++;                                             // Следующий пункт меню 
 		if (set > 3)  set = 0;                             // Максимальный пункт меню
+		lcd.setCursor (0, 0);
+		lcd.print("            ");    
 	  }
 	 if (digitalRead(kn_pwm) == LOW && set == 1)           // Установить канал ШИМ если выбран второй пункт меню
 	  {
@@ -90,22 +92,44 @@ void display_print()
 		if (counter1 < 10) lcd.print(" ");                // добавляем пробел, если нужно, чтобы не портить картинку
 		lcd.print (counter1, 1);                          // выводим установленное значение напряжения
 		lcd.print ("V ");                                 // пишем что это вольты
+		lcd.print("          ");    
 	}
 	if (set == 1)                                         //
 	{
+		lcd.setCursor (0, 0);
+		lcd.print("> MENU 1/3    ");
+		lcd.setCursor (0, 1);
+
 		if (pwm1_2)                                                // Если выбран ШИМ1 - регулируем по старой схеме
 		{
-			lcd.print ("pwm1:");
+			lcd.print ("chanal pwm1:");
 			lcd.print (counter1, 1);
 			lcd.print ("  ");
 		}
 		else
 		{
-			lcd.print ("pwm2:");
+ 			lcd.print ("chanal pwm2:");
 			lcd.print (counter2, 1);
 			lcd.print ("  ");
 		}
 	}
+
+  if (set == 2)                                   //спрашиваем хочет ли юзер сбросить настройки
+  {
+    lcd.setCursor (0, 0);
+    lcd.print("> MENU 2/3      ");
+    lcd.setCursor (0, 1);
+    lcd.print("Reset options? ->");
+  }
+
+  if (set == 3)                                  //спрашиваем хочет ли юзер сохранить настройки
+  {
+    lcd.setCursor (0, 0);
+    lcd.print("> MENU 3/3      ");
+    lcd.setCursor (0, 1);
+    lcd.print("Save options? ->");
+  }
+
 }
 
 void setup()
