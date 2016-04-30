@@ -119,7 +119,7 @@ void display_print()
     lcd.setCursor (0, 0);
     lcd.print("> MENU 2/3      ");
     lcd.setCursor (0, 1);
-    lcd.print("Reset options? ->");
+    lcd.print("Reset options?->");
   }
 
   if (set == 3)                                  //спрашиваем хочет ли юзер сохранить настройки
