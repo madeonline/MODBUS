@@ -20,6 +20,19 @@ int counter2                = 5;               // переменная хранит заданное нап
 
 int set                     = 0;               // пункты меню, 
 
+
+void EEPROM_float_write(int addr, float val)              // Программа записи в ЕЕPROM
+{
+  byte *x = (byte *)&val;
+  for (byte i = 0; i < 4; i++) EEPROM.write(i + addr, x[i]);
+}
+float EEPROM_float_read(int addr)                         // Программа чтения из ЕЕPROM
+{
+  byte x[4];
+  for (byte i = 0; i < 4; i++) x[i] = EEPROM.read(i + addr);
+  float *y = (float *)&x;
+  return y[0];
+}
 void valcoder_set()
 {
   boolean regup   = digitalRead(up);

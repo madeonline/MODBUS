@@ -86,13 +86,13 @@ extern "C" void __cxa_pure_virtual() {;}
 
 void EEPROM_float_write(int addr, float val);
 float EEPROM_float_read(int addr);
-void valcoder_set();
 void uup();
 void udn();
-void control_buttons();
-void display_print();
+void iplus();
+void iminus();
+void save();
 //
 //
 
-#include <set_PWM2.ino>
+#include <bp4TLV2_r2.ino>
 #endif
