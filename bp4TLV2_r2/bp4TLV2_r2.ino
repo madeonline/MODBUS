@@ -133,6 +133,9 @@ void save()
     lcd.setCursor (0, 0);
     lcd.print(" S A V E  -  OK ");
 
+     EEPROM.write(12, mode);
+     EEPROM.write(10, disp);
+
      EEPROM.write(15, level1);
      EEPROM.write(16, level2);
 
@@ -172,6 +175,9 @@ void setup()
   lcd.print("    WELCOME!    ");
 
   //загружаем настройки из памяти МК
+
+  mode = EEPROM.read(12);
+  disp = EEPROM.read(10);
   
   level1 = EEPROM.read(15);
   level2 = EEPROM.read(16);
