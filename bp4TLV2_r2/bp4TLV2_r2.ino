@@ -16,7 +16,6 @@ long previousMillis = 0;                         //храним время по�
 long maxpwm         = 0;                         //циклы поддержки максимального ШИМ
 long interval       = 500;                       // интервал обновления информации на дисплее, мс
 int mig             = 0;                         //Для енкодера (0 стоим 1 плюс 2 минус)
-float level         = 2000;                      //"уровень" ШИМ сигнала
 byte  level1        = 127;                         //"уровень" ШИМ сигнала
 byte  level2        = 127;                         //"уровень" ШИМ сигнала
 float com           = 100;
@@ -110,7 +109,7 @@ void udn() //валкодер -
   }
   */
 }
-
+/*
 void iplus()
 { 
     Ioutmax = Ioutmax+0.01;
@@ -120,7 +119,7 @@ void iplus()
    
    if(Ioutmax>10.00) Ioutmax=10.00;
 }
-
+*/
 void iminus(){ 
   Ioutmax = Ioutmax-0.01;
    if(Ioutmax>0.2) Ioutmax=Ioutmax-0.04;
@@ -209,7 +208,7 @@ void loop() //основной цикл работы МК
     if(counter<umax)       counter = counter+0.1;//добавляем
      
     }
-    
+  /*  
      if(incomingByte==99){ //c   
 iminus();
      }
@@ -217,7 +216,7 @@ iminus();
       if(incomingByte==100){ //d
          iplus();
       }
-
+*/
   if(incomingByte==101) mode = 0;
   if(incomingByte==102) mode = 1; 
   if(incomingByte==103) mode = 2;
@@ -339,7 +338,7 @@ if(currentMillis - com2 > com) {
     Serial.print(';');
     
     Serial.print('W');
-    Serial.print(level);
+    Serial.print(level1);
     Serial.print(';');
     
     Serial.print('c');
@@ -419,22 +418,15 @@ if(set==0)
        lcd.print ("A ");
     }
     if(disp==4){  // значение ШИМ
-      lcd.print ("pwm:"); 
-      lcd.print (ceil(level), 0); 
+      lcd.print ("pwm1:"); 
+      lcd.print (ceil(level1), 0); 
       lcd.print ("  ");
     }
-    if(disp==5){  // значение ШИМ
-      if(ah<1){
-        //if(ah<0.001) lcd.print (" ");
-        if(ah<=0.01) lcd.print (" ");
-        if(ah<=0.1) lcd.print (" ");
-        lcd.print (ah*1000, 1); 
-      lcd.print ("mAh  ");
-      }else{
-        if(ah<=10) lcd.print (" ");
-      lcd.print (ah, 3); 
-      lcd.print ("Ah  ");
-      }
+    if(disp==5)
+    {  // значение ШИМ
+      lcd.print ("pwm2:"); 
+      lcd.print (ceil(level2), 0); 
+      lcd.print ("  ");
     }
   }
 }
