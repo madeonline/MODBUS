@@ -230,14 +230,13 @@ void updateEncoder()
   {
     encoderValue ++;
     uup();
-    
-    }
+   }
   if(sum == 0b1110 || sum == 0b0111 || sum == 0b0001 || sum == 0b1000)
   {
     
     encoderValue --;
     udn();
-    }
+   }
 
   lastEncoded = encoded;
 }
