@@ -474,7 +474,7 @@ void loop()
   }
   lcd.clear();                     // чистим дисплей
   }
-if (digitalRead(kn_pwm)==0 && set==4) 
+if (digitalRead(kn_selection)==0 && set==4) 
 {
    save();    // Сохранить настройки.
 }
