@@ -107,13 +107,12 @@ void setup()
       therm.setEmissivity(newEmissivity);                            // установка newEmissivity в качестве коэффициента и его запись в память датчика
     }
   }
-  //display.setTextSize(1);                                            // выбор размера текста
+ 
   display.setCursor(18,20);
   display.print("MLX90614");
   display.display();
-  delay(2000);
+  delay(1000);
   display.clearDisplay();
- // display.setTextSize(1);                                            // выбор размера текста
 }
 
 void loop()
@@ -129,12 +128,13 @@ void loop()
   {
     while (digitalRead(kn_E) == LOW ) {}                            // Если нажата - ожидаем отпускания кнопки
     display.clearDisplay();                                         // очистка экрана дисплея
-    display.println("Please set EMC");
-    emissivity_level = therm.readEmissivity();
-    display.print("Emissivity: ");                                  // Выводим на дисплей "Emissivity: "
+    display.println("  Please set");
+    display.println("     EMC");
+   // emissivity_level = therm.readEmissivity();
+    display.println("Emissivity: ");                                // Выводим на дисплей "Emissivity: "
     display.println(emissivity_level);                              // Выводим на дисплей коэффициент
     display.display();
-    delay(500);                                                     // Ждем отрыва пальца (от кнопки), и не дрожим
+    delay(200);                                                     // Ждем отрыва пальца (от кнопки), и не дрожим
     do {
       if (digitalRead(kn_E) == LOW )                                // Проверяе нажата ли кнопка "Set EMC"
       {
@@ -143,41 +143,46 @@ void loop()
         EEPROM_float_write(0, emissivity_level);                    // Записываем в память EEPROM. При повторном старте эти данные будут записаны в датчик
         set_mem = true;
       }
-      if (digitalRead(kn_plus) == LOW )                              // Проверяе нажата ли кнопка "Set EMC"
+      if (digitalRead(kn_plus) == LOW )                             // Проверяе нажата ли кнопка "Set EMC"
       {
         while (digitalRead(kn_plus) == LOW ) {}                     // Если нажата - ожидаем отпускания кнопки
-        emissivity_level += 0, 01;                                  // Прибавляем 0,01
+        display.setTextColor(WHITE);
+        display.setCursor(0, 24);
+        display.print(emissivity_level);      
+        display.setTextColor(BLACK);
+        emissivity_level += 0.01;                                   // Прибавляем 0,01
         if (emissivity_level > 1)  emissivity_level = 1;            // Если больше 1 - остановить прибавление
-        display.setCursor(18, 20);
-        display.println(emissivity_level);                          // Выводим на дисплей коэффициент
+        display.setCursor(0, 24);
+        display.print(emissivity_level);                            // Выводим на дисплей коэффициент
         display.display();
       }
       if (digitalRead(kn_minus) == LOW )                            // Проверяе нажата ли кнопка "Set EMC"
       {
         while (digitalRead(kn_minus) == LOW ) {}                    // Если нажата - ожидаем отпускания кнопки
-        emissivity_level -= 0, 01;                                  // Прибавляем 0,01
+        display.setTextColor(WHITE);
+        display.setCursor(0, 24);
+        display.print(emissivity_level);      
+        display.setTextColor(BLACK);
+        emissivity_level -= 0.01;                                   // Прибавляем 0,01
         if (emissivity_level < 0)  emissivity_level = 0;            // Если меньше - остановить уменьшение
-        display.setCursor(18, 20);
-        display.println(emissivity_level);                         // Выводим на дисплей коэффициент
+        display.setCursor(0, 24);
+        display.print(emissivity_level);                            // Выводим на дисплей коэффициент
         display.display();
       }
-    } while (set_mem);
+    } while (!set_mem);
 
     set_mem = false;
   }
 
-
-
-
-
-  if (off_display)                                                    // проверяем прошло ли 3 секунды и разрешено обновление показаний дисплея
+  if (off_display)                                                  // проверяем прошло ли 3 секунды и разрешено обновление показаний дисплея
   {
-    digitalWrite(LED_PIN, HIGH);                                   // включить светодиод
-    display.clearDisplay();                                        // очистка дисплея
+    digitalWrite(LED_PIN, HIGH);                                    // включить светодиод
+    display.clearDisplay();                                         // очистка дисплея
+    display.setTextColor(BLACK);
     display.println(counter);
-    display.print("Tek  ");                                        // значок
-    display.print(tek_temp);                                       // вывод значения температуры в C
-    display.println("C");                                          // значок С
+    display.print("Tek  ");                                         // значок
+    display.print(tek_temp);                                        // вывод значения температуры в C
+    display.println("C");                                           // значок С
     if (start_display)                                              // первый запуск дисплея
     {
       display.print("Max  ");                                        // значок
@@ -198,15 +203,17 @@ void loop()
       display.println("C");                                          // значок С
       display.display();                                             // отображение данных
     }
-    delay(300);                                                    // немного посветить светодиодом
-    digitalWrite(LED_PIN, LOW);                                    // выключить светодиод
+    delay(300);                                                      // немного посветить светодиодом
+    digitalWrite(LED_PIN, LOW);                                      // выключить светодиод
   }
+  
   if (freeze_display)
   {
     display.println();
-    display.println("    Freeze");                               //
-    display.display();                                           // отображение данных
+    display.println("    Freeze");                                   //
+    display.display();                                               // отображение данных
     freeze_display      = false;
+    display.setTextColor(WHITE);
   }
   delay(200);
 
