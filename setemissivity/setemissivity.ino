@@ -14,16 +14,16 @@
 #include <SparkFunMLX90614.h>                                       // та же библиотека для датчика, но с новыми функциями. Думаю, функции отображения температуры лучше оставить из старой библиотеки
 #include <Adafruit_GFX.h>                                           // подключаем общую библиотеку дисплея
 #include <Adafruit_PCD8544.h>                                       // подключаем библиотеку дисплея PCD8544
-
+#include <EEPROM.h>                                                 // подключаем библиотеку памяти EEPROM
 
 Adafruit_PCD8544 display = Adafruit_PCD8544(3, 4, 5, 6, 7);         // присваиваем имя дисплею - display. В дальнейшем так будем к нему обращаться
 IRTherm therm;                                                      // Объект - термометр
 
 float newEmissivity = 0.98;                                         // Коэффициент, который необходимо изменять посредством кнопок. Значение должно измняться от 0,1 до 1 с шагом в 0,01.
 #define kn_freeze                   2                               // Назначение кнопки "Остановить показания дисплея". Подключаем один конец кнопки к выводу 2 Ардуино, второй конец на землю
-#define kn_E                        3                               // Назначение кнопки "Set EMC".                      Подключаем один конец кнопки к выводу 3 Ардуино, второй конец на землю
-#define kn_plus                     4                               // Назначение кнопки "+".                            Подключаем один конец кнопки к выводу 4 Ардуино, второй конец на землю
-#define kn_minus                    5                               // Назначение кнопки "-".                            Подключаем один конец кнопки к выводу 5 Ардуино, второй конец на землю
+#define kn_E                        8                               // Назначение кнопки "Set EMC".                      Подключаем один конец кнопки к выводу 3 Ардуино, второй конец на землю
+#define kn_plus                     9                               // Назначение кнопки "+".                            Подключаем один конец кнопки к выводу 4 Ардуино, второй конец на землю
+#define kn_minus                   10                               // Назначение кнопки "-".                            Подключаем один конец кнопки к выводу 5 Ардуино, второй конец на землю
 #define LED_PIN                    13                               // Назначение светодиода для индикации заморозки                                                           
 
 
@@ -107,6 +107,13 @@ void setup()
       therm.setEmissivity(newEmissivity);                            // установка newEmissivity в качестве коэффициента и его запись в память датчика
     }
   }
+  //display.setTextSize(1);                                            // выбор размера текста
+  display.setCursor(18,20);
+  display.print("MLX90614");
+  display.display();
+  delay(2000);
+  display.clearDisplay();
+ // display.setTextSize(1);                                            // выбор размера текста
 }
 
 void loop()
@@ -126,6 +133,7 @@ void loop()
     emissivity_level = therm.readEmissivity();
     display.print("Emissivity: ");                                  // Выводим на дисплей "Emissivity: "
     display.println(emissivity_level);                              // Выводим на дисплей коэффициент
+    display.display();
     delay(500);                                                     // Ждем отрыва пальца (от кнопки), и не дрожим
     do {
       if (digitalRead(kn_E) == LOW )                                // Проверяе нажата ли кнопка "Set EMC"
@@ -140,23 +148,22 @@ void loop()
         while (digitalRead(kn_plus) == LOW ) {}                     // Если нажата - ожидаем отпускания кнопки
         emissivity_level += 0, 01;                                  // Прибавляем 0,01
         if (emissivity_level > 1)  emissivity_level = 1;            // Если больше 1 - остановить прибавление
-        
+        display.setCursor(18, 20);
+        display.println(emissivity_level);                          // Выводим на дисплей коэффициент
+        display.display();
       }
-      if (digitalRead(kn_minus) == LOW )                              // Проверяе нажата ли кнопка "Set EMC"
+      if (digitalRead(kn_minus) == LOW )                            // Проверяе нажата ли кнопка "Set EMC"
       {
         while (digitalRead(kn_minus) == LOW ) {}                    // Если нажата - ожидаем отпускания кнопки
         emissivity_level -= 0, 01;                                  // Прибавляем 0,01
         if (emissivity_level < 0)  emissivity_level = 0;            // Если меньше - остановить уменьшение
-        
+        display.setCursor(18, 20);
+        display.println(emissivity_level);                         // Выводим на дисплей коэффициент
+        display.display();
       }
-
-
-
     } while (set_mem);
 
     set_mem = false;
-
-
   }
 
 
@@ -204,7 +211,7 @@ void loop()
   delay(200);
 
 
-
+/*
   // Call therm.read() to read object and ambient temperatures from the sensor.
   if (therm.read())                                                  // On success, read() will return 1, on fail 0.
   {
@@ -223,7 +230,7 @@ void loop()
     Serial.println("C");
     Serial.println();
   }
-
+*/
 }
 
 
