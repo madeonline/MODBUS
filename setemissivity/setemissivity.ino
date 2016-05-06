@@ -33,6 +33,7 @@ boolean off_display         = true;                                 // флаг 
 boolean freeze_display      = false;                                // флаг разрешения остановки измерений
 boolean start_display       = true;                                 // Первый запуск системы
 boolean set_mem             = false;                                // Признак записи коэффициента в память
+boolean read_MLX90614       = false;                                // Признак подключения MLX90614
 float tek_temp              = 0;                                    // Текущее значение температуры
 float max_temp              = 0;                                    // Максимальное значение температуры
 float min_temp              = 1000;                                 // Миниимальное значение температуры
@@ -117,127 +118,169 @@ void setup()
 
 void loop()
 {
-  if (digitalRead(kn_freeze) == LOW )                               // Проверяем нажата ли кнопка
+  if (therm.read())                                                // On success, read() will return 1, on fail 0.
   {
-    while (digitalRead(kn_freeze) == LOW ) {}                       // Если нажата - ожидаем отпускания кнопки
-    off_display = !off_display;                                     // изменяем флаг на противоположный
-    freeze_display = true;
-  }
-
-  if (digitalRead(kn_E) == LOW )                                    // Проверяем нажата ли кнопка "Set EMC"
-  {
-    while (digitalRead(kn_E) == LOW ) {}                            // Если нажата - ожидаем отпускания кнопки
-    display.clearDisplay();                                         // очистка экрана дисплея
-    display.println("  Please set");
-    display.println("     EMC");
-    emissivity_level = therm.readEmissivity();
-    display.println("Emissivity: ");                                // Выводим на дисплей "Emissivity: "
-    display.println(emissivity_level);                              // Выводим на дисплей коэффициент
-    display.display();
-    delay(200);                                                     // Ждем отрыва пальца (от кнопки), и не дрожим
-    do {
-      if (digitalRead(kn_E) == LOW )                                // Проверяем нажата ли кнопка "Set EMC"
-      {
-        while (digitalRead(kn_E) == LOW ) {}                        // Если нажата - ожидаем отпускания кнопки
-        therm.setEmissivity(emissivity_level);                      // собственно установка newEmissivity в качестве коэффициента и его запись в память датчика
-        EEPROM_float_write(0, emissivity_level);                    // Записываем в память EEPROM. При повторном старте эти данные будут записаны в датчик
-        set_mem = true;                                             // Флаг выполнения операции записи в память EEPROM.
-      }
-      if (digitalRead(kn_plus) == LOW )                             // Проверяе нажата ли кнопка "Set EMC"
-      {
-        while (digitalRead(kn_plus) == LOW ) {}                     // Если нажата - ожидаем отпускания кнопки
-        display.setTextColor(WHITE);
-        display.setCursor(0, 24);
-        display.print(emissivity_level);
-        display.setTextColor(BLACK);
-        emissivity_level += 0.01;                                   // Прибавляем 0,01
-        if (emissivity_level > 1)  emissivity_level = 1;            // Если больше 1 - остановить прибавление
-        display.setCursor(0, 24);
-        display.print(emissivity_level);                            // Выводим на дисплей коэффициент
-        display.display();
-      }
-      if (digitalRead(kn_minus) == LOW )                            // Проверяе нажата ли кнопка "Set EMC"
-      {
-        while (digitalRead(kn_minus) == LOW ) {}                    // Если нажата - ожидаем отпускания кнопки
-        display.setTextColor(WHITE);
-        display.setCursor(0, 24);
-        display.print(emissivity_level);
-        display.setTextColor(BLACK);
-        emissivity_level -= 0.01;                                   // Прибавляем 0,01
-        if (emissivity_level < 0)  emissivity_level = 0;            // Если меньше - остановить уменьшение
-        display.setCursor(0, 24);
-        display.print(emissivity_level);                            // Выводим на дисплей коэффициент
-        display.display();
-      }
-    } while (!set_mem);
-
-    set_mem = false;
-  }
-
-  if (millis() - currentMillis > interval)                         // проверяем прошло ли 0.5 секунды
-  {
-    currentMillis = millis();                                      // сохраняем время последнего обновления
-    digitalWrite(LED_PIN, HIGH);                                       // включить светодиод
-    // tek_temp = mlx.readObjectTempC();                              // Текущее значение температуры
-    tek_temp = random(10.25, 65.99);
-    min_tmp = min(min_tmp, tek_temp);                              // Вычисление минимального значения температуры
-    max_tmp = max(max_tmp, tek_temp);                              // Вычисление максимального значения температуры
-    counter ++;                                                    // Считаем количество измерений
-    if (counter > 10)                                              // Провели 10 измерений
+    read_MLX90614 = true;                                             // Признак успешного чтения датчика MLX90614
+    if (digitalRead(kn_freeze) == LOW )                               // Проверяем нажата ли кнопка
     {
-      counter = 0;                                                 // Новый счет измерений
-      max_display = max_tmp;                                       // Результат готов, выводим на дисплей
-      min_display = min_tmp;                                       // Результат готов, выводим на дисплей
+      while (digitalRead(kn_freeze) == LOW ) {}                       // Если нажата - ожидаем отпускания кнопки
+      off_display = !off_display;                                     // изменяем флаг на противоположный
+      freeze_display = true;
+    }
+    if (digitalRead(kn_E) == LOW )                                    // Проверяем нажата ли кнопка "Set EMC"
+    {
+      while (digitalRead(kn_E) == LOW ) {}                            // Если нажата - ожидаем отпускания кнопки
+      display.clearDisplay();                                         // очистка экрана дисплея
+      display.println("  Please set");
+      display.println("     EMC");
+      emissivity_level = therm.readEmissivity();
+      display.println("Emissivity: ");                                // Выводим на дисплей "Emissivity: "
+      display.println(emissivity_level);                              // Выводим на дисплей коэффициент
+      display.display();
+      delay(200);                                                     // Ждем отрыва пальца (от кнопки), и не дрожим
+      do {
+        if (digitalRead(kn_E) == LOW )                                // Проверяем нажата ли кнопка "Set EMC"
+        {
+          while (digitalRead(kn_E) == LOW ) {}                        // Если нажата - ожидаем отпускания кнопки
+          therm.setEmissivity(emissivity_level);                      // собственно установка newEmissivity в качестве коэффициента и его запись в память датчика
+          EEPROM_float_write(0, emissivity_level);                    // Записываем в память EEPROM. При повторном старте эти данные будут записаны в датчик
+          set_mem = true;                                             // Флаг выполнения операции записи в память EEPROM.
+        }
+        if (digitalRead(kn_plus) == LOW )                             // Проверяе нажата ли кнопка "Set EMC"
+        {
+          while (digitalRead(kn_plus) == LOW ) {}                     // Если нажата - ожидаем отпускания кнопки
+          display.setTextColor(WHITE);
+          display.setCursor(0, 24);
+          display.print(emissivity_level);
+          display.setTextColor(BLACK);
+          emissivity_level += 0.01;                                   // Прибавляем 0,01
+          if (emissivity_level > 1)  emissivity_level = 1;            // Если больше 1 - остановить прибавление
+          display.setCursor(0, 24);
+          display.print(emissivity_level);                            // Выводим на дисплей коэффициент
+          display.display();
+        }
+        if (digitalRead(kn_minus) == LOW )                            // Проверяе нажата ли кнопка "Set EMC"
+        {
+          while (digitalRead(kn_minus) == LOW ) {}                    // Если нажата - ожидаем отпускания кнопки
+          display.setTextColor(WHITE);
+          display.setCursor(0, 24);
+          display.print(emissivity_level);
+          display.setTextColor(BLACK);
+          emissivity_level -= 0.01;                                   // Прибавляем 0,01
+          if (emissivity_level < 0)  emissivity_level = 0;            // Если меньше - остановить уменьшение
+          display.setCursor(0, 24);
+          display.print(emissivity_level);                            // Выводим на дисплей коэффициент
+          display.display();
+        }
+      } while (!set_mem);
+
+      set_mem = false;
+    }
+
+    if (millis() - currentMillis > interval)                           // проверяем прошло ли 0.5 секунды
+    {
+      if (therm.read())                                                // On success, read() will return 1, on fail 0.
+      {
+        read_MLX90614 = true;                                          // Признак успешного чтения датчика MLX90614
+        currentMillis = millis();                                      // сохраняем время последнего обновления
+        digitalWrite(LED_PIN, HIGH);                                   // включить светодиод
+        tek_temp = therm.object();                                     // Текущее значение температуры
+        // tek_temp = random(10.25, 65.99);
+        min_tmp = min(min_tmp, tek_temp);                              // Вычисление минимального значения температуры
+        max_tmp = max(max_tmp, tek_temp);                              // Вычисление максимального значения температуры
+        counter ++;                                                    // Считаем количество измерений
+        if (counter > 10)                                              // Провели 10 измерений
+        {
+          counter = 0;                                                 // Новый счет измерений
+          max_display = max_tmp;                                       // Результат готов, выводим на дисплей
+          min_display = min_tmp;                                       // Результат готов, выводим на дисплей
+          min_tmp = 1000;
+          max_tmp = 0;
+          start_display = false;
+        }
+      }
+      else
+      {
+        read_MLX90614 = false;                                         // Признак успешного чтения датчика MLX90614
+        min_tmp = min(min_tmp, tek_temp);                              // Вычисление минимального значения температуры
+        max_tmp = max(max_tmp, tek_temp);                              // Вычисление максимального значения температуры
+        counter ++;                                                    // Считаем количество измерений
+        if (counter > 10)                                              // Провели 10 измерений
+        {
+          counter = 0;                                                 // Новый счет измерений
+          max_display = max_tmp;                                       // Результат готов, выводим на дисплей
+          min_display = min_tmp;                                       // Результат готов, выводим на дисплей
+          min_tmp = 1000;
+          max_tmp = 0;
+          start_display = false;
+        }
+      }
+    }
+
+    if (off_display)                                                  // проверяем прошло ли 3 секунды и разрешено обновление показаний дисплея
+    {
+      // digitalWrite(LED_PIN, HIGH);                                    // включить светодиод
+      display.clearDisplay();                                         // очистка дисплея
+      display.setTextColor(BLACK);
+      display.println(counter);
+      display.print("Tek  ");                                         // значок
+      display.print(tek_temp);                                        // вывод значения температуры в C
+      display.println("C");                                           // значок С
+      if (start_display)                                              // первый запуск дисплея
+      {
+        display.print("Max  ");                                        // значок
+        display.print(0.00);                                           // вывод 0.00 значения температуры в C
+        display.println("C");                                          // значок С
+        display.print("Min  ");                                        // значок
+        display.print(0.00);                                           // вывод 0.00 значения температуры в C
+        display.println("C");                                          // значок С
+        if (!read_MLX90614)
+        {
+          display.println("  MLX90614");
+          display.println("not connected");
+        }
+        display.display();                                             // отображение данных
+      }
+      else
+      {
+        display.print("Max  ");                                        // значок
+        display.print(max_display);                                    // вывод максимального значения температуры в C
+        display.println("C");                                          // значок С
+        display.print("Min  ");                                        // значок
+        display.print(min_display);                                    // вывод минимального значения температуры в C
+        display.println("C");                                          // значок С
+        if (!read_MLX90614)
+        {
+          display.println("  MLX90614");
+          display.println("not connected");
+        }
+        display.display();                                             // отображение данных
+      }
+      delay(300);                                                      // немного посветить светодиодом
+      digitalWrite(LED_PIN, LOW);                                      // выключить светодиод
+    }
+
+    if (freeze_display)
+    {
+      display.println();
+      display.println("    Freeze");                                   //
+      display.display();                                               // отображение данных
+      counter = 0;                                                     // Новый счет измерений
+      max_display = 0;                                                 // Результат готов, выводим на дисплей
+      min_display = 0;                                                 // Результат готов, выводим на дисплей
       min_tmp = 1000;
       max_tmp = 0;
-      start_display = false;
+      freeze_display      = false;
     }
   }
-
-  if (off_display)                                                  // проверяем прошло ли 3 секунды и разрешено обновление показаний дисплея
+  else
   {
-   // digitalWrite(LED_PIN, HIGH);                                    // включить светодиод
-    display.clearDisplay();                                         // очистка дисплея
-    display.setTextColor(BLACK);
-    display.println(counter);
-    display.print("Tek  ");                                         // значок
-    display.print(tek_temp);                                        // вывод значения температуры в C
-    display.println("C");                                           // значок С
-    if (start_display)                                              // первый запуск дисплея
-    {
-      display.print("Max  ");                                        // значок
-      display.print(0.00);                                           // вывод 0.00 значения температуры в C
-      display.println("C");                                          // значок С
-      display.print("Min  ");                                        // значок
-      display.print(0.00);                                           // вывод 0.00 значения температуры в C
-      display.println("C");                                          // значок С
-      display.display();                                             // отображение данных
-    }
-    else
-    {
-      display.print("Max  ");                                        // значок
-      display.print(max_display);                                    // вывод максимального значения температуры в C
-      display.println("C");                                          // значок С
-      display.print("Min  ");                                        // значок
-      display.print(min_display);                                    // вывод минимального значения температуры в C
-      display.println("C");                                          // значок С
-      display.display();                                             // отображение данных
-    }
-    delay(300);                                                      // немного посветить светодиодом
-    digitalWrite(LED_PIN, LOW);                                      // выключить светодиод
-  }
-
-  if (freeze_display)
-  {
-    display.println();
-    display.println("    Freeze");                                   //
-    display.display();                                               // отображение данных
-    counter = 0;                                                     // Новый счет измерений
-    max_display = 0;                                           // Результат готов, выводим на дисплей
-    min_display = 0;                                           // Результат готов, выводим на дисплей
-    min_tmp = 1000;
-    max_tmp = 0;
-    freeze_display      = false;
+    read_MLX90614 = false;                                             // Признак успешного чтения датчика MLX90614
+    display.clearDisplay();                                            // очистка дисплея
+    display.setCursor(18, 20);
+    display.println("MLX90614");
+    display.println("not connected");
+    display.display();
   }
   delay(200);
 
@@ -262,6 +305,8 @@ void loop()
       Serial.println();
     }
   */
+
+
 }
 
 
