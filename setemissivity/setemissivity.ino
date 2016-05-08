@@ -163,6 +163,7 @@ void loop()
           if ( emissivity_level != emissivity_level_tmp)              // Проверяем были ли изменения EMC
           {
             therm.setEmissivity(emissivity_level);                    // собственно установка newEmissivity в качестве коэффициента и его запись в память датчика
+            EEPROM_float_write(0, emissivity_level);                  // Записываем в память EEPROM. При повторном старте эти данные будут записаны в датчик
             display.println("");
             display.println("");
             display.print("   EMC set");
@@ -176,8 +177,6 @@ void loop()
             display.display();
             delay(1000);
           }
-
-          EEPROM_float_write(0, emissivity_level);                  // Записываем в память EEPROM. При повторном старте эти данные будут записаны в датчик
           set_mem = true;                                           // Флаг выполнения операции записи в память EEPROM.
           counter = 0;                                              // Новый счет измерений
           max_display = 0;                                          // Информацию об максимальном результате обнуляем, выводим на дисплей
@@ -229,7 +228,7 @@ void loop()
         currentMillis = millis();                                      // сохраняем время последнего обновления
         digitalWrite(LED_PIN, HIGH);                                   // включить светодиод
         tek_temp = therm.object();                                     // Текущее значение температуры
-       // tek_temp = random(10.25, 65.99);                               // Строка для отладки без датчика температуры
+        // tek_temp = random(10.25, 65.99);                               // Строка для отладки без датчика температуры
         min_tmp = min(min_tmp, tek_temp);                              // Вычисление минимального значения температуры
         max_tmp = max(max_tmp, tek_temp);                              // Вычисление максимального значения температуры
         min_display = min_tmp;                                         // Результат готов, выводим на дисплей
