@@ -110,6 +110,7 @@ void setup()
   digitalWrite(kn_minus,  HIGH);                                     // поддерживаем высокий уровень(+5в) на контакте кнопки
   pinMode(LED_PIN, OUTPUT);                                          // настроить вывод светодиода на вывод
   digitalWrite(LED_PIN, LOW);                                        // выключить светодиод
+  /*
   emissivity_level  = EEPROM_float_read(0);                          // Чтение коэффициента из памяти EEPROM
   if (emissivity_level == 0)                                         // Если память пустая записываем начальное значение коэффициента
   {
@@ -126,7 +127,7 @@ void setup()
       therm.setEmissivity(newEmissivity);                            // установка newEmissivity в качестве коэффициента и его запись в память датчика
     }
   }
-
+*/
   display.setCursor(18, 20);
   display.print("MLX90614");
   display.display();
