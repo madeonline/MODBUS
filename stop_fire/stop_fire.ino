@@ -38,7 +38,7 @@
 #define sensorMQ2_4   A3                       // Назначение входа датчика газаMQ2 №4 пин Nano A3
 
 #define sensorFC03_1  2                        // Назначение входа датчика FC03 №1 пин Nano D2
-#define sensorFC03_1  3                        // Назначение входа датчика FC03 №2 пин Nano D3
+#define sensorFC03_2  3                        // Назначение входа датчика FC03 №2 пин Nano D3
 
 #define motorA_en     10                       // Подключение пин Nano D10 к пину 7 на L298N (предварительно убрав перемычку)
 #define motorA_in1     9                       // Подключение пин Nano D9 к пину 8 на L298N    
@@ -48,13 +48,85 @@
 #define motorB_in3     7                       // Подключение пин Nano D7 к пину 10 на L298N   
 #define motorB_in4     6                       // Подключение пин Nano D6 к пину 11 на L298N   
 
+#define led12         12                       // Подключение пин Nano D12 к светодиоду
+#define led13         13                       // Применение встроенного светодиода Nano D13
 
-#define kn_selection  A5                       // Назначение кнопки "Выбор"
-#define kn_pwm        A4                       // Назначение кнопки "ШИМ"
+#define rele1         11                       // Подключение пин Nano D11 к драйверу (усилителю) реле. Высокий уровень - включить.
+#define buzzer         4                       // Подключение пин Nano D4 к драйверу (усилителю) зуммера. Высокий уровень - включить.                
+
+volatile unsigned int pulsesA = 0;             // Счетчик количества импульсов мотора А
+volatile unsigned int pulsesB = 0;             // Счетчик количества импульсов мотора B
+
+int int_motorA     = 17;                       // Переменная количества импульсов мотора А
+int int_motorB     =  8;                       // Переменная количества импульсов мотора B
+
+int porog_sensorMQ2_1 = 200;                   // Переменная количества порога датчика газа MQ2_1
+int porog_sensorMQ2_2 = 200;                   // Переменная количества порога датчика газа MQ2_2
+
+void counterA()
+{
+ pulsesA++;
+}
+
+void counterB()
+{
+ pulsesB++;
+}
 
 
+void setup() 
+{
+ Serial.begin(9600);                  // инициализация порта
+
+pinMode(sensorFC03_1, INPUT);         // Настраиваем вход датчика FC03 №1 пин Nano D2 на ввод
+pinMode(sensorFC03_2, INPUT);         // Настраиваем вход датчика FC03 №2 пин Nano D3 на ввод
+
+ 
+ // инициализируем все пины для управления двигателями как outputs
+pinMode(motorA_en, OUTPUT);
+pinMode(motorB_en, OUTPUT);
+pinMode(motorA_in1, OUTPUT);
+pinMode(motorA_in2, OUTPUT);
+pinMode(motorB_in3, OUTPUT);
+pinMode(motorB_in4, OUTPUT);
+
+// выключаем двигатели
+digitalWrite(motorA_in1, LOW);
+digitalWrite(motorA_in2, LOW);
+digitalWrite(motorB_in3, LOW);
+digitalWrite(motorB_in4, LOW);
+
+// Настраиваем остальные выводы как outputs
+pinMode(led12, OUTPUT);
+pinMode(led13, OUTPUT);
+pinMode(rele1, OUTPUT);
+pinMode(buzzer, OUTPUT);
+
+digitalWrite(led12, LOW);               // выключить светодиод
+digitalWrite(led13, LOW);               // выключить светодиод
+digitalWrite(rele1, LOW);               // выключить реле
+digitalWrite(buzzer,LOW);               // выключить зуммер
+
+attachInterrupt(0, counterA, FALLING);  // Включить прерывания по импульсу от датчика sensorFC03_1
+attachInterrupt(1, counterB, FALLING);  // Включить прерывания по импульсу от датчика sensorFC03_2
+}
+
+void loop() 
+{
+ 
+
+}
 
 /*
+Направление вращения ротора двигателя управляется сигналами HIGH или LOW на каждый привод (или канал). 
+Например, для первого мотора, HIGH на IN1 и LOW на IN2 обеспечит вращение в одном направлении,
+а LOW и HIGH заставит вращаться в противоположную сторону.
+При этом двигатели не будут вращаться, пока не будет сигнала HIGH на пине 7 для первого двигателя
+или на 12 пине для второго. Остановить их вращение можно подачей сигнала LOW на те же указанные выше пины.
+Для управления скоростью вращения используется ШИМ-сигнал.
+
+
+
  * #define PIN_DO 2 // Установка контакта используемого в Arduino
 volatile unsigned int pulses;
 float rpm;
@@ -81,15 +153,26 @@ void loop()
  {
  detachInterrupt(digitalPinToInterrupt(PIN_DO));
  rpm = (pulses * 60) / (HOLES_DISC);
- Serial.println(rpm);
+ Serial.println(rpm); 
  
  timeOld = millis();
  pulses = 0;
  attachInterrupt(digitalPinToInterrupt(PIN_DO), counter, FALLING);
  }
 }
- * 
- * int enA = 10;
+
+
+
+
+
+
+
+
+// подключите пины контроллера к цифровым пинам Arduino
+
+// первый двигатель
+
+int enA = 10;
 
 int in1 = 9;
 
@@ -250,30 +333,4 @@ demoTwo();
 delay(1000);
 
 }
-
-
-
-
-
-
-
- * 
- */
-void setup() {
-  // put your setup code here, to run once:
-
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-
-}
-
-/*
-Направление вращения ротора двигателя управляется сигналами HIGH или LOW на каждый привод (или канал). 
-Например, для первого мотора, HIGH на IN1 и LOW на IN2 обеспечит вращение в одном направлении,
-а LOW и HIGH заставит вращаться в противоположную сторону.
-При этом двигатели не будут вращаться, пока не будет сигнала HIGH на пине 7 для первого двигателя
-или на 12 пине для второго. Остановить их вращение можно подачей сигнала LOW на те же указанные выше пины.
-Для управления скоростью вращения используется ШИМ-сигнал.
 */
