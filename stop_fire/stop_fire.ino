@@ -200,6 +200,17 @@ void setup()
 {
   Serial.begin(9600);                           // инициализация порта
   Serial.println("System start");
+  
+   // Настраиваем  выводы как outputs
+
+  pinMode(led13, OUTPUT);
+  pinMode(rele1, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+
+  digitalWrite(led13, LOW);                      // выключить светодиод
+  digitalWrite(rele1, LOW);                      // выключить реле
+  digitalWrite(buzzer, LOW);                     // выключить зуммер
+
   pinMode(sensorFC03_1, INPUT);                 // Настраиваем вход датчика FC03 №1 пин Nano D2 на ввод
   pinMode(sensorFC03_2, INPUT);                 // Настраиваем вход датчика FC03 №2 пин Nano D3 на ввод
 
@@ -241,16 +252,6 @@ void setup()
   digitalWrite(motorB_in3, LOW);
   digitalWrite(motorB_in4, LOW);
 
-  // Настраиваем остальные выводы как outputs
-
-  pinMode(led13, OUTPUT);
-  pinMode(rele1, OUTPUT);
-  pinMode(buzzer, OUTPUT);
-
-  digitalWrite(led13, LOW);                      // выключить светодиод
-  digitalWrite(rele1, LOW);                      // выключить реле
-  digitalWrite(buzzer, LOW);                     // выключить зуммер
-
   delay(1000);
 
   // parkingA = true;                               // Разрешение парковки мотора А. Раскомментировать при использовании датчика парковки
@@ -264,7 +265,7 @@ void setup()
       digitalWrite(motorA_in1, LOW);               // Запуск двигателя A назад
       digitalWrite(motorA_in2, HIGH);              // Запуск двигателя A назад
       analogWrite(motorA_en, 200);                 // устанавливаем  скорость из доступного диапазона 0~255.
-      while (analogRead(stop_motorA) > 50) {}  // Ожидаем сигнал с датчика парковки мотора A
+      while (analogRead(stop_motorA) > 50) {}      // Ожидаем сигнал с датчика парковки мотора A
       Serial.println("The motorA  stop");
       analogWrite(motorA_en, 0);                   // Резко останавливаем мотор
       digitalWrite(motorA_in1, LOW);               // Останов двигателя A
@@ -330,6 +331,7 @@ void setup()
     }
 
   }
+  
   Serial.println();
   Serial.println("System start end");
   Serial.println();
@@ -343,7 +345,7 @@ void loop()
   pulsesA = 0;                            // Сбрасываем счетчик импульсов мотора A
   pulsesB = 0;                            // Сбрасываем счетчик импульсов мотора B
 
-  test_button();                          // Проверить кнопки ручного управления
+ // test_button();                          // Проверить кнопки ручного управления
 
   in_MQ2_1 = analogRead(sensorMQ2_1);    // Считываем показания сенсора газа sensorMQ2_1
   in_MQ2_2 = analogRead(sensorMQ2_2);    // Считываем показания сенсора газа sensorMQ2_1
