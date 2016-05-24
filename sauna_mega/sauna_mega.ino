@@ -22,7 +22,7 @@ char HTTP_req[REQ_BUF_SZ] = {0};
 char req_index = 0;
 byte c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14   = 0;
 
-
+//====================== Работа с модулем часов ===============================
 
 byte decToBcd(byte val)
 {
@@ -49,6 +49,7 @@ void readDS3231time(byte *second,
   *dayOfWeek = bcdToDec(Wire.read());
   *dayOfMonth = bcdToDec(Wire.read());
 }
+//----------------------------------------------------------------------------
 
 void StrClear(char *str, char length)
 {
