@@ -4,7 +4,7 @@
 #include <SPI.h>
 #include <SD.h>
 #include <Ethernet.h>
-#include "RTClib.h"
+//#include "RTClib.h"
 
 
 #define REQ_BUF_SZ 20
@@ -13,7 +13,7 @@
 #define Rele1 6
 #define Rele2 9
 
-RTC_Millis rtc;
+//RTC_Millis rtc;
 
 byte second, minute, hour, dayOfWeek, dayOfMonth;
 Adafruit_HTU21DF htu = Adafruit_HTU21DF();
@@ -100,7 +100,7 @@ void setup()
   SD.begin(4);
   pinMode(Rele1, OUTPUT);
   pinMode(Rele2, OUTPUT);
-  rtc.begin(DateTime(__DATE__, __TIME__));
+ // rtc.begin(DateTime(__DATE__, __TIME__));
   Ethernet.begin(mac, ip);
   server.begin();
   Serial.print("server is at ");
