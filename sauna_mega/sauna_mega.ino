@@ -3,11 +3,17 @@
 #include "Adafruit_HTU21DF.h"                // Подключение библиотеки датчика температуры и влажности
 #include <SPI.h>
 #include <SD.h>
-#include <Ethernet2.h>
+#include <Ethernet.h>
+#include "RTClib.h"
 
 
 #define REQ_BUF_SZ 20
 #define BUFFER_SIZE 256
+
+#define Rele1 6
+#define Rele2 9
+
+RTC_Millis rtc;
 
 byte second, minute, hour, dayOfWeek, dayOfMonth;
 Adafruit_HTU21DF htu = Adafruit_HTU21DF();
@@ -92,11 +98,15 @@ void setup()
   Wire.begin();
   Serial.begin(9600);
   SD.begin(4);
-  pinMode(9, OUTPUT);
-  pinMode(6, OUTPUT);
+  pinMode(Rele1, OUTPUT);
+  pinMode(Rele2, OUTPUT);
+  rtc.begin(DateTime(__DATE__, __TIME__));
   Ethernet.begin(mac, ip);
   server.begin();
+  Serial.print("server is at ");
+  Serial.println(Ethernet.localIP());
   EEPROM.write(42, 25);
+  Serial.println("Start");
 }
 
 void loop()
@@ -104,8 +114,11 @@ void loop()
   EthernetClient client = server.available();
   byte buff[BUFFER_SIZE];
 
-  byte h = htu.readHumidity();
-  byte tt = htu.readTemperature();
+ // byte h = htu.readHumidity();
+ // byte tt = htu.readTemperature();
+    byte h = 36;
+    byte tt = 25;
+
   EEPROM.write(38, tt);
   if (client)
   {
@@ -142,13 +155,15 @@ void loop()
             client.println("Content-Type: text/html");
             client.println("Connection: keep-alive");
             client.println();
-            client.print(EEPROM.read(38));
+		    client.print(EEPROM.read(38));
             client.print(":");
             client.print(h);
             client.print(":");
             client.print(EEPROM.read(39));
             client.print(":");
             client.print(EEPROM.read(50));
+			client.print(":");
+            client.print(EEPROM.read(addr1[35]));
           }
           else if (StrContains(HTTP_req, "able"))
           {
@@ -534,28 +549,31 @@ void loop()
     }
     if (EEPROM.read(39) == 1)
     {
-      digitalWrite(9, HIGH);
+      digitalWrite(Rele2, HIGH);
     }
     else
     {
-      digitalWrite(9, LOW);
+      digitalWrite(Rele2, LOW);
     }
     if (EEPROM.read(38) > EEPROM.read(addr1[35]))
     {
-      digitalWrite(6, LOW);
+      digitalWrite(Rele1, LOW);
       EEPROM.write(50, 0);
     }
     if (EEPROM.read(38)  < (EEPROM.read(addr1[35]) - 5))
     {
-      digitalWrite(6, HIGH);
+      digitalWrite(Rele1, HIGH);
       EEPROM.write(50, 1);
     }
     if (EEPROM.read(42) + 2 == hour && flag == 0)
     {
-      digitalWrite(9, LOW);
+      digitalWrite(Rele2, LOW);
       EEPROM.write(39, 0);
       EEPROM.write(42, 25);
     }
+	readDS3231time(&second, &minute, &hour, &dayOfWeek, &dayOfMonth);
+	Serial.print(hour);
+	Serial.print(" : ");
     Serial.println(minute);
     Serial.println(EEPROM.read(addr1[16]));
     Serial.println(EEPROM.read(addr1[17]));
@@ -649,21 +667,21 @@ void loop()
     }
     if (EEPROM.read(38) > EEPROM.read(addr1[35]))
     {
-      digitalWrite(6, LOW);
+      digitalWrite(Rele1, LOW);
       EEPROM.write(41, 0);
     }
     if (EEPROM.read(38)  <= (EEPROM.read(addr1[35]) - 5))
     {
-      digitalWrite(6, HIGH);
+      digitalWrite(Rele1, HIGH);
       EEPROM.write(41, 1);
     }
     if (EEPROM.read(39) == 1)
     {
-      digitalWrite(9, HIGH);
+      digitalWrite(Rele2, HIGH);
     }
     else
     {
-      digitalWrite(9, LOW);
+      digitalWrite(Rele2, LOW);
     }
   }
 
