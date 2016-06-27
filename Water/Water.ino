@@ -41,6 +41,9 @@ Led на кнопке WC плавно мигает 3 мин .
 
 */
 
+#include <Servo.h>
+
+
 #define Rele_R1  A1                             // Реле R1
 #define Rele_R2  A2                             // Реле R2
 #define Rele_R3  A3                             // Реле R3
@@ -55,14 +58,14 @@ Led на кнопке WC плавно мигает 3 мин .
 
 
 
-
-
-void setup() {
+void setup() 
+{
   // put your setup code here, to run once:
 
 }
 
-void loop() {
+void loop() 
+{
   // put your main code here, to run repeatedly:
 
 }
