@@ -50,19 +50,88 @@ c внешними прерываниями ,ButtonWC,SW3
 #define SW3        5                             // pin SW3 HIGH вкл R4 на 90сек + вкл плавно(1сек) Led на 60сек если SW3 LOW выкл плавно(1сек) Led. Сигнал от датчика движения вкл освещение и подсветку (аналог) LED 
 #define Led_light  6                             // Светодиод подсветки 
 
-int ledPin; // номер пина со светодиодом
-long OnTime; // время включения в миллисекундах
-long OffTime; // время, когда светодиод выключен
 
-int ledState; // состояние ВКЛ/ВЫКЛ
-unsigned long previousMillis; // последний момент смены состояния
-
-void update_led()
+class Flasher
 {
-	unsigned long currentMillis = millis();
+	int ledPin;
+	long OnTime;
+	long OffTime;
+
+	int ledState;
+	unsigned long previousMillis;
+public:
+	Flasher(int pin,  long on, long off)
+	{
+		ledPin = pin;
+		pinMode(ledPin, OUTPUT);
+
+		OnTime = on;
+		OffTime = off;
+
+		ledState = LOW;
+		previousMillis = 0;
+	}
+
+	void Update()
+	{
+       unsigned long currentMillis = millis();
+
+	   if((ledState == HIGH) && (currentMillis - previousMillis >= OnTime))
+	   {
+		   ledState = LOW;
+		   previousMillis = currentMillis;  
+		   digitalWrite(ledPin,ledState);
+	   }
+	   else if ((ledState == LOW) && (currentMillis - previousMillis >= OffTime))
+	   {
+		   ledState = HIGH;
+		   previousMillis = currentMillis;  
+		   digitalWrite(ledPin,ledState);
+	   }
+	}
+};
+
+class Sweeper
+{
+Servo servo;
+int pos;
+int increment;
+int updateInterval;
+unsigned long lastUpdate;
+
+public:
+	Sweeper(int interval)
+	{
+		updateInterval = interval;
+		increment = 1;
+	}
+
+	void Attach(int pin)
+	{
+
+		servo.attach(pin);
+	}
+	void Detach()
+	{
+       servo.detach();
+	}
+  void Update()
+  {
+    if((millis() - lastUpdate) > updateInterval)
+	{
+      lastUpdate = millis();
+	  pos += increment;
+	  servo.write(pos);
+	  Serial.println(pos);
+	  if((pos >= 180) || (pos <= 0))
+	  {
+       increment = -increment;
+	  }
+	}
+  }
+};
 
 
-}
 
 
 
