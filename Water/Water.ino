@@ -55,6 +55,11 @@ Led на кнопке WC плавно мигает 3 мин .
 #define ButtonECO 7                             // Кнопка ECO
 #define ButtonWC  9                             // Кнопка WC
 
+#define SW1                              // Светодиод на кнопке ECO
+#define SW2                               // Светодиод на кнопке WC
+#define SW3                            // Кнопка ECO
+
+
 
 
 
