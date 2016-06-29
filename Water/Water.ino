@@ -41,9 +41,9 @@ c внешними прерываниями ,ButtonWC,SW3
 #define Rele_R5   A5                             // Реле R5
 
 #define ledECO     8                             // Светодиод на кнопке ECO
-#define ledWC     10                             // Светодиод на кнопке WC
+#define ledWC      5                             // Светодиод на кнопке WC
 #define ButtonECO  7                             // Кнопка ECO
-#define ButtonWC   5                             // Кнопка WC
+#define ButtonWC  10                             // Кнопка WC
 
 #define SW1       A6                             // SW1 HIGH вкл R3 на 30сек. Сигнал от датчика влажности вкл вентиляцию
 #define SW2       A7                             // pin SW2 HIGH вкл R3 и R4 на 10 сек. Сигнал от датчика движения вкл освещение и вентиляцию
@@ -150,7 +150,6 @@ public:
 
 	void Attach(int pin)
 	{
-
 		servo.attach(pin);
 	}
 	void Detach()
