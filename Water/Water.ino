@@ -51,6 +51,48 @@ c внешними прерываниями ,ButtonWC,SW3
 #define Led_light  6                             // Светодиод подсветки 
 #define servo_tank 9                             // Сервопривод.   ШИМ: 3, 5, 6, 9, 10, и 11. Любой из выводов обеспечивает ШИМ с разрешением 8 бит при помощи функции analogWrite()
 
+
+class RelayControl
+{
+	int relePin;
+	long OnTime;
+	long OffTime;
+
+	int releState;
+	unsigned long previousMillis;
+public:
+	RelayControl(int pin,  long on, long off)
+	{
+		relePin = pin;
+		pinMode(relePin, OUTPUT);
+
+		OnTime = on;
+		OffTime = off;
+
+		releState = LOW;
+		previousMillis = 0;
+	}
+
+	void Update()
+	{
+       unsigned long currentMillis = millis();
+
+	   if((releState == HIGH) && (currentMillis - previousMillis >= OnTime))
+	   {
+		   releState = LOW;
+		   previousMillis = currentMillis;  
+		   digitalWrite(relePin,releState);
+	   }
+	   else if ((releState == LOW) && (currentMillis - previousMillis >= OffTime))
+	   {
+		   releState = HIGH;
+		   previousMillis = currentMillis;  
+		   digitalWrite(relePin,releState);
+	   }
+	}
+};
+
+
 class Flasher
 {
 	int ledPin;
