@@ -38,7 +38,7 @@ c внешними прерываниями ,ButtonWC,SW3
 #define Rele_R2   16                             // Реле R2
 #define Rele_R3   17                             // Реле R3
 #define Rele_R4   18                             // Реле R4
-#define Rele_R5   19                             // Реле R5
+
 
 #define led_ECO    8                             // Светодиод на кнопке ECO
 #define led_WC     5                             // Светодиод на кнопке WC
@@ -179,7 +179,6 @@ RelayControl ReleR1(Rele_R1,100,400);
 RelayControl ReleR2(Rele_R2,100,400);
 RelayControl ReleR3(Rele_R3,100,400);
 RelayControl ReleR4(Rele_R4,100,400);
-RelayControl ReleR5(Rele_R5,100,400);
 
 Flasher ledECO(led_ECO, 123, 400);
 Flasher ledWC(led_WC, 350, 350);
